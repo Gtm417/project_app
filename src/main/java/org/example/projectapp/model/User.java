@@ -33,6 +33,9 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "user_status")
     private Status status;
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "user_type")
+    private UserType type;
     @Column(name = "picture")
     private byte[] picture;
     @Column(name = "CV")
