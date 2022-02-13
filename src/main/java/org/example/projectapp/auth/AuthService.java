@@ -5,5 +5,9 @@ import org.springframework.security.core.Authentication;
 
 public interface AuthService {
     Authentication getAuthentication(String token);
+
     User getUserFromAuth();
+
+    User getUserFromAuth(Authentication authentication);
+
 }
