@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
@@ -40,4 +42,6 @@ public class User {
     private byte[] picture;
     @Column(name = "CV")
     private byte[] cv;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    Set<ProjectMember> memberOfProjects;
 }

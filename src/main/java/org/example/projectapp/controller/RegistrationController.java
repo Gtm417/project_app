@@ -26,12 +26,10 @@ public class RegistrationController {
     Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 
     private final RegistrationService registrationService;
-    private final ValidationService validationService;
 
     @Autowired
-    public RegistrationController(RegistrationService registrationService, ValidationService validationService) {
+    public RegistrationController(RegistrationService registrationService) {
         this.registrationService = registrationService;
-        this.validationService = validationService;
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,17 +43,6 @@ public class RegistrationController {
         RegisterUserDto registerDto = exc.getRegisterDto();
         logger.info("[REGISTRATION] User already exists with email={}", registerDto.getEmail());
         return ResponseEntity.ok(registerDto);
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseBody
-    public ResponseEntity<ValidationErrorResponse> onMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
-        ValidationErrorResponse validationErrorResponse = validationService.mapErrors(fieldErrors);
-        logger.info("[VALIDATION] Fields contain validation errors {}", validationErrorResponse.getErrors());
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(validationErrorResponse);
     }
 
 }
