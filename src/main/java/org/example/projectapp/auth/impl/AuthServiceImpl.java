@@ -43,19 +43,19 @@ public class AuthServiceImpl implements AuthService {
         return getUser(authentication);
     }
 
+    @Override
+    public String getUserEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return getUserEmail(authentication);
+    }
+
     private User getUser(Authentication authentication) {
         if (authentication == null) {
             logger.info("[AUTH] Authentication is null");
             throw new AuthenticationServiceException("Authentication is null");
         }
 
-        SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
-        if (securityUser == null) {
-            logger.info("[AUTH] User principals {} is not found", authentication.getName());
-            throw new AuthenticationServiceException("Principal is not found");
-        }
-
-        String email = securityUser.getUsername();
+        String email = getUserEmail(authentication);
         if (!authentication.isAuthenticated()) {
             logger.info("[AUTH] User {} is not authenticated", email);
             throw new AuthenticationServiceException("User is not is not authenticated");
@@ -65,8 +65,19 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new UserNotFoundException("User not found", email));
     }
 
+    private String getUserEmail(Authentication authentication) {
+        SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
+        if (securityUser == null) {
+            logger.info("[AUTH] User principals {} is not found", authentication.getName());
+            throw new AuthenticationServiceException("Principal is not found");
+        }
+
+        return securityUser.getUsername();
+    }
+
     @Override
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtTokenProvider.getUserEmail(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-    }}
+    }
+}

@@ -4,9 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -43,5 +44,24 @@ public class User {
     @Column(name = "CV")
     private byte[] cv;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    Set<ProjectMember> memberOfProjects;
+    private Set<ProjectMember> memberOfProjects;
+
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+                .append("id", id)
+                .append("email", email)
+                .append("password", password)
+                .append("firstName", firstName)
+                .append("lastName", lastName)
+                .append("role", role)
+                .append("description", description)
+                .append("status", status)
+                .append("type", type)
+                .append("picture", picture)
+                .append("cv", cv)
+                .append("memberOfProjects", memberOfProjects)
+                .toString();
+    }
 }
