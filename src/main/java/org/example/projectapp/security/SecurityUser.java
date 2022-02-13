@@ -14,31 +14,27 @@ import java.util.Set;
 @Data
 public class SecurityUser implements UserDetails {
 
-    private final String username;
-    private final String password;
-    private final List<SimpleGrantedAuthority> authorities;
+    private final User user;
     private final boolean isActive;
 
-    public SecurityUser(String username, String password, List<SimpleGrantedAuthority> authorities, boolean isActive) {
-        this.username = username;
-        this.password = password;
-        this.authorities = authorities;
-        this.isActive = isActive;
+    public SecurityUser(User user) {
+        this.user = user;
+        this.isActive = true;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return Set.of(new SimpleGrantedAuthority(user.getRole().name()));
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return user.getEmail();
     }
 
     @Override
@@ -62,13 +58,6 @@ public class SecurityUser implements UserDetails {
     }
 
     public static UserDetails fromUser(User user) {
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(), user.getPassword(),
-                true,
-                true,
-                true,
-                true,
-                Set.of(new SimpleGrantedAuthority(user.getRole().name()))
-        );
+        return new SecurityUser(user);
     }
 }

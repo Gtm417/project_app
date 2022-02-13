@@ -2,6 +2,7 @@ package org.example.projectapp.auth.jwt;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
+import org.example.projectapp.auth.AuthService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,9 +20,11 @@ import java.io.IOException;
 @Component
 public class JwtTokenFilter extends GenericFilterBean {
     private final JwtTokenProvider jwtTokenProvider;
+    private final AuthService authService;
 
-    public JwtTokenFilter(JwtTokenProvider jwtTokenProvider) {
+    public JwtTokenFilter(JwtTokenProvider jwtTokenProvider, AuthService authService) {
         this.jwtTokenProvider = jwtTokenProvider;
+        this.authService = authService;
     }
 
     @Override
@@ -32,7 +35,6 @@ public class JwtTokenFilter extends GenericFilterBean {
         } catch (ExpiredJwtException ex) {
             HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
             String requestURL = httpRequest.getRequestURL().toString();
-//            String isRefreshToken = httpRequest.getHeader("isRefreshToken");
             if (requestURL.contains("refreshToken")) {
                 String refreshToken = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
                 try {
@@ -56,7 +58,7 @@ public class JwtTokenFilter extends GenericFilterBean {
 
     private void tryAuthenticateByToken(String token) {
         if (token != null && jwtTokenProvider.validateToken(token)) {
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+            Authentication authentication = authService.getAuthentication(token);
             if (authentication != null) {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

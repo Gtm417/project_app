@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.example.projectapp.auth.AuthService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,12 +20,9 @@ import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-
-    private final UserDetailsService userDetailsService;
     private final JwtConfig jwtConfig;
 
-    public JwtTokenProvider(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, JwtConfig jwtConfig) {
-        this.userDetailsService = userDetailsService;
+    public JwtTokenProvider(JwtConfig jwtConfig) {
         this.jwtConfig = jwtConfig;
     }
 
@@ -61,11 +59,6 @@ public class JwtTokenProvider {
 
     private Jws<Claims> parseClaimsJws(String token) {
         return Jwts.parser().setSigningKey(jwtConfig.getSecretKey()).parseClaimsJws(token);
-    }
-
-    public Authentication getAuthentication(String token) {
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUserEmail(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     public String getUserEmail(String token) {
