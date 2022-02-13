@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -18,7 +17,6 @@ import java.util.List;
 
 import static org.example.projectapp.model.ProjectRole.OWNER;
 
-@Component
 public class ProjectPermissionEvaluatorBean implements PermissionEvaluator {
     private final AuthService authService;
     private final ProjectMemberService projectMemberService;
@@ -43,6 +41,7 @@ public class ProjectPermissionEvaluatorBean implements PermissionEvaluator {
         return hasPermission(projectRoles, (String) permissionName);
     }
 
+    @Transactional
     @Override
     public boolean hasPermission(Authentication auth, Serializable targetId, String targetType, Object permissionName) {
         if (auth == null || targetType == null || targetId == null || !(permissionName instanceof String)) {

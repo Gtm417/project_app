@@ -2,8 +2,8 @@ package org.example.projectapp.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -76,5 +76,16 @@ public class ProjectMember {
 
     public void setAddedAt(LocalDateTime addedAt) {
         this.addedAt = addedAt;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("userId", user.getId())
+                .append("projectId", project.getId())
+                .append("projectRole", projectRole)
+                .append("addedAt", addedAt)
+                .toString();
     }
 }

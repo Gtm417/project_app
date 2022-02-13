@@ -2,8 +2,9 @@ package org.example.projectapp.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -38,7 +39,9 @@ public class Project {
     @Column(name = "commercial")
     private boolean isCommercial;
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
-    Set<ProjectMember> projectMembers;
+    private Set<ProjectMember> projectMembers;
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    private Set<Vacancy> vacancies;
 
     public Long getId() {
         return id;
@@ -126,5 +129,22 @@ public class Project {
 
     public void setProjectMembers(Set<ProjectMember> projectMembers) {
         this.projectMembers = projectMembers;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+                .append("id", id)
+                .append("name", name)
+                .append("isPrivate", isPrivate)
+                .append("createDate", createDate)
+                .append("scheduledEndDate", scheduledEndDate)
+                .append("startDate", startDate)
+                .append("category", category)
+                .append("description", description)
+                .append("status", status)
+                .append("isCommercial", isCommercial)
+                .append("projectMembers", projectMembers)
+                .toString();
     }
 }
