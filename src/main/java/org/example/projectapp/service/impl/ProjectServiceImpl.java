@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -41,17 +39,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.saveAndFlush(project);
         ProjectMember projectMember = buildProjectMember(project, userFromAuth);
         projectMemberRepository.save(projectMember);
-        //todo check if I need to save projectMember instance
         return project;
-    }
-
-    private void setMemberOfProjects(User userFromAuth, ProjectMember projectMember) {
-        Set<ProjectMember> resultSet = new HashSet<>();
-        if (userFromAuth.getMemberOfProjects() == null) {
-            resultSet.add(projectMember);
-        }
-        resultSet.add(projectMember);
-        userFromAuth.setMemberOfProjects(resultSet);
     }
 
     private ProjectMember buildProjectMember(Project project, User user) {
