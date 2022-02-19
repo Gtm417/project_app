@@ -51,6 +51,8 @@ public class User {
     private Set<ProjectNotification> projectNotifications;
     @ManyToMany(mappedBy = "subscribers", fetch = FetchType.LAZY)
     private Set<Vacancy> subVacancies;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<SkillExpertise> skills;
 
     @Override
     public boolean equals(Object o) {
@@ -92,7 +94,6 @@ public class User {
                 .append("type", type)
                 .append("picture", picture)
                 .append("cv", cv)
-                .append("memberOfProjects", memberOfProjects)
                 .toString();
     }
 }
