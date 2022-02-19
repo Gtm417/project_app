@@ -170,7 +170,6 @@ public class Project {
                 .append("description", description)
                 .append("status", status)
                 .append("isCommercial", isCommercial)
-                .append("projectMembers", projectMembers)
                 .toString();
     }
 }
