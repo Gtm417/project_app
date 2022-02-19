@@ -1,17 +1,18 @@
 package org.example.projectapp.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "vacancies")
 public class Vacancy {
@@ -38,6 +39,13 @@ public class Vacancy {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+
+    @ManyToMany
+    @JoinTable(
+            name = "vacancy_subscribers",
+            joinColumns = @JoinColumn(name = "vacancy_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> subscribers;
 
     @Override
     public String toString() {

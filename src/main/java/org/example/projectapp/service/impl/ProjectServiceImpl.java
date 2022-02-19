@@ -7,7 +7,7 @@ import org.example.projectapp.model.*;
 import org.example.projectapp.repository.ProjectMemberRepository;
 import org.example.projectapp.repository.ProjectRepository;
 import org.example.projectapp.service.ProjectService;
-import org.example.projectapp.service.exception.ProjectAlredyExistsException;
+import org.example.projectapp.service.exception.ProjectAlreadyExistsException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
         String projectName = projectDto.getName();
         Project projectFromDb = projectRepository.findByName(projectName);
         if (projectFromDb != null){
-            throw new ProjectAlredyExistsException("Project already exists", projectName);
+            throw new ProjectAlreadyExistsException("Project already exists", projectName);
         }
         Project project = buildProject(projectDto);
         User userFromAuth = authService.getUserFromAuth();

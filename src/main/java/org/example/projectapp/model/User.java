@@ -45,7 +45,8 @@ public class User {
     private byte[] cv;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<ProjectMember> memberOfProjects;
-
+    @ManyToMany(mappedBy = "subscribers", fetch = FetchType.LAZY)
+    private Set<Vacancy> subVacancies;
 
     @Override
     public String toString() {
