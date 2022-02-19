@@ -1,14 +1,14 @@
 package org.example.projectapp.security;
 
 import lombok.Data;
-
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.example.projectapp.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -59,5 +59,13 @@ public class SecurityUser implements UserDetails {
 
     public static UserDetails fromUser(User user) {
         return new SecurityUser(user);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+                .append("user", user)
+                .append("isActive", isActive)
+                .toString();
     }
 }

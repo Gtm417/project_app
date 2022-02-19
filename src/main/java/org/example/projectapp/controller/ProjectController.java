@@ -9,11 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("projects")
 public class ProjectController {
-    private Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+    private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 
 
     private final ProjectService projectService;
@@ -25,6 +26,13 @@ public class ProjectController {
     @PostMapping
     public ResponseEntity<?> createProject(@RequestBody @Valid ProjectDto projectDto) {
         return ResponseEntity.ok(projectService.createProject(projectDto));
+    }
+
+    @PutMapping("/{id}/notification")
+    public ResponseEntity<?> createProject(@PathVariable("id") Long id,
+                                           @RequestBody @Valid @NotNull(message = "Should not be empty") Boolean enable) {
+        projectService.enableNotification(id, enable);
+        return ResponseEntity.ok().build();
     }
 
     @ExceptionHandler(ProjectAlreadyExistsException.class)
