@@ -8,6 +8,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -47,6 +49,32 @@ public class User {
     private Set<ProjectMember> memberOfProjects;
     @ManyToMany(mappedBy = "subscribers", fetch = FetchType.LAZY)
     private Set<Vacancy> subVacancies;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                role == user.role &&
+                Objects.equals(description, user.description) &&
+                status == user.status &&
+                type == user.type &&
+                Arrays.equals(picture, user.picture) &&
+                Arrays.equals(cv, user.cv);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, email, password, firstName, lastName, role, description, status, type);
+        result = 31 * result + Arrays.hashCode(picture);
+        result = 31 * result + Arrays.hashCode(cv);
+        return result;
+    }
 
     @Override
     public String toString() {
