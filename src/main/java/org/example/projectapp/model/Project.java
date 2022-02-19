@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 @Builder
@@ -131,6 +132,29 @@ public class Project {
 
     public void setProjectMembers(Set<ProjectMember> projectMembers) {
         this.projectMembers = projectMembers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Project)) return false;
+        Project project = (Project) o;
+        return isPrivate == project.isPrivate &&
+                isCommercial == project.isCommercial &&
+                Objects.equals(id, project.id) &&
+                Objects.equals(name, project.name) &&
+                Objects.equals(createDate, project.createDate) &&
+                Objects.equals(scheduledEndDate, project.scheduledEndDate) &&
+                Objects.equals(startDate, project.startDate) &&
+                Objects.equals(category, project.category) &&
+                Objects.equals(description, project.description) &&
+                status == project.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, isPrivate, createDate, scheduledEndDate,
+                startDate, category, description, status, isCommercial);
     }
 
     @Override

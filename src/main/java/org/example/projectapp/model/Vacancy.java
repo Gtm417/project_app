@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Builder
@@ -46,6 +47,25 @@ public class Vacancy {
             joinColumns = @JoinColumn(name = "vacancy_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> subscribers;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Vacancy)) return false;
+        Vacancy vacancy = (Vacancy) o;
+        return Objects.equals(id, vacancy.id) &&
+                Objects.equals(creator, vacancy.creator) &&
+                Objects.equals(description, vacancy.description) &&
+                Objects.equals(aboutProject, vacancy.aboutProject) &&
+                Objects.equals(expected, vacancy.expected) &&
+                Objects.equals(jobPosition, vacancy.jobPosition) &&
+                Objects.equals(project, vacancy.project);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, creator, description, aboutProject, expected, jobPosition, project);
+    }
 
     @Override
     public String toString() {
