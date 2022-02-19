@@ -19,11 +19,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-    Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
-
     private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsService userDetailsService;
     private final UserRepository userRepository;
+    Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
 
     public AuthServiceImpl(JwtTokenProvider jwtTokenProvider,
                            @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, UserRepository userRepository) {
@@ -46,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String getUserEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return getUserEmail(authentication);
+        return getSecurityUser(authentication).getUsername();
     }
 
     private User getUser(Authentication authentication) {
@@ -55,24 +54,30 @@ public class AuthServiceImpl implements AuthService {
             throw new AuthenticationServiceException("Authentication is null");
         }
 
-        String email = getUserEmail(authentication);
+        SecurityUser securityUser = getSecurityUser(authentication);
+        String email = securityUser.getUsername();
         if (!authentication.isAuthenticated()) {
             logger.info("[AUTH] User {} is not authenticated", email);
             throw new AuthenticationServiceException("User is not is not authenticated");
         }
 
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User not found", email));
+        User user = securityUser.getUser();
+        if (user == null || user.getId() == null) {
+            logger.info("[AUTH] Incorrect security user {}", securityUser);
+            return userRepository.findByEmail(email)
+                    .orElseThrow(() -> new UserNotFoundException("User not found", email));
+        }
+
+        return userRepository.getOne(user.getId());
     }
 
-    private String getUserEmail(Authentication authentication) {
+    private SecurityUser getSecurityUser(Authentication authentication) {
         SecurityUser securityUser = (SecurityUser) authentication.getPrincipal();
         if (securityUser == null) {
             logger.info("[AUTH] User principals {} is not found", authentication.getName());
             throw new AuthenticationServiceException("Principal is not found");
         }
-
-        return securityUser.getUsername();
+        return securityUser;
     }
 
     @Override

@@ -41,6 +41,8 @@ public class Project {
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private Set<ProjectMember> projectMembers;
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    private Set<ProjectNotification> usersToNotify;
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private Set<Vacancy> vacancies;
 
     public Long getId() {

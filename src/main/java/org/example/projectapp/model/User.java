@@ -45,6 +45,8 @@ public class User {
     private byte[] cv;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<ProjectMember> memberOfProjects;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<ProjectNotification> projectNotifications;
     @ManyToMany(mappedBy = "subscribers", fetch = FetchType.LAZY)
     private Set<Vacancy> subVacancies;
 
