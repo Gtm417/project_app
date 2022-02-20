@@ -13,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.List;
 
 import static org.example.projectapp.model.ProjectRole.OWNER;
 
@@ -37,8 +36,8 @@ public class ProjectPermissionEvaluatorBean implements PermissionEvaluator {
         }
         User userFromAuth = authService.getUserFromAuth(auth);
         Project project = (Project) targetDomainObject;
-        List<ProjectRole> projectRoles = projectMemberService.getAllProjectRolesForUser(project, userFromAuth);
-        return hasPermission(projectRoles, (String) permissionName);
+        ProjectRole projectRole = projectMemberService.getAllProjectRolesForUser(project, userFromAuth);
+        return hasPermission(projectRole, (String) permissionName);
     }
 
     @Transactional
@@ -51,18 +50,22 @@ public class ProjectPermissionEvaluatorBean implements PermissionEvaluator {
         }
         User userFromAuth = authService.getUserFromAuth(auth);
         Long projectId = (Long) targetId;
-        List<ProjectRole> projectRoles = projectMemberService.getAllProjectRolesForUser(projectId, userFromAuth);
-        return hasPermission(projectRoles, (String) permissionName);
+        ProjectRole projectRole = projectMemberService.getAllProjectRolesForUser(projectId, userFromAuth);
+        return hasPermission(projectRole, (String) permissionName);
     }
 
-    private boolean hasPermission(List<ProjectRole> projectRoles, String permissionName) {
+    private boolean hasPermission(ProjectRole projectRole, String permissionName) {
+        if (projectRole == null) {
+            logger.info("[PERMISSION] Permission denied: project roles is empty");
+            return false;
+        }
         ProjectPermission projectPermission;
         try {
             projectPermission = ProjectPermission.getPermissionFromName(permissionName);
         } catch (IllegalArgumentException ex) {
+            logger.info("[PERMISSION] Permission denied: Unexpected permission name");
             return false;
         }
-        return projectRoles.stream()
-                .anyMatch(role -> role.getPermissions().contains(projectPermission) || role.equals(OWNER));
+        return projectRole.getPermissions().contains(projectPermission) || projectRole.equals(OWNER);
     }
 }

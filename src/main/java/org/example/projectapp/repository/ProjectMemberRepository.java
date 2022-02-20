@@ -8,12 +8,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-
 public interface ProjectMemberRepository extends JpaRepository<ProjectMember, Long> {
     @Query("SELECT pm.projectRole FROM ProjectMember pm WHERE pm.project = :project and pm.user = :user")
-    List<ProjectRole> getAllProjectRolesForUser(@Param("project") Project project, @Param("user") User user);
+    ProjectRole getProjectRoleForUser(@Param("project") Project project, @Param("user") User user);
 
     @Query("SELECT pm.projectRole FROM ProjectMember pm WHERE pm.project.id = :projectId and pm.user = :user")
-    List<ProjectRole> getAllProjectRolesForUser(@Param("projectId") Long projectId, @Param("user") User user);
+    ProjectRole getProjectRoleForUser(@Param("projectId") Long projectId, @Param("user") User user);
+
+    ProjectMember getByProjectAndUser(Project project, User user);
 }

@@ -28,9 +28,4 @@ public enum ProjectRole {
     public Set<ProjectPermission> getPermissions() {
         return projectPermissions;
     }
-
-    private static Set<ProjectPermission> concatPermissions(Set<ProjectPermission> permissions, ProjectPermission... permissionsToAdd) {
-        permissions.addAll(Arrays.stream(permissionsToAdd).collect(Collectors.toSet()));
-        return permissions;
-    }
 }

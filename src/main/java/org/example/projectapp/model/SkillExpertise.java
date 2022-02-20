@@ -18,12 +18,12 @@ public class SkillExpertise {
     @EmbeddedId
     private UserSkillCompositeKey id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
     @JoinColumn(name = "userId")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("skillId")
     @JoinColumn(name = "skill_id")
     private Skill skill;
