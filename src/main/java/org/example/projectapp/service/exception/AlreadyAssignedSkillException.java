@@ -2,19 +2,19 @@ package org.example.projectapp.service.exception;
 
 public class AlreadyAssignedSkillException extends RuntimeException {
     private final Long userId;
-    private final Long skillId;
+    private final String skillName;
 
-    public AlreadyAssignedSkillException(String message, Long userId, Long skillId) {
+    public AlreadyAssignedSkillException(String message, Long userId, String skillName) {
         super(message);
         this.userId = userId;
-        this.skillId = skillId;
+        this.skillName = skillName;
     }
 
     public Long getUserId() {
         return userId;
     }
 
-    public Long getSkillId() {
-        return skillId;
+    public String getSkillName() {
+        return skillName;
     }
 }

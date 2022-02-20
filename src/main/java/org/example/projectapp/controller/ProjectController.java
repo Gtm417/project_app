@@ -1,7 +1,9 @@
 package org.example.projectapp.controller;
 
 import org.example.projectapp.controller.dto.ProjectDto;
+import org.example.projectapp.controller.dto.ProjectInfoDto;
 import org.example.projectapp.service.ProjectService;
+import org.example.projectapp.service.dto.ProjectResponseDto;
 import org.example.projectapp.service.exception.ProjectAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +17,6 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("projects")
 public class ProjectController {
     private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
-
 
     private final ProjectService projectService;
 
@@ -34,6 +35,23 @@ public class ProjectController {
         projectService.enableNotification(id, enable);
         return ResponseEntity.ok().build();
     }
+
+    //todo [FRONT] send json with not blank current fields.
+    // Send empty value {""} if field was cleared by user for nullable fields {description, startDate, finalDate}
+    @PutMapping("/{id}/info")
+    public ResponseEntity<?> updateProjectInfo(@PathVariable("id") Long id,
+                                               @RequestBody @Valid ProjectInfoDto projectInfoDto) {
+        ProjectResponseDto projectResponseDto = projectService.updateProjectInfo(id, projectInfoDto);
+        return ResponseEntity.ok(projectResponseDto);
+    }
+
+    @PutMapping("/{id}/private")
+    public ResponseEntity<?> makeProjectPrivate(@PathVariable("id") Long id,
+                                                @RequestBody @Valid @NotNull(message = "Should not be empty") Boolean isPrivate) {
+        ProjectResponseDto projectResponseDto = projectService.makeProjectPrivate(id, isPrivate);
+        return ResponseEntity.ok(projectResponseDto);
+    }
+
 
     @ExceptionHandler(ProjectAlreadyExistsException.class)
     public ResponseEntity<String> projectAlreadyExistsException(ProjectAlreadyExistsException ex) {

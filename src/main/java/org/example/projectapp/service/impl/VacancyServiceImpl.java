@@ -13,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.HashSet;
 
 @Service
@@ -79,10 +78,8 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     private Vacancy tryGetVacancy(Long vacancyId) {
-        try {
-            return vacancyRepository.getOne(vacancyId);
-        } catch (EntityNotFoundException e) {
-            throw new CustomEntityNotFoundException(vacancyId, Vacancy.class.getSimpleName());
-        }
+        return vacancyRepository.findById(vacancyId)
+                .orElseThrow(() -> new CustomEntityNotFoundException(vacancyId, Vacancy.class.getSimpleName()));
+
     }
 }

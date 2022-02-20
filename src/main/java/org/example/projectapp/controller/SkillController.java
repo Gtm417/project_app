@@ -12,24 +12,30 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("skills")
+@RequestMapping("/users/{userId}/skills")
 public class SkillController {
+    private static final Logger logger = LoggerFactory.getLogger(SkillController.class);
     private final SkillsService skillsService;
-    Logger logger = LoggerFactory.getLogger(SkillController.class);
 
     public SkillController(SkillsService skillsService) {
         this.skillsService = skillsService;
     }
 
     @PostMapping
-    public ResponseEntity<UserSkillDto> addSkill(@RequestBody @Valid SkillDto skillDto) {
-        UserSkillDto body = skillsService.addSkill(skillDto.getName(), skillDto.getExpertise());
+    public ResponseEntity<UserSkillDto> addSkill(@PathVariable Long userId, @RequestBody @Valid SkillDto skillDto) {
+        UserSkillDto body = skillsService.addSkill(skillDto.getName(), skillDto.getExpertise(), userId);
         return ResponseEntity.ok(body);
+    }
+
+    @DeleteMapping("/{skillId}")
+    public ResponseEntity<?> removeSkill(@PathVariable Long userId, @PathVariable Long skillId) {
+        skillsService.removeSkill(userId, skillId);
+        return ResponseEntity.ok().build();
     }
 
     @ExceptionHandler(AlreadyAssignedSkillException.class)
     public ResponseEntity<String> alreadyAssignedSkillHandling(AlreadyAssignedSkillException e) {
-        logger.info("[SKILL] User {} already have such skill {}", e.getUserId(), e.getSkillId());
+        logger.info("[SKILL] User {} already have such skill {}", e.getUserId(), e.getSkillName());
         //todo reconsider handling after frontend
         return ResponseEntity.badRequest().body("User already have such skill");
     }
