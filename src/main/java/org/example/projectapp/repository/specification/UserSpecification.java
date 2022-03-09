@@ -4,10 +4,7 @@ import org.example.projectapp.model.User;
 import org.example.projectapp.service.SearchCriteria;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 public class UserSpecification implements Specification<User> {
@@ -21,12 +18,20 @@ public class UserSpecification implements Specification<User> {
     @Override
     public Predicate toPredicate
             (Root<User> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-
-
         String key = criteria.getKey();
         String operation = criteria.getOperation();
         List<Object> values = criteria.getValues();
         Object value = values.get(0);
+        if (key.equalsIgnoreCase("skills")) {
+            query.distinct(true);
+            Join<Object, Object> join =
+                    (Join<Object, Object>) root.fetch("skills").fetch("skill");
+
+            return builder.or(values.stream()
+                    .map(v -> builder.like(join.get("name"), "%" + v + "%"))
+                    .toArray(Predicate[]::new)
+            );
+        }
         if (operation.equalsIgnoreCase("more")) {
             return builder.greaterThanOrEqualTo(
                     root.get(key), value.toString());

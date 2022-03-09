@@ -16,8 +16,8 @@ public class UserSpecificationsBuilder {
         params = new ArrayList<>();
     }
 
-    public UserSpecificationsBuilder with(String key, String operation, Object value) {
-        params.add(new SearchCriteria(key, operation, value));
+    public UserSpecificationsBuilder with(String key, String operation, List<Object> values) {
+        params.add(new SearchCriteria(key, operation, values));
         return this;
     }
 

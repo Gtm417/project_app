@@ -1,10 +1,10 @@
 package org.example.projectapp.service.impl;
 
-import io.jsonwebtoken.lang.Collections;
 import org.apache.commons.lang3.StringUtils;
 import org.example.projectapp.controller.UsersController;
 import org.example.projectapp.controller.dto.FilterDto;
 import org.example.projectapp.controller.dto.SearchDto;
+import org.example.projectapp.controller.dto.SkillDto;
 import org.example.projectapp.model.User;
 import org.example.projectapp.repository.UserRepository;
 import org.example.projectapp.repository.specification.UserSpecificationsBuilder;
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserDto buildUserDto(User user) {
-        return UserDto.builder()
+        UserDto userDto = UserDto.builder()
                 .email(user.getEmail())
                 .id(user.getId())
                 .firstName(user.getFirstName())
@@ -65,6 +65,11 @@ public class UserServiceImpl implements UserService {
                 .picture(user.getPicture())
                 .type(user.getType())
                 .build();
+
+        userDto.setSkills(user.getSkills().stream()
+                .map(se -> new SkillDto(se.getSkill().getName(), se.getExpertise()))
+                .collect(Collectors.toList()));
+        return userDto;
     }
 
     private Sort buildSort(String sort) {
@@ -84,8 +89,8 @@ public class UserServiceImpl implements UserService {
     private List<SearchCriteria> mapFiltersToSearchCriteria(List<FilterDto> filters) {
         List<SearchCriteria> searchCriteria = new ArrayList<>();
         for (FilterDto filter : filters) {
-            if (filter == null || Collections.isEmpty(filter.getValues())) {
-                logger.debug("[SEARCH][SKIP] Filter is null or empty: {}", filter);
+            if (filter == null || filter.getValues().isEmpty()) {
+                logger.info("[SEARCH][SKIP] Filter is null or empty: {}", filter);
                 continue;
             }
             SearchCriteria criteriaToAdd = SearchCriteria.builder()
@@ -93,7 +98,6 @@ public class UserServiceImpl implements UserService {
                     .operation(filter.getOperation().getName())
                     .values(filter.getValues())
                     .build();
-            criteriaToAdd.setValues(filter.getValues());
 
             searchCriteria.add(criteriaToAdd);
         }

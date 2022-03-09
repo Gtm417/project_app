@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.projectapp.controller.dto.SkillDto;
 import org.example.projectapp.model.Status;
 import org.example.projectapp.model.UserType;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,4 +23,5 @@ public class UserDto {
     private Status status;
     private UserType type;
     private byte[] picture;
+    private List<SkillDto> skills;
 }
