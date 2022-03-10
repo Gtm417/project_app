@@ -1,0 +1,11 @@
+spring:
+  rabbitmq:
+    host: localhost
+    password: guest
+    port: 15672
+    username: guest
+    exchange: generic
+    queue: genericMQ
+    routingkey: generic
+server:
+  port: 9091
