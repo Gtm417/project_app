@@ -2,9 +2,9 @@ spring:
   rabbitmq:
     host: localhost
     password: guest
-    port: 15672
+    port: 5672
     username: guest
-    exchange: generic
+    exchange: notificationExchange
     queue: genericMQ
     routingkey: generic
 server:
