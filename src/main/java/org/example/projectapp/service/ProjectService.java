@@ -2,8 +2,10 @@ package org.example.projectapp.service;
 
 import org.example.projectapp.controller.dto.ProjectDto;
 import org.example.projectapp.controller.dto.ProjectInfoDto;
+import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.model.Project;
 import org.example.projectapp.service.dto.ProjectResponseDto;
+import org.springframework.data.domain.Page;
 
 public interface ProjectService {
     Project createProject(ProjectDto projectDto);
@@ -13,4 +15,6 @@ public interface ProjectService {
     ProjectResponseDto updateProjectInfo(Long id, ProjectInfoDto dto);
 
     ProjectResponseDto makeProjectPrivate(Long id, Boolean isPrivate);
+
+    Page<ProjectResponseDto> findProjectsByFilters(SearchDto searchDto);
 }
