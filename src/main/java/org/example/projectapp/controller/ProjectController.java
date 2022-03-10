@@ -2,11 +2,13 @@ package org.example.projectapp.controller;
 
 import org.example.projectapp.controller.dto.ProjectDto;
 import org.example.projectapp.controller.dto.ProjectInfoDto;
+import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.service.ProjectService;
 import org.example.projectapp.service.dto.ProjectResponseDto;
 import org.example.projectapp.service.exception.ProjectAlreadyExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +54,11 @@ public class ProjectController {
         return ResponseEntity.ok(projectResponseDto);
     }
 
+    @PostMapping("/search")
+    public ResponseEntity<Page<ProjectResponseDto>> searchProject(@RequestBody @Valid SearchDto searchDto) {
+        Page<ProjectResponseDto> projectsByFilters = projectService.findProjectsByFilters(searchDto);
+        return ResponseEntity.ok(projectsByFilters);
+    }
 
     @ExceptionHandler(ProjectAlreadyExistsException.class)
     public ResponseEntity<String> projectAlreadyExistsException(ProjectAlreadyExistsException ex) {

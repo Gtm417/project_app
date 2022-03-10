@@ -4,8 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.example.projectapp.auth.AuthService;
 import org.example.projectapp.controller.dto.ProjectDto;
 import org.example.projectapp.controller.dto.ProjectInfoDto;
+import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.model.*;
-import org.example.projectapp.repository.ProjectMemberRepository;
 import org.example.projectapp.repository.ProjectNotificationRepository;
 import org.example.projectapp.repository.ProjectRepository;
 import org.example.projectapp.service.ProjectMemberService;
@@ -13,30 +13,35 @@ import org.example.projectapp.service.ProjectService;
 import org.example.projectapp.service.dto.ProjectResponseDto;
 import org.example.projectapp.service.exception.CustomEntityNotFoundException;
 import org.example.projectapp.service.exception.ProjectAlreadyExistsException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
-    private final ProjectMemberRepository projectMemberRepository;
     private final ProjectNotificationRepository projectNotificationRepository;
     private final AuthService authService;
     private final ProjectMemberService projectMemberService;
+    private final SearchCriteriaBuilder<Project> searchCriteriaBuilder;
 
     public ProjectServiceImpl(ProjectRepository projectRepository,
-                              ProjectMemberRepository projectMemberRepository,
                               ProjectNotificationRepository projectNotificationRepository,
-                              AuthService authService, ProjectMemberService projectMemberService) {
+                              AuthService authService, ProjectMemberService projectMemberService,
+                              SearchCriteriaBuilder<Project> searchCriteriaBuilder) {
         this.projectRepository = projectRepository;
-        this.projectMemberRepository = projectMemberRepository;
         this.projectNotificationRepository = projectNotificationRepository;
         this.authService = authService;
         this.projectMemberService = projectMemberService;
+        this.searchCriteriaBuilder = searchCriteriaBuilder;
     }
 
     @Override
@@ -89,6 +94,16 @@ public class ProjectServiceImpl implements ProjectService {
         project.setPrivate(isPrivate);
 
         return saveAndReturnDto(project);
+    }
+
+    @Override
+    public Page<ProjectResponseDto> findProjectsByFilters(SearchDto searchDto) {
+        Specification<Project> spec =
+                searchCriteriaBuilder.buildSearchSpecificationWithPrivateProject(searchDto.getFilters());
+        Page<Project> projects =
+                projectRepository.findAll(spec, searchCriteriaBuilder.getPagination(searchDto, "name"));
+        List<ProjectResponseDto> collect = projects.stream().map(this::projectMapper).collect(Collectors.toList());
+        return new PageImpl<>(collect);
     }
 
     private ProjectResponseDto projectMapper(Project project) {
