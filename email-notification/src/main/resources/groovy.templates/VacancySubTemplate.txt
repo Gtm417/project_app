@@ -1,0 +1,1 @@
+${userEmail} just has ${subscribed} to/from your vacancy ${vacancyId}
