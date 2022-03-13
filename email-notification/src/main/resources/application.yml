@@ -7,5 +7,19 @@ spring:
     exchange: notificationExchange
     queue: genericMQ
     routingkey: generic
+  datasource:
+    url: jdbc:mysql://localhost:3306/notification?useUnicode=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+  jackson:
+    serialization:
+      write_dates_as_timestamps: true
 server:
   port: 9091
+
+

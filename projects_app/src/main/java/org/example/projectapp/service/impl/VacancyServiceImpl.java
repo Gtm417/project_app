@@ -15,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 
@@ -74,6 +75,7 @@ public class VacancyServiceImpl implements VacancyService {
         notificationMessage.setVacancyId(vacancyId);
         notificationMessage.setName("vacancySub");
         notificationMessage.setReceiversEmail(notificationReceivers);
+        notificationMessage.setCreatedDate(LocalDateTime.now());
         notificationService.sendNotification(notificationMessage, "vacancy.unsub");
     }
 

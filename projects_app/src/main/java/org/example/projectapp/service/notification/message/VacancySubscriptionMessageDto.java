@@ -4,6 +4,7 @@ import lombok.*;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -15,16 +16,16 @@ public class VacancySubscriptionMessageDto extends MessageDto {
     private Long vacancyId;
     private String userEmail;
 
-    public VacancySubscriptionMessageDto(String name, List<String> receiversEmail,
+    public VacancySubscriptionMessageDto(String name, List<String> receiversEmail, LocalDateTime createdDate,
                                          boolean isSubscribe, Long vacancyId, String userEmail) {
-        super(name, receiversEmail);
+        super(name, receiversEmail, createdDate);
         this.isSubscribe = isSubscribe;
         this.vacancyId = vacancyId;
         this.userEmail = userEmail;
     }
 
-    public VacancySubscriptionMessageDto(String name, List<String> receiversEmail) {
-        super(name, receiversEmail);
+    public VacancySubscriptionMessageDto(String name, List<String> receiversEmail, LocalDateTime createdDate) {
+        super(name, receiversEmail, createdDate);
     }
 
     @Override
@@ -35,6 +36,7 @@ public class VacancySubscriptionMessageDto extends MessageDto {
                 .append("userEmail", userEmail)
                 .append("name", name)
                 .append("receiversEmail", receiversEmail)
+                .append("createdDate", createdDate)
                 .toString();
     }
 }
