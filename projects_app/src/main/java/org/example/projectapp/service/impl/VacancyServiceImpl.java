@@ -64,6 +64,11 @@ public class VacancyServiceImpl implements VacancyService {
             vacancy.setSubscribers(new HashSet<>());
         }
 
+        boolean anyMatch = vacancy.getSubscribers().contains(userFromAuth);
+        if (anyMatch) {
+            return;
+        }
+
         vacancy.getSubscribers().add(userFromAuth);
 
         vacancyRepository.save(vacancy);
@@ -86,9 +91,11 @@ public class VacancyServiceImpl implements VacancyService {
         Vacancy vacancy = tryGetVacancy(vacancyId);
         User userFromAuth = authService.getUserFromAuth();
 
-        if (vacancy.getSubscribers() == null) {
+        if (vacancy.getSubscribers() == null ||
+                !vacancy.getSubscribers().contains(userFromAuth)) {
             return;
         }
+
         vacancy.getSubscribers().remove(userFromAuth);
 
         vacancyRepository.save(vacancy);
