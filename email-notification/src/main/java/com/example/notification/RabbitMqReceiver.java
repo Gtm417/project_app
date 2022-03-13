@@ -1,6 +1,7 @@
 package com.example.notification;
 
 import com.example.notification.dto.MessageDto;
+import com.example.notification.dto.VacancySubscriptionMessageDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -16,8 +17,8 @@ public class RabbitMqReceiver implements RabbitListenerConfigurer {
     public void configureRabbitListeners(RabbitListenerEndpointRegistrar rabbitListenerEndpointRegistrar) {
     }
 
-    @RabbitListener(queues = "${spring.rabbitmq.queue}")
-    public void receivedMessage(MessageDto message) {
+    @RabbitListener(queues = {"${spring.rabbitmq.queue}", "vacancyQueue"})
+    public void receivedMessage(VacancySubscriptionMessageDto message) {
         logger.info("Message Received is {} ", message);
     }
 }

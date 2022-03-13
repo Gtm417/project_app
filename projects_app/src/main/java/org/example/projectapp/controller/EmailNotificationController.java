@@ -1,9 +1,8 @@
 package org.example.projectapp.controller;
 
 import org.example.projectapp.service.notification.EventNotificationService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.example.projectapp.service.notification.message.MessageDto;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("notification")
@@ -14,9 +13,9 @@ public class EmailNotificationController {
         this.service = service;
     }
 
-    @PostMapping
-    public void notification() {
-        service.sendNotification();
+    @PostMapping("/{routingKey}")
+    public void notification(@RequestBody MessageDto message, @PathVariable String routingKey) {
+        service.sendNotification(message, routingKey);
     }
 
 }

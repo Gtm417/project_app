@@ -1,4 +1,4 @@
-package com.example.notification.dto;
+package org.example.projectapp.service.notification.message;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,7 +17,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MessageDto {
-    protected String name;
-    protected List<String> receiversEmail;
-    protected LocalDateTime createdDate;
+    String name;
+    List<String> receiversEmail;
+    private LocalDateTime createdDate;
 }

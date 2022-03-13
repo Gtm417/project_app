@@ -26,8 +26,8 @@ public class RabbitMQConfig {
     private String host;
 
     @Bean
-    public Queue queue() {
-        return new Queue(queue, true);
+    public Queue vacancyQueue() {
+        return new Queue("vacancyQueue", true);
     }
 
     @Bean
@@ -36,11 +36,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    Binding binding(Queue queue, Exchange myExchange) {
+    Binding binding(Queue vacancyQueue, Exchange myExchange) {
         return BindingBuilder
-                .bind(queue)
+                .bind(vacancyQueue)
                 .to(myExchange)
-                .with(routingKey)
+                .with("vacancy.*")
                 .noargs();
     }
     @Bean
