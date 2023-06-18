@@ -17,6 +17,6 @@ public interface ProjectRepository extends ElasticsearchRepository<Project, Stri
 
     Optional<Project> findById(Long id);
 
-    Iterable<Project> findAll(Criteria criteria, Pageable pageable);
+//    Iterable<Project> findAll(Criteria criteria, Pageable pageable);
 
 }

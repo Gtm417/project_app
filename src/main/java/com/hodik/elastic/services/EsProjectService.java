@@ -1,7 +1,5 @@
 package com.hodik.elastic.services;
 
-import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.dto.SearchFilter;
 import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
 import com.hodik.elastic.model.Project;
 import com.hodik.elastic.repositories.ProjectRepository;
@@ -55,30 +53,30 @@ public class EsProjectService {
         return projectRepository.findAll();
     }
 
-    public Iterable<Project> findAllWithFilters(SearchCriteriaDto searchCriteriaDto, Pageable pageable) {
-        Criteria criteria = new Criteria();
-        List<SearchFilter> filters = searchCriteriaDto.getFilters();
-        if (filters != null){
-            for (SearchFilter filter: filters){
-                SearchColumn column = filter.getColumn();
-                Operations operation = filter.getOperations();
-                List<?> values = filter.getValues();
-                String value=values.toString();
-
-                switch (operation){
-                    case LIKE -> criteria.and(new Criteria(String.valueOf(column)).contains(value));
-                    case EQUAL -> criteria.and(new Criteria(String.valueOf(column)).matches(value));
-                    case MORE_THEN -> criteria.and(new Criteria(String.valueOf(column)).greaterThanEqual(value));
-                    case LESS_THEN -> criteria.and(new Criteria(String.valueOf(column)).lessThanEqual(value));
-                    case FULL_TEXT -> criteria.and(new Criteria(String.valueOf(column)).fuzzy(value));
-
-                }
-            }
-        }
-
-
-            return projectRepository.findAll(criteria, pageable);
-    }
+//    public Iterable<Project> findAllWithFilters(SearchCriteriaDto searchCriteriaDto, Pageable pageable) {
+//        Criteria criteria = new Criteria();
+//        List<SearchFilter> filters = searchCriteriaDto.getFilters();
+//        if (filters != null){
+//            for (SearchFilter filter: filters){
+//                SearchColumn column = filter.getColumn();
+//                Operations operation = filter.getOperations();
+//                List<?> values = filter.getValues();
+//                String value=values.toString();
+//
+//                switch (operation){
+//                    case LIKE -> criteria.and(new Criteria(String.valueOf(column)).contains(value));
+//                    case EQUAL -> criteria.and(new Criteria(String.valueOf(column)).matches(value));
+//                    case MORE_THEN -> criteria.and(new Criteria(String.valueOf(column)).greaterThanEqual(value));
+//                    case LESS_THEN -> criteria.and(new Criteria(String.valueOf(column)).lessThanEqual(value));
+//                    case FULL_TEXT -> criteria.and(new Criteria(String.valueOf(column)).fuzzy(value));
+//
+//                }
+//            }
+//        }
+//
+//
+//            return projectRepository.findAll(criteria, pageable);
+//    }
 
 
 //        public void search() {
