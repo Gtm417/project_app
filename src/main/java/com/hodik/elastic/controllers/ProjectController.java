@@ -2,6 +2,7 @@ package com.hodik.elastic.controllers;
 
 import com.hodik.elastic.ProjectErrorResponse;
 import com.hodik.elastic.dto.ProjectDto;
+import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
 import com.hodik.elastic.mappers.ProjectMapper;
 import com.hodik.elastic.model.Project;
@@ -53,11 +54,10 @@ public class ProjectController {
         return projectService.findAll();
     }
 
-//    @PostMapping("/find")
-//    public Iterable<Project> findByFilters(@RequestBody SearchCriteriaDto searchCriteriaDto,
-//                                           @PageableDefault(sort = {"id"}, direction = Sort.Direction.ASC, size = 5) Pageable pageable){
-//        return projectService.findAllWithFilters(searchCriteriaDto, pageable);
-//    }
+    @PostMapping("/find")
+    public Iterable<Project> findByFilters(@RequestBody SearchCriteriaDto searchCriteriaDto){
+        return projectService.findAllWithFilters(searchCriteriaDto);
+    }
 
     @ExceptionHandler
     private ResponseEntity<ProjectErrorResponse> exceptionHandler(EntityAlreadyExitsException e) {
