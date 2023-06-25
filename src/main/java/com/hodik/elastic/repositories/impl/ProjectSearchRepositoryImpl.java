@@ -3,6 +3,7 @@ package com.hodik.elastic.repositories.impl;
 
 import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.SearchFilter;
+import com.hodik.elastic.mappers.SortOrdersMapper;
 import com.hodik.elastic.model.Project;
 import com.hodik.elastic.repositories.ProjectSearchRepository;
 import com.hodik.elastic.util.Operations;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.stereotype.Repository;
@@ -23,10 +25,12 @@ import java.util.stream.Collectors;
 @Repository
 public class ProjectSearchRepositoryImpl implements ProjectSearchRepository {
     private final ElasticsearchOperations elasticsearchOperations; // autowired bean
+    private final SortOrdersMapper sortOrdersMapper;
 
     @Autowired
-    public ProjectSearchRepositoryImpl(ElasticsearchOperations elasticsearchOperations) {
+    public ProjectSearchRepositoryImpl(ElasticsearchOperations elasticsearchOperations, SortOrdersMapper sortOrdersMapper) {
         this.elasticsearchOperations = elasticsearchOperations;
+        this.sortOrdersMapper = sortOrdersMapper;
     }
 
     @Override
@@ -49,39 +53,22 @@ public class ProjectSearchRepositoryImpl implements ProjectSearchRepository {
             }
         }
 
-        int page = searchCriteriaDto.getPage();
-        int size = searchCriteriaDto.getSize();
-//        Sort.Direction direction;
-//        if (searchCriteriaDto.getSorts().get(0).getAscending()) {
-//            direction = Sort.Direction.ASC;
-//        } else {
-//            direction = Sort.Direction.DESC;
-//        }
-//        List<SearchColumn> columns = searchCriteriaDto.getSorts().stream().map(x -> x.getColumn()).collect(Collectors.toList());
-//        Sort sort =Sort.by(direction, String.valueOf(columns));
-//        Pageable pageable = PageRequest.of(page, size, sort);
-        Pageable pageable = PageRequest.of(page, size);
-
-
-       CriteriaQuery criteriaQuery = new CriteriaQuery(criteria, pageable);
-//        CriteriaQuery criteriaQuery = new CriteriaQuery(criteria);
-
-        return elasticsearchOperations.search(criteriaQuery,
-
-                        Project.class).stream()
+        Pageable pageable = getPageable(searchCriteriaDto);
+        CriteriaQuery criteriaQuery = new CriteriaQuery(criteria, pageable);
+        SearchHits<Project> searchResponse = elasticsearchOperations.search(criteriaQuery,
+                Project.class);
+        return searchResponse.stream()
                 .map(SearchHit::getContent)
                 .collect(Collectors.toList());
     }
+
+    private Pageable getPageable(SearchCriteriaDto searchCriteriaDto) {
+        int page = searchCriteriaDto.getPage();
+        int size = searchCriteriaDto.getSize();
+        List<Sort.Order> orders = sortOrdersMapper.mapToSortOrder(searchCriteriaDto.getSorts());
+        Sort sort = Sort.by(orders);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return pageable;
+    }
 }
 
-//        public void search() {
-//            Criteria criteria = new Criteria();
-//            criteria.and(new Criteria("foo").is(foo));
-//            criteria.
-//            criteria.and(new Criteria("bar").in(bars));
-//            CriteriaQuery criteriaQuery = new CriteriaQuery(criteria);
-//            elasticsearchOperations.search(criteriaQuery,
-//                            FooElasticEntity.class).stream()
-//                    .map(SearchHit::getContent)
-//                    .collect(Collectors.toList())
-//        }
