@@ -23,7 +23,7 @@ public class Project {
     @UniqueElements
     @Field(type = FieldType.Long)
     private long id;
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     private String name;
     @Field(type = FieldType.Boolean)
     private Boolean isPrivate;
@@ -36,12 +36,12 @@ public class Project {
     @Field(type = FieldType.Date)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate startDate; //(timestamp) //– date when project starts
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     private String category;
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     private String description;
     @Field(type = FieldType.Text)
     private String isCommercial;
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     private String status;
 }

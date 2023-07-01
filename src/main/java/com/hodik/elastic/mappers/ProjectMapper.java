@@ -18,4 +18,8 @@ public class ProjectMapper {
     public Project convertToProject(ProjectDto projectDto) {
         return modelMapper.map(projectDto, Project.class);
     }
+
+    public ProjectDto convertToProjectDto(Project project) {
+        return modelMapper.map(project, ProjectDto.class);
+    }
 }

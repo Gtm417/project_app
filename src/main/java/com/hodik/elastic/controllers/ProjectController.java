@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/projects")
 public class ProjectController {
@@ -30,7 +33,7 @@ public class ProjectController {
     }
 
 
-    @PostMapping("/save")
+    @PutMapping("/save")
     public ResponseEntity<HttpStatus> createProject(@RequestBody ProjectDto projectDto) throws EntityAlreadyExitsException {
         projectService.createProject(projectMapper.convertToProject(projectDto));
         return ResponseEntity.ok(HttpStatus.OK);
@@ -49,19 +52,26 @@ public class ProjectController {
     }
 
     @GetMapping("/all")
-    public Iterable<Project> show() {
-        //todo Dto
-        return projectService.findAll();
+    public List<ProjectDto> show() {
+        Iterable<Project> projects = projectService.findAll();
+        return getProjectDtos(projects);
+    }
+
+    private List<ProjectDto> getProjectDtos(Iterable<Project> projects) {
+        List<ProjectDto> projectList = new ArrayList<>();
+        projects.forEach(x -> projectList.add(projectMapper.convertToProjectDto(x)));
+        return projectList;
     }
 
     @PostMapping("/find")
-    public Iterable<Project> findByFilters(@RequestBody SearchCriteriaDto searchCriteriaDto){
-        return projectService.findAllWithFilters(searchCriteriaDto);
+    public List<ProjectDto> findByFilters(@RequestBody SearchCriteriaDto searchCriteriaDto) {
+        Iterable<Project> projects = projectService.findAllWithFilters(searchCriteriaDto);
+        return getProjectDtos(projects);
     }
 
     @ExceptionHandler
     private ResponseEntity<ProjectErrorResponse> exceptionHandler(EntityAlreadyExitsException e) {
-        ProjectErrorResponse response= new ProjectErrorResponse(e.getMessage());
+        ProjectErrorResponse response = new ProjectErrorResponse(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
