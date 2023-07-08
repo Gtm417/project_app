@@ -6,10 +6,13 @@ import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
 import com.hodik.elastic.model.Project;
 import com.hodik.elastic.repositories.ProjectRepository;
 import com.hodik.elastic.repositories.ProjectSearchRepository;
+import com.hodik.elastic.util.SearchColumnProject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EsProjectService {
@@ -36,7 +39,8 @@ public class EsProjectService {
         projectRepository.save(project);
     }
 
-    public void updateProject(Project project) {
+    public void updateProject(long id, Project project) {
+        project.setId(id);
         projectRepository.save(project);
     }
 
@@ -44,16 +48,25 @@ public class EsProjectService {
         projectRepository.deleteById(id);
     }
 
-    public Iterable<Project> findAll() {
-        return projectRepository.findAll();
+    public List<Project> findAll() {
+        List<Project> projects= new ArrayList<>();
+
+        projectRepository.findAll().forEach(projects::add);
+        return projects;
     }
 
-    public Iterable<Project> findAllWithFilters(SearchCriteriaDto searchCriteriaDto) {
+    public List<Project> findAllWithFilters(SearchCriteriaDto searchCriteriaDto) {
+        //validation column name
+        searchCriteriaDto.getFilters().stream().forEach(x-> SearchColumnProject.getByNameIgnoringCase(x.getColumn()));
         List<SearchFilter> filters = searchCriteriaDto.getFilters();
         if (filters == null) {
             return findAll();
         }
-       return projectSearchRepository.findAllWithFilters(searchCriteriaDto);
+       return(ArrayList<Project>)projectSearchRepository.findAllWithFilters(searchCriteriaDto);
 
+    }
+
+    public Optional<Project> findById(long id) {
+        return projectRepository.findById(id);
     }
 }

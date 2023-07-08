@@ -14,6 +14,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -27,6 +28,7 @@ public class User {
     @Field(type = FieldType.Long)
     private long id;
     @Field(type = FieldType.Keyword)
+    @UniqueElements
     @Email(regexp = ".+@.+\\..+|", message = "Provide correct email")
     private String email;
     @Field(type = FieldType.Keyword)
@@ -52,5 +54,5 @@ public class User {
     @Field(type = FieldType.Text)
     String cv;// probably just text (not sure yet)
     @Field(type = FieldType.Nested)
-    private List<Skill> skill; //(nested indexable field)
+    private List<Skill> skills; //(nested indexable field)
 }

@@ -2,6 +2,9 @@ package com.hodik.elastic.controllers;
 
 import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.UserDto;
+import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
+import com.hodik.elastic.exceptions.EntityNotFoundException;
+import com.hodik.elastic.exceptions.UserErrorResponse;
 import com.hodik.elastic.mappers.UserMapper;
 import com.hodik.elastic.model.User;
 import com.hodik.elastic.services.EsUserService;
@@ -10,14 +13,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     private final EsUserService userService;
     private final UserMapper userMapper;
+
+    // POST users/ -- create
+    // PUT users/{id} -- update
+    // GET users -- all
+    // GET users/{id}
+    // DELETE users/{id}
+    // POST users/search -- search by criteria
 
     @Autowired
     public UserController(EsUserService userService, UserMapper userMapper) {
@@ -26,35 +36,46 @@ public class UserController {
     }
 
 
-    @PutMapping("/save")
-    public ResponseEntity<HttpStatus> createUser(@RequestBody UserDto userDto) {
-        userService.save(userMapper.convertToUser(userDto));
+    @PostMapping()
+    public ResponseEntity<HttpStatus> createUser(@RequestBody UserDto userDto) throws EntityAlreadyExitsException {
+        userService.createUser(userMapper.convertToUser(userDto));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody UserDto userDto) {
-        userService.update(userMapper.convertToUser(userDto));
+    @PutMapping("/{id}")
+    public ResponseEntity<HttpStatus> updateUser(@PathVariable long id, @RequestBody UserDto userDto) {
+        userService.update(id, userMapper.convertToUser(userDto));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping("/all")
-    public List<UserDto> show() {
-        List<UserDto> userDtoList = new ArrayList<>();
-        Iterable<User> users = userService.findAll();
-        for (User user : users) {
-            userDtoList.add(userMapper.convertToUserDto(user));
-        }
-        return userDtoList;
+    @GetMapping()
+    public List<UserDto> getUsers() {
+        List<User> users = userService.findAll();
+        return users.stream().map(userMapper::convertToUserDto).collect(Collectors.toList());
+    }
+    @GetMapping("/{id}")
+    public  UserDto getUser(@PathVariable long id){
+        return userMapper.convertToUserDto(userService.findById(id).orElseThrow(EntityNotFoundException::new));
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable long id) {
         userService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-    @PostMapping("/find")
-    public List<UserDto> findByFilters (@RequestBody SearchCriteriaDto searchCriteriaDto){
-return null;
+    @PostMapping("/search")
+    public List<UserDto> searchByCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
+        List<User> users = userService.findAllWithFilters(searchCriteriaDto);
+        return users.stream().map(userMapper::convertToUserDto).collect(Collectors.toList());
+    }
+    @ExceptionHandler
+    private ResponseEntity<UserErrorResponse> exceptionHandler (EntityAlreadyExitsException e){
+     UserErrorResponse responseEntity = new UserErrorResponse(e.getMessage());
+     return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler
+    private ResponseEntity<UserErrorResponse> exceptionHandler (EntityNotFoundException e){
+        UserErrorResponse responseEntity = new UserErrorResponse(e.getMessage());
+        return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
     }
 }

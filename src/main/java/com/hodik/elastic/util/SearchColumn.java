@@ -1,6 +1,9 @@
 package com.hodik.elastic.util;
 
+import org.springframework.stereotype.Component;
 
-public enum SearchColumn {
-    name, isPrivate, createdDate, finalPlannedDate, startDate, category, description, isCommercial, status
+
+public interface SearchColumn  {
+    String getName ();
+
 }

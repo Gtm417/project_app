@@ -1,5 +1,6 @@
 package com.hodik.elastic.mappers;
 
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.hodik.elastic.dto.UserDto;
 import com.hodik.elastic.model.User;
 import org.modelmapper.ModelMapper;
@@ -14,6 +15,7 @@ public class UserMapper {
     }
 
     public User convertToUser (UserDto userDto){
+      User user=  modelMapper.map(userDto, User.class);
         return modelMapper.map(userDto, User.class);
     }
 

@@ -1,11 +1,9 @@
 package com.hodik.elastic.dto;
 
 import com.hodik.elastic.util.Operations;
-import com.hodik.elastic.util.SearchColumn;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -16,8 +14,7 @@ import java.util.List;
 public class SearchFilter {
 
 
-    private final SearchColumn column;
-
+    private final String column;
 
     private final Operations operations;
 

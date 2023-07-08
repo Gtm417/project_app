@@ -1,8 +1,15 @@
 package com.hodik.elastic.model;
 
-public class Skill {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.io.Serializable;
+
+@JsonSerialize
+public class Skill {
+    @JsonProperty("skillName")
     private String skillName;
-    private Expertiese expertiese;
+    @JsonProperty("expertise")
+    private Expertise expertise;
 
 }

@@ -1,4 +1,4 @@
-package com.hodik.elastic;
+package com.hodik.elastic.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

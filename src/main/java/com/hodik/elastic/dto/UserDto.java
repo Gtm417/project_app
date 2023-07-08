@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -44,7 +45,7 @@ public class UserDto {
 
     private String type;
 
-    String cv;// probably just text (not sure yet)
+    private String cv;// probably just text (not sure yet)
 
-    private List<Skill> skill; //(nested indexable field)
+    private List<Skill> skills; //(nested indexable field)
 }

@@ -1,5 +1,5 @@
 package com.hodik.elastic.model;
 
-public enum Expertiese {
+public enum Expertise {
     NOVICE, INTERMEDIATE, ADVANCED, EXPERT
 }
