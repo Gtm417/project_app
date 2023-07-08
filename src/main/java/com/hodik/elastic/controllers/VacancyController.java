@@ -1,5 +1,6 @@
 package com.hodik.elastic.controllers;
 
+import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.VacancyDto;
 import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/vacancy")
+@RequestMapping("/vacancies")
 public class VacancyController {
     private final EsVacancyService vacancyService;
     private final VacancyMapper vacancyMapper;
@@ -33,8 +34,8 @@ public class VacancyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<HttpStatus> updateVacancy(@RequestBody VacancyDto vacancyDto) {
-        vacancyService.update(vacancyMapper.convertToVacancy(vacancyDto));
+    public ResponseEntity<HttpStatus> updateVacancy(@PathVariable long id, @RequestBody VacancyDto vacancyDto) {
+        vacancyService.update(id, vacancyMapper.convertToVacancy(vacancyDto));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -52,7 +53,11 @@ public class VacancyController {
     @GetMapping()
     public List<VacancyDto> getVacancies() {
         return vacancyService.findAll().stream().map(vacancyMapper::convertToVacancyDto).collect(Collectors.toList());
+    }
 
+    @PostMapping("/search")
+    public List<VacancyDto> searchByCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
+      return vacancyService.findAllWithFilters(searchCriteriaDto).stream().map(vacancyMapper::convertToVacancyDto).collect(Collectors.toList());
     }
 
     @ExceptionHandler

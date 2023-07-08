@@ -1,9 +1,12 @@
 package com.hodik.elastic.services;
 
+import com.hodik.elastic.dto.SearchCriteriaDto;
+import com.hodik.elastic.dto.SearchFilter;
 import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
 import com.hodik.elastic.model.Vacancy;
 import com.hodik.elastic.repositories.VacancyRepository;
-import org.elasticsearch.common.recycler.Recycler;
+import com.hodik.elastic.repositories.VacancySearchRepository;
+import com.hodik.elastic.util.SearchColumnVacancy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,21 +17,24 @@ import java.util.Optional;
 @Service
 public class EsVacancyService {
     private final VacancyRepository vacancyRepository;
+    private final VacancySearchRepository vacancySearchRepository;
 
     @Autowired
-    public EsVacancyService(VacancyRepository vacancyRepository) {
+    public EsVacancyService(VacancyRepository vacancyRepository, VacancySearchRepository vacancySearchRepository) {
         this.vacancyRepository = vacancyRepository;
+        this.vacancySearchRepository = vacancySearchRepository;
     }
 
     public void create(Vacancy vacancy) throws EntityAlreadyExitsException {
         long id = vacancy.getId();
         if (vacancyRepository.findById(id).isPresent()) {
-            throw new EntityAlreadyExitsException("Vacancy already exists id= " +id);
+            throw new EntityAlreadyExitsException("Vacancy already exists id= " + id);
         }
         vacancyRepository.save(vacancy);
     }
 
-    public void update(Vacancy vacancy) {
+    public void update(long id, Vacancy vacancy) {
+        vacancy.setId(id);
         vacancyRepository.save(vacancy);
     }
 
@@ -40,8 +46,17 @@ public class EsVacancyService {
     }
 
     public List<Vacancy> findAll() {
-        List<Vacancy> vacancies= new ArrayList<>();
+        List<Vacancy> vacancies = new ArrayList<>();
         vacancyRepository.findAll().forEach(vacancies::add);
         return vacancies;
+    }
+
+    public List<Vacancy> findAllWithFilters(SearchCriteriaDto searchCriteriaDto) {
+        searchCriteriaDto.getFilters().stream().forEach(x -> SearchColumnVacancy.getByNameIgnoringCase(x.getColumn()));
+        List<SearchFilter> filters = searchCriteriaDto.getFilters();
+        if (filters == null) {
+            return findAll();
+        }
+        return vacancySearchRepository.findAllWithFilters(searchCriteriaDto);
     }
 }
