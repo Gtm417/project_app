@@ -16,7 +16,6 @@ PUT vacancies
      {"type": "keyword"},
      "jobPosition":
      {"type":"keyword"}
-
   }
 }
 }
