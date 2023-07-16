@@ -1,24 +1,24 @@
 package com.hodik.elastic.controllers;
 
-import com.hodik.elastic.exceptions.EntityNotFoundException;
-import com.hodik.elastic.exceptions.ProjectErrorResponse;
 import com.hodik.elastic.dto.ProjectDto;
 import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
+import com.hodik.elastic.exceptions.EntityNotFoundException;
+import com.hodik.elastic.exceptions.ProjectErrorResponse;
 import com.hodik.elastic.mappers.ProjectMapper;
-import com.hodik.elastic.model.Project;
 import com.hodik.elastic.services.EsProjectService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/projects")
+@Log4j2
 public class ProjectController {
     private final EsProjectService projectService;
     private final ProjectMapper projectMapper;
@@ -52,31 +52,38 @@ public class ProjectController {
         return projectService.findAll().stream().map(projectMapper::convertToProjectDto).collect(Collectors.toList());
 
     }
+
     @GetMapping("/{id}")
-    public ProjectDto getProject(@PathVariable long id){
+    public ProjectDto getProject(@PathVariable long id) {
         return projectMapper.convertToProjectDto(projectService.findById(id).orElseThrow(EntityNotFoundException::new));
     }
 
     @PostMapping("/search")
     public List<ProjectDto> findByFilters(@RequestBody SearchCriteriaDto searchCriteriaDto) {
-      return projectService.findAllWithFilters(searchCriteriaDto).stream()
-              .map(projectMapper::convertToProjectDto).collect(Collectors.toList());
+        log.info("Search request to index Projects "  + searchCriteriaDto);
+        return projectService.findAllWithFilters(searchCriteriaDto).stream()
+                .map(projectMapper::convertToProjectDto).collect(Collectors.toList());
 
     }
 
     @ExceptionHandler
     private ResponseEntity<ProjectErrorResponse> exceptionHandler(EntityAlreadyExitsException e) {
         ProjectErrorResponse response = new ProjectErrorResponse(e.getMessage());
+        log.error(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler
     private ResponseEntity<ProjectErrorResponse> exceptionHandler(IllegalArgumentException e) {
         ProjectErrorResponse response = new ProjectErrorResponse(e.getMessage());
+        log.error(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler
-    private ResponseEntity<ProjectErrorResponse> exceptionHandler (EntityNotFoundException e){
-        ProjectErrorResponse response= new ProjectErrorResponse(e.getMessage());
+    private ResponseEntity<ProjectErrorResponse> exceptionHandler(EntityNotFoundException e) {
+        ProjectErrorResponse response = new ProjectErrorResponse(e.getMessage());
+        log.error(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 

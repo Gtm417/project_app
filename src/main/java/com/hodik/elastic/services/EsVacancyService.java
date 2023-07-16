@@ -7,6 +7,7 @@ import com.hodik.elastic.model.Vacancy;
 import com.hodik.elastic.repositories.VacancyRepository;
 import com.hodik.elastic.repositories.VacancySearchRepository;
 import com.hodik.elastic.util.SearchColumnVacancy;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Log4j2
 public class EsVacancyService {
     private final VacancyRepository vacancyRepository;
     private final VacancySearchRepository vacancySearchRepository;
@@ -31,14 +33,20 @@ public class EsVacancyService {
             throw new EntityAlreadyExitsException("Vacancy already exists id= " + id);
         }
         vacancyRepository.save(vacancy);
+        log.info("Vacancy is saved to ES successful id = " + id);
     }
 
     public void update(long id, Vacancy vacancy) {
         vacancy.setId(id);
         vacancyRepository.save(vacancy);
+        log.info("Vacancy is saved to ES successful id = " + id);
+
     }
 
     public void delete(long id) {
+        vacancyRepository.deleteById(id);
+        log.info("Vacancy is deleted from ES successful id = " + id);
+
     }
 
     public Optional<Vacancy> findById(long id) {

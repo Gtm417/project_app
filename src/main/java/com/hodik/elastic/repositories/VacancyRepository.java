@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface VacancyRepository extends ElasticsearchRepository<Vacancy, String> {
 
     Optional<Vacancy> findById (long id);
+    void deleteById(long id);
 
 }

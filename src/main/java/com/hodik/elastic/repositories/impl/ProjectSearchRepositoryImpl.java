@@ -5,10 +5,12 @@ import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.model.Project;
 import com.hodik.elastic.repositories.ProjectSearchRepository;
 import com.hodik.elastic.repositories.search.builder.EsQueryBuilder;
+import org.elasticsearch.action.search.SearchRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,8 +31,13 @@ public class ProjectSearchRepositoryImpl implements ProjectSearchRepository {
 
     @Override
     public List<Project> findAllWithFilters(SearchCriteriaDto searchCriteriaDto) {
-        SearchHits<Project> searchResponse = elasticsearchOperations.search(queryBuilder.getCriteriaQuery(searchCriteriaDto),
+
+        CriteriaQuery criteriaQuery = queryBuilder.getCriteriaQuery(searchCriteriaDto);
+        SearchRequest searchRequest = new SearchRequest();
+        SearchHits<Project> searchResponse = elasticsearchOperations.search(criteriaQuery,
                 Project.class);
+
+
         return searchResponse.stream()
                 .map(SearchHit::getContent)
                 .collect(Collectors.toList());

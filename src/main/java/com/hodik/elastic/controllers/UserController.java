@@ -8,6 +8,7 @@ import com.hodik.elastic.exceptions.UserErrorResponse;
 import com.hodik.elastic.mappers.UserMapper;
 import com.hodik.elastic.model.User;
 import com.hodik.elastic.services.EsUserService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
+@Log4j2
 public class UserController {
     private final EsUserService userService;
     private final UserMapper userMapper;
@@ -66,16 +68,25 @@ public class UserController {
     @PostMapping("/search")
     public List<UserDto> searchByCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
         List<User> users = userService.findAllWithFilters(searchCriteriaDto);
+        log.info("Search request to index Users "  + searchCriteriaDto);
         return users.stream().map(userMapper::convertToUserDto).collect(Collectors.toList());
     }
     @ExceptionHandler
     private ResponseEntity<UserErrorResponse> exceptionHandler (EntityAlreadyExitsException e){
      UserErrorResponse responseEntity = new UserErrorResponse(e.getMessage());
+        log.error(e.getMessage());
      return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler
     private ResponseEntity<UserErrorResponse> exceptionHandler (EntityNotFoundException e){
         UserErrorResponse responseEntity = new UserErrorResponse(e.getMessage());
+        log.error(e.getMessage());
+        return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler
+    private ResponseEntity<UserErrorResponse> exceptionHandler (IllegalArgumentException e){
+        UserErrorResponse responseEntity = new UserErrorResponse(e.getMessage());
+        log.error(e.getMessage());
         return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
     }
 }

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,4 +36,20 @@ public class ProjectDto {
     private String isCommercial;
 
     private String status;
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+                .append("id", id)
+                .append("name", name)
+                .append("isPrivate", isPrivate)
+                .append("createdDate", createdDate)
+                .append("finalPlannedDate", finalPlannedDate)
+                .append("startDate", startDate)
+                .append("category", category)
+                .append("description", description)
+                .append("isCommercial", isCommercial)
+                .append("status", status)
+                .toString();
+    }
 }

@@ -7,6 +7,7 @@ import com.hodik.elastic.model.Project;
 import com.hodik.elastic.repositories.ProjectRepository;
 import com.hodik.elastic.repositories.ProjectSearchRepository;
 import com.hodik.elastic.util.SearchColumnProject;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Log4j2
 public class EsProjectService {
 
     private final ProjectRepository projectRepository;
@@ -34,18 +36,22 @@ public class EsProjectService {
     public void createProject(Project project) throws EntityAlreadyExitsException {
         long id = project.getId();
         if (projectRepository.findById(id).isPresent()) {
+
             throw new EntityAlreadyExitsException("Project already exits id= " + id);
         }
         projectRepository.save(project);
+        log.info("Project is saved to ES successful id ="+ id);
     }
 
     public void updateProject(long id, Project project) {
         project.setId(id);
         projectRepository.save(project);
+        log.info("Project is updated in ES successful id ="+ id);
     }
 
     public void deleteProject(long id) {
         projectRepository.deleteById(id);
+        log.info("Project is deleted from ES successful id ="+ id);
     }
 
     public List<Project> findAll() {
@@ -62,7 +68,7 @@ public class EsProjectService {
         if (filters == null) {
             return findAll();
         }
-       return(ArrayList<Project>)projectSearchRepository.findAllWithFilters(searchCriteriaDto);
+       return projectSearchRepository.findAllWithFilters(searchCriteriaDto);
 
     }
 

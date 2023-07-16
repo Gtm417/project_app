@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 
 import java.io.Serializable;
@@ -48,4 +50,21 @@ public class UserDto {
     private String cv;// probably just text (not sure yet)
 
     private List<Skill> skills; //(nested indexable field)
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+                .append("id", id)
+                .append("email", email)
+                .append("password", password)
+                .append("firstName", firstName)
+                .append("lastName", lastName)
+                .append("role", role)
+                .append("description", description)
+                .append("status", status)
+                .append("type", type)
+                .append("cv", cv)
+                .append("skills", skills)
+                .toString();
+    }
 }
