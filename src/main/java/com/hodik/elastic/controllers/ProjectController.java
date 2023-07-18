@@ -5,9 +5,12 @@ import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
 import com.hodik.elastic.exceptions.ProjectErrorResponse;
+import com.hodik.elastic.mappers.PageableMapper;
 import com.hodik.elastic.mappers.ProjectMapper;
 import com.hodik.elastic.services.EsProjectService;
+import jakarta.annotation.Nullable;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.Default;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +25,13 @@ import java.util.stream.Collectors;
 public class ProjectController {
     private final EsProjectService projectService;
     private final ProjectMapper projectMapper;
+    private final PageableMapper pageableMapper;
 
     @Autowired
-    public ProjectController(EsProjectService projectService, ProjectMapper projectMapper) {
+    public ProjectController(EsProjectService projectService, ProjectMapper projectMapper, PageableMapper pageableMapper) {
         this.projectService = projectService;
         this.projectMapper = projectMapper;
+        this.pageableMapper = pageableMapper;
     }
 
     @PostMapping()

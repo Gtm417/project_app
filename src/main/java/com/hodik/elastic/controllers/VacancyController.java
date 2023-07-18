@@ -5,6 +5,7 @@ import com.hodik.elastic.dto.VacancyDto;
 import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
 import com.hodik.elastic.exceptions.VacancyErrorResponse;
+import com.hodik.elastic.mappers.PageableMapper;
 import com.hodik.elastic.mappers.VacancyMapper;
 import com.hodik.elastic.services.EsVacancyService;
 import lombok.extern.log4j.Log4j2;
@@ -22,11 +23,13 @@ import java.util.stream.Collectors;
 public class VacancyController {
     private final EsVacancyService vacancyService;
     private final VacancyMapper vacancyMapper;
+    private final PageableMapper pageableMapper;
 
     @Autowired
-    public VacancyController(EsVacancyService vacancyService, VacancyMapper vacancyMapper) {
+    public VacancyController(EsVacancyService vacancyService, VacancyMapper vacancyMapper, PageableMapper pageableMapper) {
         this.vacancyService = vacancyService;
         this.vacancyMapper = vacancyMapper;
+        this.pageableMapper = pageableMapper;
     }
 
     @PostMapping()
