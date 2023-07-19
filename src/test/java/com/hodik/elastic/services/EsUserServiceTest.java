@@ -81,9 +81,9 @@ class EsUserServiceTest {
         //given
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(USER));
         //when
-        EntityAlreadyExitsException exception = assertThrows(EntityAlreadyExitsException.class, () -> {
-            userService.createUser(USER);
-        });
+        EntityAlreadyExitsException exception = assertThrows(EntityAlreadyExitsException.class, () ->
+            userService.createUser(USER));
+
         String message = exception.getMessage();
         //then
         assertEquals("User already exists id= 1", message);
