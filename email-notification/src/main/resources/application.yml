@@ -1,0 +1,38 @@
+spring:
+  rabbitmq:
+    host: localhost
+    password: guest
+    port: 5672
+    username: guest
+    exchange: notificationExchange
+    queue: genericMQ
+    routingkey: generic
+  datasource:
+    url: jdbc:mysql://localhost:3306/notification?useUnicode=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  jackson:
+    serialization:
+      write_dates_as_timestamps: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: std.projects.official@gmail.com
+    password: vpilyntgbsuomfvv
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectionTimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          starttls:
+            enable: true
+server:
+  port: 9091
