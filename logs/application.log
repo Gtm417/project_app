@@ -1269,3 +1269,177 @@ java.lang.NullPointerException: Cannot invoke "com.hodik.elastic.dto.SearchCrite
 2023-07-19 18:10:02.835 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is updated in ES successful id =1
 2023-07-19 18:10:02.858 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is deleted from ES successful id =1
 2023-07-19 18:10:02.881 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is saved to ES successful id =1
+2023-07-20 09:46:24.806 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 09:51:36.766 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 09:51:39.128 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:21:43.164 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is deleted from ES successful id = 1
+2023-07-20 10:21:43.271 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:21:43.310 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:23:11.112 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is deleted from ES successful id = 1
+2023-07-20 10:23:11.183 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:23:11.217 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:42:02.267 [main] INFO  com.hodik.elastic.services.EsUserService - User is saved to ES successful id = 1
+2023-07-20 10:42:02.279 [main] INFO  com.hodik.elastic.services.EsUserService - User is deleted from ES successful id = 1
+2023-07-20 10:42:02.294 [main] INFO  com.hodik.elastic.services.EsUserService - User is updated in ES successful id = 1
+2023-07-20 10:42:02.398 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is deleted from ES successful id = 1
+2023-07-20 10:42:02.412 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:42:02.433 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:42:02.508 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is updated in ES successful id =1
+2023-07-20 10:42:02.526 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is deleted from ES successful id =1
+2023-07-20 10:42:02.553 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is saved to ES successful id =1
+2023-07-20 10:42:17.802 [main] INFO  com.hodik.elastic.services.EsUserService - User is saved to ES successful id = 1
+2023-07-20 10:42:17.812 [main] INFO  com.hodik.elastic.services.EsUserService - User is deleted from ES successful id = 1
+2023-07-20 10:42:17.822 [main] INFO  com.hodik.elastic.services.EsUserService - User is updated in ES successful id = 1
+2023-07-20 10:42:17.908 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is deleted from ES successful id = 1
+2023-07-20 10:42:17.922 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:42:17.943 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:42:18.058 [main] INFO  org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.hodik.elastic.ElasticApplicationTests]: ElasticApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-07-20 10:42:18.183 [main] INFO  org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.hodik.elastic.ElasticApplication for test class com.hodik.elastic.ElasticApplicationTests
+2023-07-20 10:42:18.564 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-20 10:42:18.605 [main] INFO  com.hodik.elastic.ElasticApplicationTests - Starting ElasticApplicationTests using Java 17.0.6 with PID 18404 (started by m-god in C:\Users\m-god\IdeaProjects\elastic)
+2023-07-20 10:42:18.609 [main] INFO  com.hodik.elastic.ElasticApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2023-07-20 10:42:19.156 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-20 10:42:19.169 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-20 10:42:19.346 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-20 10:42:19.412 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 66 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-20 10:42:19.418 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-20 10:42:19.422 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 3 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-20 10:42:20.364 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-20 10:42:20.481 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-20 10:42:20.502 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-20 10:42:21.064 [main] INFO  com.hodik.elastic.ElasticApplicationTests - Started ElasticApplicationTests in 2.708 seconds (process running for 6.228)
+2023-07-20 10:42:21.206 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is updated in ES successful id =1
+2023-07-20 10:42:21.222 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is deleted from ES successful id =1
+2023-07-20 10:42:21.235 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is saved to ES successful id =1
+2023-07-20 10:47:21.923 [main] INFO  com.hodik.elastic.services.EsUserService - User is saved to ES successful id = 1
+2023-07-20 10:47:21.932 [main] INFO  com.hodik.elastic.services.EsUserService - User is deleted from ES successful id = 1
+2023-07-20 10:47:21.942 [main] INFO  com.hodik.elastic.services.EsUserService - User is updated in ES successful id = 1
+2023-07-20 10:47:22.034 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is deleted from ES successful id = 1
+2023-07-20 10:47:22.049 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:47:22.069 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:47:22.173 [main] INFO  org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.hodik.elastic.ElasticApplicationTests]: ElasticApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-07-20 10:47:22.273 [main] INFO  org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.hodik.elastic.ElasticApplication for test class com.hodik.elastic.ElasticApplicationTests
+2023-07-20 10:47:22.685 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-20 10:47:22.727 [main] INFO  com.hodik.elastic.ElasticApplicationTests - Starting ElasticApplicationTests using Java 17.0.6 with PID 2716 (started by m-god in C:\Users\m-god\IdeaProjects\elastic)
+2023-07-20 10:47:22.732 [main] INFO  com.hodik.elastic.ElasticApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2023-07-20 10:47:23.202 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-20 10:47:23.210 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 4 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-20 10:47:23.365 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-20 10:47:23.420 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 54 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-20 10:47:23.428 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-20 10:47:23.435 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-20 10:47:24.323 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-20 10:47:24.435 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-20 10:47:24.458 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-20 10:47:25.051 [main] INFO  com.hodik.elastic.ElasticApplicationTests - Started ElasticApplicationTests in 2.609 seconds (process running for 6.407)
+2023-07-20 10:47:25.183 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is updated in ES successful id =1
+2023-07-20 10:47:25.198 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is deleted from ES successful id =1
+2023-07-20 10:47:25.214 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is saved to ES successful id =1
+2023-07-20 10:48:46.276 [main] INFO  com.hodik.elastic.services.EsUserService - User is saved to ES successful id = 1
+2023-07-20 10:48:46.288 [main] INFO  com.hodik.elastic.services.EsUserService - User is deleted from ES successful id = 1
+2023-07-20 10:48:46.302 [main] INFO  com.hodik.elastic.services.EsUserService - User is updated in ES successful id = 1
+2023-07-20 10:48:46.395 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is deleted from ES successful id = 1
+2023-07-20 10:48:46.410 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:48:46.430 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:48:46.574 [main] INFO  org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.hodik.elastic.ElasticApplicationTests]: ElasticApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-07-20 10:48:46.686 [main] INFO  org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.hodik.elastic.ElasticApplication for test class com.hodik.elastic.ElasticApplicationTests
+2023-07-20 10:48:47.050 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-20 10:48:47.075 [main] INFO  com.hodik.elastic.ElasticApplicationTests - Starting ElasticApplicationTests using Java 17.0.6 with PID 21264 (started by m-god in C:\Users\m-god\IdeaProjects\elastic)
+2023-07-20 10:48:47.080 [main] INFO  com.hodik.elastic.ElasticApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2023-07-20 10:48:47.567 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-20 10:48:47.575 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 4 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-20 10:48:47.724 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-20 10:48:47.770 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 44 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-20 10:48:47.775 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-20 10:48:47.781 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-20 10:48:48.629 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-20 10:48:48.763 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-20 10:48:48.789 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-20 10:48:49.368 [main] INFO  com.hodik.elastic.ElasticApplicationTests - Started ElasticApplicationTests in 2.535 seconds (process running for 5.695)
+2023-07-20 10:48:49.503 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is updated in ES successful id =1
+2023-07-20 10:48:49.521 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is deleted from ES successful id =1
+2023-07-20 10:48:49.541 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is saved to ES successful id =1
+2023-07-20 10:49:01.562 [main] INFO  com.hodik.elastic.services.EsUserService - User is saved to ES successful id = 1
+2023-07-20 10:49:01.572 [main] INFO  com.hodik.elastic.services.EsUserService - User is deleted from ES successful id = 1
+2023-07-20 10:49:01.582 [main] INFO  com.hodik.elastic.services.EsUserService - User is updated in ES successful id = 1
+2023-07-20 10:49:01.676 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is deleted from ES successful id = 1
+2023-07-20 10:49:01.689 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:49:01.707 [main] INFO  com.hodik.elastic.services.EsVacancyService - Vacancy is saved to ES successful id = 1
+2023-07-20 10:49:01.817 [main] INFO  org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.hodik.elastic.ElasticApplicationTests]: ElasticApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2023-07-20 10:49:01.915 [main] INFO  org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.hodik.elastic.ElasticApplication for test class com.hodik.elastic.ElasticApplicationTests
+2023-07-20 10:49:02.291 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-20 10:49:02.330 [main] INFO  com.hodik.elastic.ElasticApplicationTests - Starting ElasticApplicationTests using Java 17.0.6 with PID 8040 (started by m-god in C:\Users\m-god\IdeaProjects\elastic)
+2023-07-20 10:49:02.336 [main] INFO  com.hodik.elastic.ElasticApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2023-07-20 10:49:02.804 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-20 10:49:02.814 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-20 10:49:02.997 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-20 10:49:03.077 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 79 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-20 10:49:03.087 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-20 10:49:03.093 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-20 10:49:04.377 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-20 10:49:04.558 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-20 10:49:04.600 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-20 10:49:05.445 [main] INFO  com.hodik.elastic.ElasticApplicationTests - Started ElasticApplicationTests in 3.352 seconds (process running for 6.709)
+2023-07-20 10:49:05.628 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is updated in ES successful id =1
+2023-07-20 10:49:05.646 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is deleted from ES successful id =1
+2023-07-20 10:49:05.663 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is saved to ES successful id =1

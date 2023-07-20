@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class EsProjectServiceTest {
     private final Project PROJECT = Project.builder()
-            .id(1)
+            .id(1L)
             .name("Name")
             .category("Category")
             .createdDate(LocalDate.of(2020, 7, 5))
@@ -170,7 +170,7 @@ class EsProjectServiceTest {
         Optional<Project> project = projectRepository.findById(PROJECT.getId());
         //then
         verify(projectRepository).findById(PROJECT.getId());
-        assertEquals(project, EXPECTED_OPTIONAL_PROJECT);
+        assertEquals(EXPECTED_OPTIONAL_PROJECT,project);
 
     }
 }

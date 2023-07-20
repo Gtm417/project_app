@@ -33,7 +33,7 @@ import static org.mockito.Mockito.when;
 class EsUserServiceTest {
     private final Skill skill = new Skill("skillName", NOVICE);
     private final User USER = User.builder()
-            .id(1)
+            .id(1L)
             .firstName("Name")
             .lastName("LastName")
             .email("name@gmail.com")
