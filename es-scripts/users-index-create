@@ -1,0 +1,48 @@
+PUT users
+{
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "long"
+      },
+      "email": {
+        "type": "keyword"
+      },
+      "password": {
+        "type": "keyword"
+      },
+      "firstName": {
+        "type": "keyword"
+      },
+      "lastName": {
+        "type": "keyword"
+      },
+      "role": {
+        "type": "keyword"
+      },
+      "description": {
+        "type": "text"
+      },
+      "status": {
+        "type": "keyword"
+      },
+      "type": {
+        "type": "keyword"
+      },
+      "cv": {
+        "type": "text"
+      },
+      "skills": {
+        "type": "nested",
+        "properties": {
+          "skillName": {
+            "type": "keyword"
+          },
+          "expertise": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}
