@@ -2,7 +2,7 @@ package com.hodik.elastic.controllers;
 
 import com.hodik.elastic.dto.ProjectDto;
 import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
+import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
 import com.hodik.elastic.exceptions.ProjectErrorResponse;
 import com.hodik.elastic.mappers.PageableMapper;
@@ -33,7 +33,7 @@ public class ProjectController {
     }
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> createProject(@RequestBody ProjectDto projectDto) throws EntityAlreadyExitsException {
+    public ResponseEntity<HttpStatus> createProject(@RequestBody ProjectDto projectDto) throws EntityAlreadyExistsException {
         projectService.createProject(projectMapper.convertToProject(projectDto));
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -70,7 +70,7 @@ public class ProjectController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<ProjectErrorResponse> exceptionHandler(EntityAlreadyExitsException e) {
+    private ResponseEntity<ProjectErrorResponse> exceptionHandler(EntityAlreadyExistsException e) {
         ProjectErrorResponse response = new ProjectErrorResponse(e.getMessage());
         log.error(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

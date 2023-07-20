@@ -3,7 +3,7 @@ package com.hodik.elastic.services;
 import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.SearchFilter;
 import com.hodik.elastic.dto.SearchSort;
-import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
+import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.mappers.PageableMapper;
 import com.hodik.elastic.model.Skill;
 import com.hodik.elastic.model.User;
@@ -71,7 +71,7 @@ class EsUserServiceTest {
 
 
     @Test
-    void createUserSuccess() throws EntityAlreadyExitsException {
+    void createUserSuccess() throws EntityAlreadyExistsException {
         //given
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
         //when
@@ -85,7 +85,7 @@ class EsUserServiceTest {
         //given
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(USER));
         //when
-        EntityAlreadyExitsException exception = assertThrows(EntityAlreadyExitsException.class, () ->
+        EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class, () ->
             userService.createUser(USER));
 
         String message = exception.getMessage();

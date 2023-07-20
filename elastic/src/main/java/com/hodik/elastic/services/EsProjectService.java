@@ -2,7 +2,7 @@ package com.hodik.elastic.services;
 
 import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.SearchFilter;
-import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
+import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.mappers.PageableMapper;
 import com.hodik.elastic.model.Project;
 import com.hodik.elastic.repositories.ProjectRepository;
@@ -37,11 +37,11 @@ public class EsProjectService {
         this.pageableMapper = pageableMapper;
     }
 
-    public void createProject(Project project) throws EntityAlreadyExitsException {
+    public void createProject(Project project) throws EntityAlreadyExistsException {
         long id = project.getId();
         if (projectRepository.findById(id).isPresent()) {
 
-            throw new EntityAlreadyExitsException("Project already exits id= " + id);
+            throw new EntityAlreadyExistsException("Project already exits id= " + id);
         }
         projectRepository.save(project);
         log.info("Project is saved to ES successful id =" + id);

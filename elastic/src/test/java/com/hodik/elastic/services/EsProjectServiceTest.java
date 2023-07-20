@@ -3,7 +3,7 @@ package com.hodik.elastic.services;
 import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.SearchFilter;
 import com.hodik.elastic.dto.SearchSort;
-import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
+import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.mappers.PageableMapper;
 import com.hodik.elastic.model.Project;
 import com.hodik.elastic.repositories.ProjectRepository;
@@ -66,7 +66,7 @@ class EsProjectServiceTest {
 
 
     @Test
-    void createProjectSuccess() throws EntityAlreadyExitsException {
+    void createProjectSuccess() throws EntityAlreadyExistsException {
         //given
         when(projectRepository.findById(anyLong())).thenReturn(Optional.empty());
         //when
@@ -76,11 +76,11 @@ class EsProjectServiceTest {
     }
 
     @Test
-    void createProjectException() throws EntityAlreadyExitsException {
+    void createProjectException() throws EntityAlreadyExistsException {
         //given
         when(projectRepository.findById(anyLong())).thenReturn(Optional.of(PROJECT));
         //when
-        EntityAlreadyExitsException exception = assertThrows(EntityAlreadyExitsException.class,
+        EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class,
                 () -> projectService.createProject(PROJECT));
         //then
         assertEquals("Project already exits id= 1", exception.getMessage());
