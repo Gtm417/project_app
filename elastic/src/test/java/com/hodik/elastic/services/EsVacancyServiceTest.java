@@ -3,7 +3,7 @@ package com.hodik.elastic.services;
 import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.SearchFilter;
 import com.hodik.elastic.dto.SearchSort;
-import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
+import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.mappers.PageableMapper;
 import com.hodik.elastic.model.Vacancy;
 import com.hodik.elastic.repositories.VacancyRepository;
@@ -64,7 +64,7 @@ class EsVacancyServiceTest {
     private ArgumentCaptor<Pageable> pageableCaptor;
 
     @Test
-    void createSuccess() throws EntityAlreadyExitsException {
+    void createSuccess() throws EntityAlreadyExistsException {
         //given
         when(vacancyRepository.findById(anyLong())).thenReturn(Optional.empty());
         //when
@@ -74,11 +74,11 @@ class EsVacancyServiceTest {
         verify(vacancyRepository).findById(VACANCY.getId());
     }
     @Test
-    void createException() throws EntityAlreadyExitsException {
+    void createException() throws EntityAlreadyExistsException {
         //given
         when(vacancyRepository.findById(anyLong())).thenReturn(Optional.of(VACANCY));
         //when
-       EntityAlreadyExitsException exception= assertThrows(EntityAlreadyExitsException.class, ()-> vacancyService.create(VACANCY));
+       EntityAlreadyExistsException exception= assertThrows(EntityAlreadyExistsException.class, ()-> vacancyService.create(VACANCY));
         //then
         verify(vacancyRepository).findById(VACANCY.getId());
         assertEquals("Vacancy already exists id= 1", exception.getMessage());

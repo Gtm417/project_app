@@ -2,7 +2,7 @@ package com.hodik.elastic.controllers;
 
 import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.VacancyDto;
-import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
+import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
 import com.hodik.elastic.exceptions.VacancyErrorResponse;
 import com.hodik.elastic.mappers.PageableMapper;
@@ -33,7 +33,7 @@ public class VacancyController {
     }
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> createVacancy(@RequestBody VacancyDto vacancyDto) throws EntityAlreadyExitsException {
+    public ResponseEntity<HttpStatus> createVacancy(@RequestBody VacancyDto vacancyDto) throws EntityAlreadyExistsException {
         vacancyService.create(vacancyMapper.convertToVacancy(vacancyDto));
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -51,7 +51,7 @@ public class VacancyController {
     }
 
     @GetMapping("/{id}")
-    public VacancyDto getVacancy(@PathVariable long id) throws EntityAlreadyExitsException {
+    public VacancyDto getVacancy(@PathVariable long id) throws EntityAlreadyExistsException {
         return vacancyMapper.convertToVacancyDto(vacancyService.findById(id).orElseThrow(EntityNotFoundException::new));
     }
 
@@ -67,7 +67,7 @@ public class VacancyController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<VacancyErrorResponse> exceptionHandler(EntityAlreadyExitsException e) {
+    private ResponseEntity<VacancyErrorResponse> exceptionHandler(EntityAlreadyExistsException e) {
         VacancyErrorResponse message = new VacancyErrorResponse(e.getMessage());
         log.error(e.getMessage());
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);

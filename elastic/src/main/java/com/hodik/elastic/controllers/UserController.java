@@ -2,7 +2,7 @@ package com.hodik.elastic.controllers;
 
 import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.UserDto;
-import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
+import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
 import com.hodik.elastic.exceptions.UserErrorResponse;
 import com.hodik.elastic.mappers.PageableMapper;
@@ -43,7 +43,7 @@ public class UserController {
 
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> createUser(@RequestBody UserDto userDto) throws EntityAlreadyExitsException {
+    public ResponseEntity<HttpStatus> createUser(@RequestBody UserDto userDto) throws EntityAlreadyExistsException {
         userService.createUser(userMapper.convertToUser(userDto));
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -76,7 +76,7 @@ public class UserController {
         return users.stream().map(userMapper::convertToUserDto).collect(Collectors.toList());
     }
     @ExceptionHandler
-    private ResponseEntity<UserErrorResponse> exceptionHandler (EntityAlreadyExitsException e){
+    private ResponseEntity<UserErrorResponse> exceptionHandler (EntityAlreadyExistsException e){
      UserErrorResponse responseEntity = new UserErrorResponse(e.getMessage());
         log.error(e.getMessage());
      return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
