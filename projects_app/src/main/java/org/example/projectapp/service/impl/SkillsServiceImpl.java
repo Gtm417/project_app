@@ -2,22 +2,15 @@ package org.example.projectapp.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.example.projectapp.auth.AuthService;
-import org.example.projectapp.mapper.UserMapper;
-import org.example.projectapp.mapper.dto.UserElasticDto;
 import org.example.projectapp.model.*;
 import org.example.projectapp.repository.SkillExpertiseRepository;
 import org.example.projectapp.repository.SkillRepository;
-import org.example.projectapp.restclient.ElasticUsersServiceClient;
 import org.example.projectapp.service.SkillsService;
 import org.example.projectapp.service.dto.UserSkillDto;
 import org.example.projectapp.service.exception.AlreadyAssignedSkillException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 public class SkillsServiceImpl implements SkillsService {
@@ -26,21 +19,16 @@ public class SkillsServiceImpl implements SkillsService {
     private final SkillRepository skillRepository;
     private final SkillExpertiseRepository skillExpertiseRepository;
     private final AuthService authService;
-    private final ElasticUsersServiceClient elasticUsersServiceClient;
-    private final UserMapper userMapper;
 
     public SkillsServiceImpl(SkillRepository skillRepository,
                              SkillExpertiseRepository skillExpertiseRepository,
-                             AuthService authService, ElasticUsersServiceClient elasticUsersServiceClient, UserMapper userMapper) {
+                             AuthService authService) {
         this.skillRepository = skillRepository;
         this.skillExpertiseRepository = skillExpertiseRepository;
         this.authService = authService;
-        this.elasticUsersServiceClient = elasticUsersServiceClient;
-        this.userMapper = userMapper;
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public UserSkillDto addSkill(String name, SkillExpertiseEnum expertise, Long userId) {
         User userFromAuth = authService.getUserFromAuth();
         checkAccess(userId, userFromAuth);
@@ -56,15 +44,7 @@ public class SkillsServiceImpl implements SkillsService {
             skill = skillRepository.saveAndFlush(Skill.builder().name(name).build());
         }
 
-        SkillExpertise skillSaved = saveSkillExpertise(expertise, userFromAuth, skill);
-        userFromAuth.getSkills().add(skillSaved);
-        synchroniseUserToElastic(userFromAuth);
-        return mapToDto(skillSaved);
-    }
-
-    private void synchroniseUserToElastic(User user) {
-        UserElasticDto userElasticDto = userMapper.convertToUserElasticDto(user);
-        elasticUsersServiceClient.updateUser(user.getId(), userElasticDto);
+        return saveAndReturn(expertise, userFromAuth, skill);
     }
 
     private void checkAccess(Long userId, User userFromAuth) {
@@ -74,36 +54,26 @@ public class SkillsServiceImpl implements SkillsService {
         }
     }
 
-    @Transactional
     public void removeSkill(Long userId, Long skillId) {
         User userFromAuth = authService.getUserFromAuth();
         checkAccess(userId, userFromAuth);
         UserSkillCompositeKey id = new UserSkillCompositeKey(userId, skillId);
-        Optional<SkillExpertise> skillById = skillExpertiseRepository.findById(id);
-        if (skillById.isPresent()) {
-            SkillExpertise skillExpertise = skillById.get();
-            skillExpertiseRepository.delete(skillExpertise);
-            userFromAuth.getSkills().remove(skillExpertise);
-        }
-        synchroniseUserToElastic(userFromAuth);
+        skillExpertiseRepository.findById(id)
+                .ifPresent(skillExpertiseRepository::delete);
     }
 
-    private UserSkillDto mapToDto(SkillExpertise skillExpertise) {
-        Skill skillInDb = skillExpertise.getSkill();
-        return UserSkillDto.builder()
-                .skillId(skillInDb.getId())
-                .skillName(skillInDb.getName())
-                .userId(skillExpertise.getUser().getId())
-                .expertise(skillExpertise.getExpertise())
-                .build();
-    }
-
-    private SkillExpertise saveSkillExpertise(SkillExpertiseEnum expertise, User userFromAuth, Skill skill) {
-        return skillExpertiseRepository.saveAndFlush(SkillExpertise.builder()
+    private UserSkillDto saveAndReturn(SkillExpertiseEnum expertise, User userFromAuth, Skill skill) {
+        skillExpertiseRepository.save(SkillExpertise.builder()
                 .id(new UserSkillCompositeKey(userFromAuth.getId(), skill.getId()))
                 .expertise(expertise)
                 .skill(skill)
                 .user(userFromAuth)
                 .build());
+        return UserSkillDto.builder()
+                .skillId(skill.getId())
+                .skillName(skill.getName())
+                .userId(userFromAuth.getId())
+                .expertise(expertise)
+                .build();
     }
 }

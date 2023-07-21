@@ -3,6 +3,7 @@ package com.hodik.elastic.model;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +30,10 @@ public class User {
     @UniqueElements
     @Email(regexp = ".+@.+\\..+|", message = "Provide correct email")
     private String email;
-
+    @Field(type = FieldType.Keyword)
+    @NotEmpty(message = "Password can't ce empty")
+    @Size(min = 4, max = 15, message = "2-25 letters")
+    private String password;
     @Field(type = FieldType.Keyword)
     @NotEmpty(message = "Enter the name")
     @Pattern(regexp = "[A-Z А-Я]\\\\w+", message = "Example : Misha")
@@ -47,7 +51,7 @@ public class User {
 
     private Status status;
     @Field(type = FieldType.Keyword)
-    private UserType type;
+    private String type;
     @Field(type = FieldType.Text)
     String cv;// probably just text (not sure yet)
     @Field(type = FieldType.Nested)

@@ -41,7 +41,7 @@ public class ProjectMemberServiceImpl implements ProjectMemberService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasPermission(#skillId,'org.example.projectapp.model.Project', 'members:write')")
+    @PreAuthorize("hasPermission(#projectId,'org.example.projectapp.model.Project', 'members:write')")
     public ProjectMemberResponseDto addMemberToProject(Long projectId, ProjectMemberDto dto) {
         User user = userRepository.getOne(dto.getUserId());
         Project project = projectRepository.getOne(projectId);

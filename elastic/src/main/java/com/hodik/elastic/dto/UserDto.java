@@ -3,10 +3,10 @@ package com.hodik.elastic.dto;
 import com.hodik.elastic.model.Role;
 import com.hodik.elastic.model.Skill;
 import com.hodik.elastic.model.Status;
-import com.hodik.elastic.model.UserType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +27,9 @@ public class UserDto {
     @Email(regexp = ".+@.+\\..+|", message = "Provide correct email")
     private String email;
 
+    @NotEmpty(message = "Password can't ce empty")
+    @Size(min = 4, max = 15, message = "2-25 letters")
+    private String password;
 
     @NotEmpty(message = "Enter the name")
     @Pattern(regexp = "[A-Z А-Я]\\\\w+", message = "Example : Misha")
@@ -42,7 +45,7 @@ public class UserDto {
 
     private Status status;
 
-    private UserType type;
+    private String type;
 
     private String cv;// probably just text (not sure yet)
 
@@ -53,6 +56,7 @@ public class UserDto {
         return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
                 .append("id", id)
                 .append("email", email)
+                .append("password", password)
                 .append("firstName", firstName)
                 .append("lastName", lastName)
                 .append("role", role)

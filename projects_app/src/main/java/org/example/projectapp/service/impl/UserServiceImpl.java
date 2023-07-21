@@ -36,17 +36,6 @@ public class UserServiceImpl implements UserService {
         return mapToUserDto(users);
     }
 
-    @Override
-    public List<User> findAllUsers() {
-        return repository.findAll();
-    }
-
-    @Override
-    public List<User> findUsersByListId(List<Long> listID) {
-        return repository.findAllById(listID);
-    }
-
-
     private Page<UserDto> mapToUserDto(Page<User> users) {
         List<UserDto> collect = users.stream().map(this::buildUserDto).collect(Collectors.toList());
         return new PageImpl<>(collect);
