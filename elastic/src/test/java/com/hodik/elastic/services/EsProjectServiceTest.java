@@ -76,7 +76,7 @@ class EsProjectServiceTest {
     }
 
     @Test
-    void createProjectException() throws EntityAlreadyExistsException {
+    void createProjectException() {
         //given
         when(projectRepository.findById(anyLong())).thenReturn(Optional.of(PROJECT));
         //when
@@ -168,7 +168,7 @@ class EsProjectServiceTest {
         Optional<Project> EXPECTED_OPTIONAL_PROJECT = Optional.of(PROJECT);
         when(projectRepository.findById(anyLong())).thenReturn(Optional.of(PROJECT));
         //when
-        Optional<Project> project = projectRepository.findById(PROJECT.getId());
+        Optional<Project> project = projectService.findById(PROJECT.getId());
         //then
         verify(projectRepository).findById(PROJECT.getId());
         assertEquals(EXPECTED_OPTIONAL_PROJECT,project);

@@ -155,7 +155,7 @@ class ProjectControllerTest {
     }
 
 
-    private static Project getExpectedProject() {
+    private Project getExpectedProject() {
         return Project.builder()
                 .id(ID)
                 .name(NAME)
@@ -170,7 +170,7 @@ class ProjectControllerTest {
                 .build();
     }
 
-    private static ProjectDto getProjectDto() {
+    private ProjectDto getProjectDto() {
         return ProjectDto.builder()
                 .id(ID)
                 .name(NAME)

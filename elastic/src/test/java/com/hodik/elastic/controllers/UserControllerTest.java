@@ -5,6 +5,7 @@ import com.hodik.elastic.dto.SearchFilter;
 import com.hodik.elastic.dto.SearchSort;
 import com.hodik.elastic.dto.UserDto;
 import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
+import com.hodik.elastic.exceptions.EntityNotFoundException;
 import com.hodik.elastic.mappers.UserMapper;
 import com.hodik.elastic.model.Skill;
 import com.hodik.elastic.model.User;
@@ -41,7 +42,7 @@ class UserControllerTest {
     public static final String EMPLOYEE = "EMPLOYEE";
     public static final String FULL_STACK = "full stack";
     private final User expectedUser = getUserBuild();
-    private final List<User> expectedUserList=List.of(expectedUser);
+    private final List<User> expectedUserList = List.of(expectedUser);
     private final UserDto expectedUserDto = getUserDtoBuild();
     private final List<UserDto> expectedUserDtoList = List.of(expectedUserDto);
 
@@ -69,6 +70,7 @@ class UserControllerTest {
         verify(userService).createUser(expectedUser);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
+
     @Test
     void createUserException() throws EntityAlreadyExistsException {
         //given
@@ -76,7 +78,7 @@ class UserControllerTest {
         Mockito.doThrow(EntityAlreadyExistsException.class).when(userService).createUser(expectedUser);
 
         //when
-        EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class, ()->userController.createUser(expectedUserDto));
+        EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class, () -> userController.createUser(expectedUserDto));
 
         //then
         assertEquals(EntityAlreadyExistsException.class, exception.getClass());
@@ -100,7 +102,7 @@ class UserControllerTest {
         when(userMapper.convertToUserDto(expectedUser)).thenReturn(expectedUserDto);
         when(userService.findAll()).thenReturn(expectedUserList);
         //when
-        List<UserDto> userDtoList= userController.getUsers();
+        List<UserDto> userDtoList = userController.getUsers();
         //then
         verify(userService).findAll();
         verify(userMapper, atLeast(1)).convertToUserDto(expectedUser);
@@ -108,12 +110,12 @@ class UserControllerTest {
     }
 
     @Test
-    void getUser() {
+    void getUserSuccess() {
         //given
         when(userMapper.convertToUserDto(expectedUser)).thenReturn(expectedUserDto);
         when(userService.findById(expectedUserDto.getId())).thenReturn(Optional.of(expectedUser));
         //when
-        UserDto userDto= userController.getUser(expectedUserDto.getId());
+        UserDto userDto = userController.getUser(expectedUserDto.getId());
         //then
         verify(userMapper).convertToUserDto(expectedUser);
         verify(userService).findById(expectedUser.getId());
@@ -121,9 +123,22 @@ class UserControllerTest {
     }
 
     @Test
+    void getUserException() {
+        //given
+
+        when(userService.findById(expectedUserDto.getId())).thenThrow(EntityNotFoundException.class);
+        //when
+        assertThrows(EntityNotFoundException.class, () -> userController.getUser(expectedUserDto.getId()));
+        //then
+
+        verify(userService).findById(expectedUser.getId());
+
+    }
+
+    @Test
     void deleteUser() {
         //when
-        ResponseEntity<HttpStatus> response= userController.deleteUser(expectedUserDto.getId());
+        ResponseEntity<HttpStatus> response = userController.deleteUser(expectedUserDto.getId());
         //then
         verify(userService).delete(expectedUser.getId());
         assertEquals(HttpStatus.OK, response.getStatusCode());
