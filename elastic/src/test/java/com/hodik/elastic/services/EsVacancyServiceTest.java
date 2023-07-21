@@ -33,24 +33,23 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class EsVacancyServiceTest {
-    private final Vacancy VACANCY = Vacancy.builder()
-            .id(1L)
-            .aboutProject("about project")
-            .creator("Creator")
-            .description("Description")
-            .expected("Expected")
-            .projectId(1L)
-            .jobPosition("job position")
-            .build();
-    private final List<Vacancy> VACANCIES = List.of(VACANCY);
-    private final SearchSort SEARCH_SORT = new SearchSort("Creator", true);
-    private final List<SearchSort> SEARCH_SORT_LIST = List.of(SEARCH_SORT);
-    private final SearchFilter SEARCH_FILTER = new SearchFilter("Creator", LIKE, List.of("Creator"));
-    private final SearchCriteriaDto SEARCH_CRITERIA_DTO = new SearchCriteriaDto(List.of(SEARCH_FILTER), 0, 2, SEARCH_SORT_LIST);
-    private final SearchCriteriaDto SEARCH_CRITERIA_DTO_FILTERS_NULL = new SearchCriteriaDto(null, 0, 2, SEARCH_SORT_LIST);
-    private final SearchCriteriaDto SEARCH_CRITERIA_DTO_FILTERS_EMPTY = new SearchCriteriaDto(List.of(), 0, 2, SEARCH_SORT_LIST);
+    public static final long ID = 1L;
+    public static final String ABOUT_PROJECT = "about project";
+    public static final String CREATOR = "Creator";
+    public static final String DESCRIPTION = "Description";
+    public static final String EXPECTED = "Expected";
+    public static final long PROJECT_ID = 1L;
+    public static final String JOB_POSITION = "job position";
+    private final Vacancy expectedVacancy = getVacancyBuild();
+    private final List<Vacancy> expectedVacancyList = List.of(expectedVacancy);
+    private final SearchSort searchSort = new SearchSort("Creator", true);
+    private final List<SearchSort> searchSortList = List.of(searchSort);
+    private final SearchFilter searchFilter = new SearchFilter("Creator", LIKE, List.of("Creator"));
+    private final SearchCriteriaDto searchCriteriaDto = new SearchCriteriaDto(List.of(searchFilter), 0, 2, searchSortList);
+    private final SearchCriteriaDto searchCriteriaDtoFiltersNull = new SearchCriteriaDto(null, 0, 2, searchSortList);
+    private final SearchCriteriaDto searchCriteriaDtoFiltersEmpty = new SearchCriteriaDto(List.of(), 0, 2, searchSortList);
 
-    private final PageRequest EXPECTED_PAGE = PageRequest.of(0, 2, Sort.by(Sort.Direction.ASC, "Creator"));
+    private final PageRequest expectedPage = PageRequest.of(0, 2, Sort.by(Sort.Direction.ASC, "Creator"));
 
     @Mock
     private VacancyRepository vacancyRepository;
@@ -68,43 +67,44 @@ class EsVacancyServiceTest {
         //given
         when(vacancyRepository.findById(anyLong())).thenReturn(Optional.empty());
         //when
-        vacancyService.create(VACANCY);
+        vacancyService.create(expectedVacancy);
         //then
-        verify(vacancyRepository).save(VACANCY);
-        verify(vacancyRepository).findById(VACANCY.getId());
+        verify(vacancyRepository).save(expectedVacancy);
+        verify(vacancyRepository).findById(expectedVacancy.getId());
     }
+
     @Test
-    void createException() throws EntityAlreadyExistsException {
+    void createException() {
         //given
-        when(vacancyRepository.findById(anyLong())).thenReturn(Optional.of(VACANCY));
+        when(vacancyRepository.findById(anyLong())).thenReturn(Optional.of(expectedVacancy));
         //when
-       EntityAlreadyExistsException exception= assertThrows(EntityAlreadyExistsException.class, ()-> vacancyService.create(VACANCY));
+        EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class, () -> vacancyService.create(expectedVacancy));
         //then
-        verify(vacancyRepository).findById(VACANCY.getId());
+        verify(vacancyRepository).findById(expectedVacancy.getId());
         assertEquals("Vacancy already exists id= 1", exception.getMessage());
     }
 
     @Test
     void update() {
-        vacancyService.update(VACANCY.getId(), VACANCY);
-        verify(vacancyRepository).save(VACANCY);
+        vacancyService.update(expectedVacancy.getId(), expectedVacancy);
+        verify(vacancyRepository).save(expectedVacancy);
     }
 
     @Test
     void delete() {
-        vacancyService.delete(VACANCY.getId());
-        verify(vacancyRepository).deleteById(VACANCY.getId());
+        vacancyService.delete(ID);
+        verify(vacancyRepository).deleteById(expectedVacancy.getId());
     }
 
     @Test
     void findById() {
         //given
-        when(vacancyRepository.findById(anyLong())).thenReturn(Optional.of(VACANCY));
+        when(vacancyRepository.findById(anyLong())).thenReturn(Optional.of(expectedVacancy));
         //when
-        Optional<Vacancy> vacancy= vacancyService.findById(VACANCY.getId());
+        Optional<Vacancy> vacancy = vacancyService.findById(expectedVacancy.getId());
         //then
-        assertEquals(Optional.of(VACANCY), vacancy);
-        verify(vacancyRepository).findById(VACANCY.getId());
+        assertEquals(Optional.of(expectedVacancy), vacancy);
+        verify(vacancyRepository).findById(expectedVacancy.getId());
 
 
     }
@@ -112,62 +112,76 @@ class EsVacancyServiceTest {
     @Test
     void findAll() {
         //given
-        when(vacancyRepository.findAll()).thenReturn(VACANCIES);
+        when(vacancyRepository.findAll()).thenReturn(expectedVacancyList);
         //when
         List<Vacancy> vacancies = vacancyService.findAll();
         //then
         verify(vacancyRepository).findAll();
-        assertEquals(VACANCIES, vacancies);
+        assertEquals(expectedVacancyList, vacancies);
     }
 
     @Test
     void FindAllPageable() {
         //given
-        when(vacancyRepository.findAll(EXPECTED_PAGE)).thenReturn(new PageImpl<>(VACANCIES, EXPECTED_PAGE,1));
+        when(vacancyRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedVacancyList, expectedPage, 1));
         //when
-        List<Vacancy> vacancies = vacancyService.findAll(EXPECTED_PAGE);
+        List<Vacancy> vacancies = vacancyService.findAll(expectedPage);
         //then
-        assertEquals(VACANCIES, vacancies);
-        verify(vacancyRepository).findAll(EXPECTED_PAGE);
+        assertEquals(expectedVacancyList, vacancies);
+        verify(vacancyRepository).findAll(expectedPage);
 
     }
 
     @Test
     void findAllWithFilters() {
         //given
-        when(vacancySearchRepository.findAllWithFilters(any())).thenReturn(VACANCIES);
+        when(vacancySearchRepository.findAllWithFilters(any())).thenReturn(expectedVacancyList);
         //when
-        List<Vacancy> vacancies = vacancyService.findAllWithFilters(SEARCH_CRITERIA_DTO);
+        List<Vacancy> vacancies = vacancyService.findAllWithFilters(searchCriteriaDto);
         //then
-        assertEquals(VACANCIES, vacancies);
-        verify(vacancySearchRepository).findAllWithFilters(SEARCH_CRITERIA_DTO);
+        assertEquals(expectedVacancyList, vacancies);
+        verify(vacancySearchRepository).findAllWithFilters(searchCriteriaDto);
     }
+
     @Test
     void findAllWithNullFilters() {
         //given
-        when(vacancyRepository.findAll(EXPECTED_PAGE)).thenReturn(new PageImpl<>(VACANCIES, EXPECTED_PAGE,1));
-        when(pageableMapper.getPageable(SEARCH_CRITERIA_DTO_FILTERS_NULL)).thenCallRealMethod();
+        when(vacancyRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedVacancyList, expectedPage, 1));
+        when(pageableMapper.getPageable(searchCriteriaDtoFiltersNull)).thenCallRealMethod();
         //when
-        List<Vacancy> vacancies = vacancyService.findAllWithFilters(SEARCH_CRITERIA_DTO_FILTERS_NULL);
+        List<Vacancy> vacancies = vacancyService.findAllWithFilters(searchCriteriaDtoFiltersNull);
         //then
-        assertEquals(VACANCIES, vacancies);
+        assertEquals(expectedVacancyList, vacancies);
         verify(vacancyRepository).findAll(pageableCaptor.capture());
-        verify(pageableMapper).getPageable(SEARCH_CRITERIA_DTO_FILTERS_NULL);
-        Pageable value= pageableCaptor.getValue();
-        assertEquals(EXPECTED_PAGE, value);
+        verify(pageableMapper).getPageable(searchCriteriaDtoFiltersNull);
+        Pageable value = pageableCaptor.getValue();
+        assertEquals(expectedPage, value);
     }
+
     @Test
     void findAllWithEmptyFilters() {
         //given
-        when(vacancyRepository.findAll(EXPECTED_PAGE)).thenReturn(new PageImpl<>(VACANCIES, EXPECTED_PAGE,1));
-        when(pageableMapper.getPageable(SEARCH_CRITERIA_DTO_FILTERS_EMPTY)).thenCallRealMethod();
+        when(vacancyRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedVacancyList, expectedPage, 1));
+        when(pageableMapper.getPageable(searchCriteriaDtoFiltersEmpty)).thenCallRealMethod();
         //when
-        List<Vacancy> vacancies = vacancyService.findAllWithFilters(SEARCH_CRITERIA_DTO_FILTERS_EMPTY);
+        List<Vacancy> vacancies = vacancyService.findAllWithFilters(searchCriteriaDtoFiltersEmpty);
         //then
-        assertEquals(VACANCIES, vacancies);
-        verify(pageableMapper).getPageable(SEARCH_CRITERIA_DTO_FILTERS_EMPTY);
+        assertEquals(expectedVacancyList, vacancies);
+        verify(pageableMapper).getPageable(searchCriteriaDtoFiltersEmpty);
         verify(vacancyRepository).findAll(pageableCaptor.capture());
-        Pageable value= pageableCaptor.getValue();
-        assertEquals(EXPECTED_PAGE, value);
+        Pageable value = pageableCaptor.getValue();
+        assertEquals(expectedPage, value);
+    }
+
+    private Vacancy getVacancyBuild() {
+        return Vacancy.builder()
+                .id(ID)
+                .aboutProject(ABOUT_PROJECT)
+                .creator(CREATOR)
+                .description(DESCRIPTION)
+                .expected(EXPECTED)
+                .projectId(PROJECT_ID)
+                .jobPosition(JOB_POSITION)
+                .build();
     }
 }

@@ -35,28 +35,27 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class EsUserServiceTest {
-    private final Skill skill = new Skill("skillName", NOVICE);
-    private final User USER = User.builder()
-            .id(1L)
-            .firstName("Name")
-            .lastName("LastName")
-            .email("name@gmail.com")
-            .password("password")
-            .cv("cv")
-            .description("description")
-            .role("ROLE_USER")
-            .skills(List.of(skill))
-            .status("EMPLOYEE")
-            .type("full stack")
-            .build();
-    private final List<User> USERS = List.of(USER);
-    private final SearchSort SEARCH_SORT = new SearchSort("Name", true);
-    private final List<SearchSort> SEARCH_SORT_LIST = List.of(SEARCH_SORT);
-    private final SearchFilter SEARCH_FILTER = new SearchFilter("firstName", LIKE, List.of("Name"));
-    private final SearchCriteriaDto SEARCH_CRITERIA_DTO = new SearchCriteriaDto(List.of(SEARCH_FILTER), 0, 2, SEARCH_SORT_LIST);
-    private final SearchCriteriaDto SEARCH_CRITERIA_DTO_FILTERS_NULL = new SearchCriteriaDto(null, 0, 2, SEARCH_SORT_LIST);
-    private final SearchCriteriaDto SEARCH_CRITERIA_DTO_FILTERS_EMPTY = new SearchCriteriaDto(List.of(), 0, 2, SEARCH_SORT_LIST);
-    private PageRequest EXPECTED_PAGE = PageRequest.of(0, 2, Sort.by(Sort.Direction.ASC, "Name"));
+    private static final Skill SKILL = new Skill("skillName", NOVICE);
+    public static final long ID = 1L;
+    public static final String NAME = "Name";
+    public static final String LAST_NAME = "LastName";
+    public static final String NAME_GMAIL_COM = "name@gmail.com";
+    public static final String PASSWORD = "password";
+    public static final String CV = "cv";
+    public static final String DESCRIPTION = "description";
+    public static final String ROLE_USER = "ROLE_USER";
+    public static final String EMPLOYEE = "EMPLOYEE";
+    public static final String FULL_STACK = "full stack";
+    private final User expectedUser = getUserBuild();
+
+    private final List<User> expectedUserList = List.of(expectedUser);
+    private final SearchSort searchSort = new SearchSort("Name", true);
+    private final List<SearchSort> searchSortList = List.of(searchSort);
+    private final SearchFilter searchFilter = new SearchFilter("firstName", LIKE, List.of("Name"));
+    private final SearchCriteriaDto searchCriteriaDto = new SearchCriteriaDto(List.of(searchFilter), 0, 2, searchSortList);
+    private final SearchCriteriaDto searchCriteriaDtoFiltersNull = new SearchCriteriaDto(null, 0, 2, searchSortList);
+    private final SearchCriteriaDto searchCriteriaDtoFiltersEmpty = new SearchCriteriaDto(List.of(), 0, 2, searchSortList);
+    private final PageRequest expectedPage = PageRequest.of(0, 2, Sort.by(Sort.Direction.ASC, "Name"));
     @Mock
     private PageableMapper pageableMapper;
     @Mock
@@ -75,18 +74,18 @@ class EsUserServiceTest {
         //given
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
         //when
-        userService.createUser(USER);
+        userService.createUser(expectedUser);
         //then
-        verify(userRepository).save(USER);
+        verify(userRepository).save(expectedUser);
     }
 
     @Test
     void createUserThrowException() {
         //given
-        when(userRepository.findById(anyLong())).thenReturn(Optional.of(USER));
+        when(userRepository.findById(anyLong())).thenReturn(Optional.of(expectedUser));
         //when
         EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class, () ->
-            userService.createUser(USER));
+            userService.createUser(expectedUser));
 
         String message = exception.getMessage();
         //then
@@ -96,90 +95,105 @@ class EsUserServiceTest {
     @Test
     void update() {
         //when
-        userService.update(USER.getId(), USER);
+        userService.update(expectedUser.getId(), expectedUser);
         //then
-        verify(userRepository).save(USER);
+        verify(userRepository).save(expectedUser);
 
     }
 
     @Test
     void delete() {
-        userService.delete(USER.getId());
-        verify(userRepository).deleteById(USER.getId());
+        userService.delete(ID);
+        verify(userRepository).deleteById(expectedUser.getId());
     }
 
     @Test
     void findAll() {
         //given
-        when(userRepository.findAll()).thenReturn(USERS);
+        when(userRepository.findAll()).thenReturn(expectedUserList);
         //when
         List<User> users = userService.findAll();
         //then
-        assertEquals(USERS, users);
+        assertEquals(expectedUserList, users);
     }
 
     @Test
     void findAllPageable() {
         //given
-        when(userRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(USERS, EXPECTED_PAGE, 1));
+        when(userRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(expectedUserList, expectedPage, 1));
         //when
-        List<User> users = userService.findAll(EXPECTED_PAGE);
+        List<User> users = userService.findAll(expectedPage);
         //then
-        assertEquals(USERS, users);
+        assertEquals(expectedUserList, users);
     }
 
     @Test
     void findAllWithFiltersSuccess() {
         //given
-        when(userSearchRepository.findAllWithFilters(SEARCH_CRITERIA_DTO)).thenReturn(USERS);
+        when(userSearchRepository.findAllWithFilters(searchCriteriaDto)).thenReturn(expectedUserList);
         //when
-        List<User> users = userService.findAllWithFilters(SEARCH_CRITERIA_DTO);
+        List<User> users = userService.findAllWithFilters(searchCriteriaDto);
         //then
-        verify(userSearchRepository).findAllWithFilters(SEARCH_CRITERIA_DTO);
-        assertEquals(USERS, users);
+        verify(userSearchRepository).findAllWithFilters(searchCriteriaDto);
+        assertEquals(expectedUserList, users);
     }
 
     @Test
     void findAllWithFiltersWithNullFilters() {
         //given
 
-        when(userRepository.findAll(EXPECTED_PAGE)).thenReturn(new PageImpl<>(USERS, EXPECTED_PAGE, 1));
-        when(pageableMapper.getPageable(SEARCH_CRITERIA_DTO_FILTERS_NULL)).thenCallRealMethod();
+        when(userRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedUserList, expectedPage, 1));
+        when(pageableMapper.getPageable(searchCriteriaDtoFiltersNull)).thenCallRealMethod();
         //when
-        List<User> users = userService.findAllWithFilters(SEARCH_CRITERIA_DTO_FILTERS_NULL);
+        List<User> users = userService.findAllWithFilters(searchCriteriaDtoFiltersNull);
         //then
-        verify(pageableMapper).getPageable(SEARCH_CRITERIA_DTO_FILTERS_NULL);
+        verify(pageableMapper).getPageable(searchCriteriaDtoFiltersNull);
         verify(userRepository).findAll(pageCaptor.capture());
         Pageable value = pageCaptor.getValue();
-        assertEquals(EXPECTED_PAGE, value);
-        assertEquals(USERS, users);
+        assertEquals(expectedPage, value);
+        assertEquals(expectedUserList, users);
     }
 
     @Test
     void findAllWithFiltersWithEmptyFilters() {
         //given
 
-        when(userRepository.findAll(EXPECTED_PAGE)).thenReturn(new PageImpl<>(USERS, EXPECTED_PAGE, 1));
-        when(pageableMapper.getPageable(SEARCH_CRITERIA_DTO_FILTERS_EMPTY)).thenCallRealMethod();
+        when(userRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedUserList, expectedPage, 1));
+        when(pageableMapper.getPageable(searchCriteriaDtoFiltersEmpty)).thenCallRealMethod();
         //when
-        List<User> users = userService.findAllWithFilters(SEARCH_CRITERIA_DTO_FILTERS_EMPTY);
+        List<User> users = userService.findAllWithFilters(searchCriteriaDtoFiltersEmpty);
         //then
-        verify(pageableMapper).getPageable(SEARCH_CRITERIA_DTO_FILTERS_EMPTY);
+        verify(pageableMapper).getPageable(searchCriteriaDtoFiltersEmpty);
 
         verify(userRepository).findAll(pageCaptor.capture());
         Pageable value = pageCaptor.getValue();
-        assertEquals(EXPECTED_PAGE, value);
-        assertEquals(USERS, users);
+        assertEquals(expectedPage, value);
+        assertEquals(expectedUserList, users);
     }
 
     @Test
     void findById() {
         //given
-        when(userRepository.findById(USER.getId())).thenReturn(Optional.of(USER));
+        when(userRepository.findById(ID)).thenReturn(Optional.of(expectedUser));
         //when
-        Optional<User> user = userService.findById(USER.getId());
+        Optional<User> user = userService.findById(expectedUser.getId());
         //then
-        verify(userRepository).findById(USER.getId());
-        assertEquals(Optional.of(USER), user);
+        verify(userRepository).findById(expectedUser.getId());
+        assertEquals(Optional.of(expectedUser), user);
+    }
+    private static User getUserBuild() {
+        return User.builder()
+                .id(ID)
+                .firstName(NAME)
+                .lastName(LAST_NAME)
+                .email(NAME_GMAIL_COM)
+                .password(PASSWORD)
+                .cv(CV)
+                .description(DESCRIPTION)
+                .role(ROLE_USER)
+                .skills(List.of(SKILL))
+                .status(EMPLOYEE)
+                .type(FULL_STACK)
+                .build();
     }
 }

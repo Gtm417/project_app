@@ -1443,3 +1443,269 @@ java.lang.NullPointerException: Cannot invoke "com.hodik.elastic.dto.SearchCrite
 2023-07-20 10:49:05.628 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is updated in ES successful id =1
 2023-07-20 10:49:05.646 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is deleted from ES successful id =1
 2023-07-20 10:49:05.663 [main] INFO  com.hodik.elastic.services.EsProjectService - Project is saved to ES successful id =1
+2023-07-21 16:36:48.375 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-21 16:36:48.431 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 9288 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-21 16:36:48.438 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-21 16:36:49.091 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-21 16:36:49.108 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-21 16:36:49.352 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-21 16:36:49.429 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 77 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-21 16:36:49.437 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-21 16:36:49.450 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-21 16:36:50.062 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-07-21 16:36:50.074 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2023-07-21 16:36:50.075 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-21 16:36:50.075 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-21 16:36:50.190 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-07-21 16:36:50.193 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1694 ms
+2023-07-21 16:36:50.773 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 16:36:50.853 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 16:36:50.871 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 16:36:51.214 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2023-07-21 16:36:51.229 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-07-21 16:36:51.240 [main] INFO  com.hodik.elastic.ElasticApplication - Started ElasticApplication in 3.275 seconds (process running for 4.157)
+2023-07-21 16:38:34.326 [http-nio-8080-exec-2] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-21 16:38:34.327 [http-nio-8080-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-07-21 16:38:34.329 [http-nio-8080-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2023-07-21 16:38:34.362 [http-nio-8080-exec-2] WARN  org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
+2023-07-21 16:39:13.685 [http-nio-8080-exec-3] TRACE tracer - curl -iX POST 'http://localhost:9200/projects/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"0"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 469
+#
+# {"took":30,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"projects","_id":"0","_version":1,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.Project","id":0,"name":"Java test project","isPrivate":false,"finalPlannedDate":"2025-09-15","startDate":"2019-07-05","category":"Java+Kotlin","description":"Cool","isCommercial":"Commercial","status":"Ok"}}]}}
+2023-07-21 16:39:14.006 [http-nio-8080-exec-3] ERROR com.hodik.elastic.controllers.ProjectController - Project already exits id= 0
+2023-07-21 16:41:03.942 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-21 16:41:04.001 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 25380 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-21 16:41:04.007 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-21 16:41:04.651 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-21 16:41:04.663 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-21 16:41:04.825 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-21 16:41:04.897 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 71 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-21 16:41:04.907 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-21 16:41:04.913 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-21 16:41:05.445 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-07-21 16:41:05.454 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2023-07-21 16:41:05.456 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-21 16:41:05.456 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-21 16:41:05.544 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-07-21 16:41:05.546 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1477 ms
+2023-07-21 16:41:06.138 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 16:41:06.244 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 16:41:06.264 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 16:41:06.640 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2023-07-21 16:41:06.656 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-07-21 16:41:06.656 [main] INFO  com.hodik.elastic.ElasticApplication - Started ElasticApplication in 3.146 seconds (process running for 3.974)
+2023-07-21 16:41:07.602 [http-nio-8080-exec-4] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-21 16:41:07.602 [http-nio-8080-exec-4] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-07-21 16:41:07.603 [http-nio-8080-exec-4] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-07-21 16:41:07.796 [http-nio-8080-exec-4] TRACE tracer - curl -iX POST 'http://localhost:9200/projects/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"0"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 468
+#
+# {"took":1,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"projects","_id":"0","_version":1,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.Project","id":0,"name":"Java test project","isPrivate":false,"finalPlannedDate":"2025-09-15","startDate":"2019-07-05","category":"Java+Kotlin","description":"Cool","isCommercial":"Commercial","status":"Ok"}}]}}
+2023-07-21 16:41:07.945 [http-nio-8080-exec-4] ERROR com.hodik.elastic.controllers.ProjectController - Project already exits id= 0
+2023-07-21 17:11:10.392 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-21 17:11:10.447 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 20072 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-21 17:11:10.454 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-21 17:11:11.380 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-21 17:11:11.391 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-21 17:11:11.578 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-21 17:11:11.647 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 69 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-21 17:11:11.655 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-21 17:11:11.662 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-21 17:11:12.193 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-07-21 17:11:12.202 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2023-07-21 17:11:12.202 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-21 17:11:12.203 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-21 17:11:12.295 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-07-21 17:11:12.296 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1782 ms
+2023-07-21 17:11:12.972 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 17:11:13.074 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 17:11:13.094 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 17:11:13.474 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2023-07-21 17:11:13.479 [main] WARN  org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2023-07-21 17:11:13.486 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8080"]
+2023-07-21 17:11:13.486 [main] INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2023-07-21 17:11:13.494 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2023-07-21 17:11:13.495 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-8080"]
+2023-07-21 17:11:13.502 [main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2023-07-21 17:11:13.531 [main] ERROR org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2023-07-21 17:13:34.447 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-21 17:13:34.504 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 28352 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-21 17:13:34.511 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-21 17:13:35.131 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-21 17:13:35.142 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-21 17:13:35.146 [main] WARN  org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.support.BeanDefinitionOverrideException: Invalid bean definition with name 'modelMapper' defined in com.hodik.elastic.ElasticApplication: Cannot register bean definition [Root bean: class [null]; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=elasticApplication; factoryMethodName=modelMapper; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in com.hodik.elastic.ElasticApplication] for bean 'modelMapper' since there is already [Root bean: class [null]; scope=; abstract=false; lazyInit=null; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=elasticApplicationConfig; factoryMethodName=modelMapper; initMethodNames=null; destroyMethodNames=[(inferred)]; defined in class path resource [com/hodik/elastic/config/ElasticApplicationConfig.class]] bound.
+2023-07-21 17:13:35.156 [main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2023-07-21 17:13:35.180 [main] ERROR org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The bean 'modelMapper', defined in com.hodik.elastic.ElasticApplication, could not be registered. A bean with that name has already been defined in class path resource [com/hodik/elastic/config/ElasticApplicationConfig.class] and overriding is disabled.
+
+Action:
+
+Consider renaming one of the beans or enabling overriding by setting spring.main.allow-bean-definition-overriding=true
+
+2023-07-21 17:14:16.010 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-21 17:14:16.069 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 30136 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-21 17:14:16.076 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-21 17:14:16.726 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-21 17:14:16.742 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-21 17:14:16.940 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-21 17:14:17.015 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 73 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-21 17:14:17.023 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-21 17:14:17.030 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-21 17:14:17.552 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-07-21 17:14:17.561 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2023-07-21 17:14:17.562 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-21 17:14:17.562 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-21 17:14:17.666 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-07-21 17:14:17.668 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1535 ms
+2023-07-21 17:14:18.435 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 17:14:18.527 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 17:14:18.549 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 17:14:18.942 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2023-07-21 17:14:18.945 [main] WARN  org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2023-07-21 17:14:18.952 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8080"]
+2023-07-21 17:14:18.952 [main] INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2023-07-21 17:14:18.961 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2023-07-21 17:14:18.962 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-8080"]
+2023-07-21 17:14:18.972 [main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2023-07-21 17:14:18.990 [main] ERROR org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2023-07-21 17:15:00.894 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-21 17:15:00.950 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 14416 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-21 17:15:00.956 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-21 17:15:01.569 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-21 17:15:01.581 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-21 17:15:01.771 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-21 17:15:01.850 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 77 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-21 17:15:01.860 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-21 17:15:01.867 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-21 17:15:02.402 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2023-07-21 17:15:02.411 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2023-07-21 17:15:02.412 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-21 17:15:02.412 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-21 17:15:02.516 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-07-21 17:15:02.518 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1502 ms
+2023-07-21 17:15:03.110 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 17:15:03.189 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 17:15:03.207 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-21 17:15:03.579 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2023-07-21 17:15:03.594 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2023-07-21 17:15:03.605 [main] INFO  com.hodik.elastic.ElasticApplication - Started ElasticApplication in 3.146 seconds (process running for 3.993)

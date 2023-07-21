@@ -33,26 +33,25 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class EsProjectServiceTest {
-    private final Project PROJECT = Project.builder()
-            .id(1L)
-            .name("Name")
-            .category("Category")
-            .createdDate(LocalDate.of(2020, 7, 5))
-            .description("Description")
-            .finalPlannedDate(LocalDate.of(2025, 12, 31))
-            .isCommercial("Commercial")
-            .isPrivate(false)
-            .startDate(LocalDate.of(2020, 1, 8))
-            .status("Status")
-            .build();
-    private final SearchSort SEARCH_SORT = new SearchSort("Name", true);
-    private final List<SearchSort> SEARCH_SORT_LIST = List.of(SEARCH_SORT);
-    private final SearchFilter SEARCH_FILTER = new SearchFilter("Name", LIKE, List.of("Name"));
-    private final SearchCriteriaDto SEARCH_CRITERIA_DTO = new SearchCriteriaDto(List.of(SEARCH_FILTER), 0, 2, SEARCH_SORT_LIST);
-    private final SearchCriteriaDto SEARCH_CRITERIA_DTO_FILTERS_NULL = new SearchCriteriaDto(null, 0, 2, SEARCH_SORT_LIST);
-    private final SearchCriteriaDto SEARCH_CRITERIA_DTO_FILTERS_EMPTY = new SearchCriteriaDto(List.of(), 0, 2, SEARCH_SORT_LIST);
-    private final List<Project> PROJECTS = List.of(PROJECT);
-    private final PageRequest EXPECTED_PAGE = PageRequest.of(0, 2, Sort.by(Sort.Direction.ASC, "Name"));
+    public static final LocalDate START_DATE = LocalDate.of(2020, 1, 8);
+    public static final long ID = 1L;
+    public static final String NAME = "Name";
+    public static final String CATEGORY = "Category";
+    public static final LocalDate CREATED_DATE = LocalDate.of(2020, 7, 5);
+    public static final String DESCRIPTION = "Description";
+    public static final LocalDate FINAL_PLANNED_DATE = LocalDate.of(2025, 12, 31);
+    public static final String IS_COMMERCIAL = "Commercial";
+    public static final boolean IS_PRIVATE = false;
+    public static final String STATUS = "Status";
+    private final Project expectedProject = getExpectedProject();
+    private final SearchSort searchSort = new SearchSort("Name", true);
+    private final List<SearchSort> searchSortList = List.of(searchSort);
+    private final SearchFilter searchFilter = new SearchFilter("Name", LIKE, List.of("Name"));
+    private final SearchCriteriaDto searchCriteriaDto = new SearchCriteriaDto(List.of(searchFilter), 0, 2, searchSortList);
+    private final SearchCriteriaDto searchCriteriaDtoFiltersNull = new SearchCriteriaDto(null, 0, 2, searchSortList);
+    private final SearchCriteriaDto searchCriteriaDtoFiltersEmpty = new SearchCriteriaDto(List.of(), 0, 2, searchSortList);
+    private final List<Project> expectedProjectList = List.of(expectedProject);
+    private final PageRequest expectedPage = PageRequest.of(0, 2, Sort.by(Sort.Direction.ASC, "Name"));
     @Mock
     private PageableMapper pageableMapper;
     @Mock
@@ -70,108 +69,122 @@ class EsProjectServiceTest {
         //given
         when(projectRepository.findById(anyLong())).thenReturn(Optional.empty());
         //when
-        projectService.createProject(PROJECT);
+        projectService.createProject(expectedProject);
         //then
-        verify(projectRepository).save(PROJECT);
+        verify(projectRepository).save(expectedProject);
     }
 
     @Test
     void createProjectException() {
         //given
-        when(projectRepository.findById(anyLong())).thenReturn(Optional.of(PROJECT));
+        when(projectRepository.findById(anyLong())).thenReturn(Optional.of(expectedProject));
         //when
         EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class,
-                () -> projectService.createProject(PROJECT));
+                () -> projectService.createProject(expectedProject));
         //then
         assertEquals("Project already exits id= 1", exception.getMessage());
     }
 
     @Test
     void updateProject() {
-        projectService.updateProject(PROJECT.getId(), PROJECT);
-        verify(projectRepository).save(PROJECT);
+        projectService.updateProject(expectedProject.getId(), expectedProject);
+        verify(projectRepository).save(expectedProject);
     }
 
     @Test
     void deleteProject() {
-        projectService.deleteProject(PROJECT.getId());
-        verify(projectRepository).deleteById(PROJECT.getId());
+        projectService.deleteProject(expectedProject.getId());
+        verify(projectRepository).deleteById(expectedProject.getId());
     }
 
     @Test
     void findAll() {
         //given
-        when(projectRepository.findAll()).thenReturn(List.of(PROJECT));
+        when(projectRepository.findAll()).thenReturn(List.of(expectedProject));
         //when
         List<Project> projects = projectService.findAll();
         //then
-        assertEquals(PROJECTS, projects);
+        assertEquals(expectedProjectList, projects);
     }
 
     @Test
     void testFindAllPageable() {
         //given
-        when(projectRepository.findAll(EXPECTED_PAGE)).thenReturn(new PageImpl<>(PROJECTS, EXPECTED_PAGE, 1));
+        when(projectRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedProjectList, expectedPage, 1));
         //when
-        List<Project> projects = projectService.findAll(EXPECTED_PAGE);
+        List<Project> projects = projectService.findAll(expectedPage);
         //then
-        assertEquals(PROJECTS, projects);
+        assertEquals(expectedProjectList, projects);
     }
 
     @Test
     void findAllWithFilters() {
         //given
-        when(projectSearchRepository.findAllWithFilters(SEARCH_CRITERIA_DTO)).thenReturn(PROJECTS);
+        when(projectSearchRepository.findAllWithFilters(searchCriteriaDto)).thenReturn(expectedProjectList);
         //when
-        List<Project> projects = projectService.findAllWithFilters(SEARCH_CRITERIA_DTO);
+        List<Project> projects = projectService.findAllWithFilters(searchCriteriaDto);
         //then
-        verify(projectSearchRepository).findAllWithFilters(SEARCH_CRITERIA_DTO);
-        assertEquals(PROJECTS, projects);
+        verify(projectSearchRepository).findAllWithFilters(searchCriteriaDto);
+        assertEquals(expectedProjectList, projects);
     }
 
     @Test
     void findAllWithNullFilters() {
         //given
-        when(projectRepository.findAll(EXPECTED_PAGE)).thenReturn(new PageImpl<>(PROJECTS, EXPECTED_PAGE, 1));
-        when(pageableMapper.getPageable(SEARCH_CRITERIA_DTO_FILTERS_NULL)).thenCallRealMethod();
+        when(projectRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedProjectList, expectedPage, 1));
+        when(pageableMapper.getPageable(searchCriteriaDtoFiltersNull)).thenCallRealMethod();
         //when
-        List<Project> projects = projectService.findAllWithFilters(SEARCH_CRITERIA_DTO_FILTERS_NULL);
+        List<Project> projects = projectService.findAllWithFilters(searchCriteriaDtoFiltersNull);
 
         //then
         verify(projectRepository).findAll(pageCaptor.capture());
-        verify(pageableMapper).getPageable(SEARCH_CRITERIA_DTO_FILTERS_NULL);
+        verify(pageableMapper).getPageable(searchCriteriaDtoFiltersNull);
         Pageable pageable = pageCaptor.getValue();
-        assertEquals(PROJECTS, projects);
-        assertEquals(EXPECTED_PAGE, pageable);
+        assertEquals(expectedProjectList, projects);
+        assertEquals(expectedPage, pageable);
     }
 
     @Test
     void findAllWithEmptyFilters() {
         //given
-        when(projectRepository.findAll(EXPECTED_PAGE)).thenReturn(new PageImpl<>(PROJECTS, EXPECTED_PAGE, 1));
-        when(pageableMapper.getPageable(SEARCH_CRITERIA_DTO_FILTERS_EMPTY)).thenCallRealMethod();
+        when(projectRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedProjectList, expectedPage, 1));
+        when(pageableMapper.getPageable(searchCriteriaDtoFiltersEmpty)).thenCallRealMethod();
         //when
-        List<Project> projects = projectService.findAllWithFilters(SEARCH_CRITERIA_DTO_FILTERS_EMPTY);
+        List<Project> projects = projectService.findAllWithFilters(searchCriteriaDtoFiltersEmpty);
 
         //then
         verify(projectRepository).findAll(pageCaptor.capture());
-        verify(pageableMapper).getPageable(SEARCH_CRITERIA_DTO_FILTERS_EMPTY);
+        verify(pageableMapper).getPageable(searchCriteriaDtoFiltersEmpty);
         Pageable pageable = pageCaptor.getValue();
-        assertEquals(PROJECTS, projects);
-        assertEquals(EXPECTED_PAGE, pageable);
+        assertEquals(expectedProjectList, projects);
+        assertEquals(expectedPage, pageable);
     }
 
 
     @Test
     void findById() {
         //given
-        Optional<Project> EXPECTED_OPTIONAL_PROJECT = Optional.of(PROJECT);
-        when(projectRepository.findById(anyLong())).thenReturn(Optional.of(PROJECT));
+        Optional<Project> EXPECTED_OPTIONAL_PROJECT = Optional.of(expectedProject);
+        when(projectRepository.findById(anyLong())).thenReturn(Optional.of(expectedProject));
         //when
-        Optional<Project> project = projectService.findById(PROJECT.getId());
+        Optional<Project> project = projectService.findById(expectedProject.getId());
         //then
-        verify(projectRepository).findById(PROJECT.getId());
+        verify(projectRepository).findById(expectedProject.getId());
         assertEquals(EXPECTED_OPTIONAL_PROJECT,project);
 
+    }
+    private Project getExpectedProject() {
+        return Project.builder()
+                .id(ID)
+                .name(NAME)
+                .category(CATEGORY)
+                .createdDate(CREATED_DATE)
+                .description(DESCRIPTION)
+                .finalPlannedDate(FINAL_PLANNED_DATE)
+                .isCommercial(IS_COMMERCIAL)
+                .isPrivate(IS_PRIVATE)
+                .startDate(START_DATE)
+                .status(STATUS)
+                .build();
     }
 }
