@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.hodik.elastic.model.Expertise.NOVICE;
-import static com.hodik.elastic.util.Operations.LIKE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
