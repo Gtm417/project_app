@@ -23,15 +23,14 @@ import java.util.Optional;
 public class EsProjectService {
 
     private final ProjectRepository projectRepository;
-
-
     private final ProjectSearchRepository projectSearchRepository;
     private final PageableMapper pageableMapper;
 
 
     @Autowired
-    public EsProjectService(ProjectRepository projectRepository, ProjectSearchRepository projectSearchRepository, PageableMapper pageableMapper) {
+    public EsProjectService(ProjectRepository projectRepository,  ProjectSearchRepository projectSearchRepository, PageableMapper pageableMapper) {
         this.projectRepository = projectRepository;
+
         this.projectSearchRepository = projectSearchRepository;
 
         this.pageableMapper = pageableMapper;
@@ -57,6 +56,7 @@ public class EsProjectService {
         projectRepository.deleteById(id);
         log.info("Project is deleted from ES successful id =" + id);
     }
+
     public List<Project> findAll() {
         List<Project> projects = new ArrayList<>();
         projectRepository.findAll().forEach(projects::add);

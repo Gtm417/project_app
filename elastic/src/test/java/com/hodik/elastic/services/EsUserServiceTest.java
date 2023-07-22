@@ -1,7 +1,7 @@
 package com.hodik.elastic.services;
 
+import com.google.gson.Gson;
 import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.dto.SearchFilter;
 import com.hodik.elastic.dto.SearchSort;
 import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.mappers.PageableMapper;
@@ -20,18 +20,17 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.ResourceUtil;
 
 import java.util.List;
 import java.util.Optional;
 
 import static com.hodik.elastic.model.Expertise.NOVICE;
-import static com.hodik.elastic.util.Operations.LIKE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class EsUserServiceTest {
@@ -51,8 +50,11 @@ class EsUserServiceTest {
     private final List<User> expectedUserList = List.of(expectedUser);
     private final SearchSort searchSort = new SearchSort("Name", true);
     private final List<SearchSort> searchSortList = List.of(searchSort);
-    private final SearchFilter searchFilter = new SearchFilter("firstName", LIKE, List.of("Name"));
-    private final SearchCriteriaDto searchCriteriaDto = new SearchCriteriaDto(List.of(searchFilter), 0, 2, searchSortList);
+
+    private final Gson gson= new Gson();
+
+    private final SearchCriteriaDto searchCriteriaDtoSuccess = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.user.success.json"), SearchCriteriaDto.class);
+    private final SearchCriteriaDto searchCriteriaDtoWrong = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.user.wrong.column.json"), SearchCriteriaDto.class);
     private final SearchCriteriaDto searchCriteriaDtoFiltersNull = new SearchCriteriaDto(null, 0, 2, searchSortList);
     private final SearchCriteriaDto searchCriteriaDtoFiltersEmpty = new SearchCriteriaDto(List.of(), 0, 2, searchSortList);
     private final PageRequest expectedPage = PageRequest.of(0, 2, Sort.by(Sort.Direction.ASC, "Name"));
@@ -130,12 +132,21 @@ class EsUserServiceTest {
     @Test
     void findAllWithFiltersSuccess() {
         //given
-        when(userSearchRepository.findAllWithFilters(searchCriteriaDto)).thenReturn(expectedUserList);
+        when(userSearchRepository.findAllWithFilters(searchCriteriaDtoSuccess)).thenReturn(expectedUserList);
         //when
-        List<User> users = userService.findAllWithFilters(searchCriteriaDto);
+        List<User> users = userService.findAllWithFilters(searchCriteriaDtoSuccess);
         //then
-        verify(userSearchRepository).findAllWithFilters(searchCriteriaDto);
+        verify(userSearchRepository).findAllWithFilters(searchCriteriaDtoSuccess);
         assertEquals(expectedUserList, users);
+    }
+    @Test
+    void findAllWithFiltersException() {
+
+        //when
+      assertThrows(IllegalArgumentException.class, ()->userService.findAllWithFilters(searchCriteriaDtoWrong));
+        //then
+        verify(userSearchRepository, never()).findAllWithFilters(searchCriteriaDtoWrong);
+
     }
 
     @Test

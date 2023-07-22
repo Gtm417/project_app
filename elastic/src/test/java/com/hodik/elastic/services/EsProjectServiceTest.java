@@ -1,7 +1,7 @@
 package com.hodik.elastic.services;
 
+import com.google.gson.Gson;
 import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.dto.SearchFilter;
 import com.hodik.elastic.dto.SearchSort;
 import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.mappers.PageableMapper;
@@ -19,17 +19,16 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.ResourceUtil;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static com.hodik.elastic.util.Operations.LIKE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class EsProjectServiceTest {
@@ -43,11 +42,15 @@ class EsProjectServiceTest {
     public static final String IS_COMMERCIAL = "Commercial";
     public static final boolean IS_PRIVATE = false;
     public static final String STATUS = "Status";
+
+    private final String searchCriteria = ResourceUtil.readFileFromClasspath("search.criteria.project.success.json");
+    Gson gson = new Gson();
+    private final SearchCriteriaDto searchCriteriaDtoSuccess = gson.fromJson(searchCriteria, SearchCriteriaDto.class);
+    private final SearchCriteriaDto searchCriteriaDtoWrongColumnCase = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.project.wrong.column.json"), SearchCriteriaDto.class);
     private final Project expectedProject = getExpectedProject();
     private final SearchSort searchSort = new SearchSort("Name", true);
     private final List<SearchSort> searchSortList = List.of(searchSort);
-    private final SearchFilter searchFilter = new SearchFilter("Name", LIKE, List.of("Name"));
-    private final SearchCriteriaDto searchCriteriaDto = new SearchCriteriaDto(List.of(searchFilter), 0, 2, searchSortList);
+
     private final SearchCriteriaDto searchCriteriaDtoFiltersNull = new SearchCriteriaDto(null, 0, 2, searchSortList);
     private final SearchCriteriaDto searchCriteriaDtoFiltersEmpty = new SearchCriteriaDto(List.of(), 0, 2, searchSortList);
     private final List<Project> expectedProjectList = List.of(expectedProject);
@@ -56,6 +59,7 @@ class EsProjectServiceTest {
     private PageableMapper pageableMapper;
     @Mock
     private ProjectRepository projectRepository;
+
     @Mock
     private ProjectSearchRepository projectSearchRepository;
     @InjectMocks
@@ -120,12 +124,21 @@ class EsProjectServiceTest {
     @Test
     void findAllWithFilters() {
         //given
-        when(projectSearchRepository.findAllWithFilters(searchCriteriaDto)).thenReturn(expectedProjectList);
+        System.out.println(searchCriteriaDtoSuccess);
+        when(projectSearchRepository.findAllWithFilters(searchCriteriaDtoSuccess)).thenReturn(expectedProjectList);
         //when
-        List<Project> projects = projectService.findAllWithFilters(searchCriteriaDto);
+        List<Project> projects = projectService.findAllWithFilters(searchCriteriaDtoSuccess);
         //then
-        verify(projectSearchRepository).findAllWithFilters(searchCriteriaDto);
+        verify(projectSearchRepository).findAllWithFilters(searchCriteriaDtoSuccess);
         assertEquals(expectedProjectList, projects);
+    }
+    @Test
+    void findAllWithFiltersException() {
+
+        //when
+        assertThrows(IllegalArgumentException.class, ()-> projectService.findAllWithFilters(searchCriteriaDtoWrongColumnCase));
+        //then
+        verify(projectSearchRepository, never()).findAllWithFilters(searchCriteriaDtoWrongColumnCase);
     }
 
     @Test

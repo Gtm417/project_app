@@ -72,7 +72,7 @@ public class EsUserService {
             Pageable pageable = pageableMapper.getPageable(searchCriteriaDto);
             return findAll(pageable);
         }
-        searchCriteriaDto.getFilters().stream().forEach(x -> SearchColumnUser.getByNameIgnoringCase(x.getColumn()));
+        searchCriteriaDto.getFilters().forEach(x -> SearchColumnUser.getByNameIgnoringCase(x.getColumn()));
         return userSearchRepository.findAllWithFilters(searchCriteriaDto);
     }
 

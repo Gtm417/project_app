@@ -1,7 +1,7 @@
 package com.hodik.elastic.services;
 
+import com.google.gson.Gson;
 import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.dto.SearchFilter;
 import com.hodik.elastic.dto.SearchSort;
 import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.mappers.PageableMapper;
@@ -19,17 +19,16 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.ResourceUtil;
 
 import java.util.List;
 import java.util.Optional;
 
-import static com.hodik.elastic.util.Operations.LIKE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class EsVacancyServiceTest {
@@ -44,8 +43,10 @@ class EsVacancyServiceTest {
     private final List<Vacancy> expectedVacancyList = List.of(expectedVacancy);
     private final SearchSort searchSort = new SearchSort("Creator", true);
     private final List<SearchSort> searchSortList = List.of(searchSort);
-    private final SearchFilter searchFilter = new SearchFilter("Creator", LIKE, List.of("Creator"));
-    private final SearchCriteriaDto searchCriteriaDto = new SearchCriteriaDto(List.of(searchFilter), 0, 2, searchSortList);
+
+    private final Gson gson= new Gson();
+    private final SearchCriteriaDto searchCriteriaDtoSuccess = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.vacancy.success.json"), SearchCriteriaDto.class);
+    private final SearchCriteriaDto searchCriteriaDtoWrong = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.vacancy.wrong.json"), SearchCriteriaDto.class);
     private final SearchCriteriaDto searchCriteriaDtoFiltersNull = new SearchCriteriaDto(null, 0, 2, searchSortList);
     private final SearchCriteriaDto searchCriteriaDtoFiltersEmpty = new SearchCriteriaDto(List.of(), 0, 2, searchSortList);
 
@@ -137,10 +138,19 @@ class EsVacancyServiceTest {
         //given
         when(vacancySearchRepository.findAllWithFilters(any())).thenReturn(expectedVacancyList);
         //when
-        List<Vacancy> vacancies = vacancyService.findAllWithFilters(searchCriteriaDto);
+        List<Vacancy> vacancies = vacancyService.findAllWithFilters(searchCriteriaDtoSuccess);
         //then
         assertEquals(expectedVacancyList, vacancies);
-        verify(vacancySearchRepository).findAllWithFilters(searchCriteriaDto);
+        verify(vacancySearchRepository).findAllWithFilters(searchCriteriaDtoSuccess);
+    }
+    @Test
+    void findAllWithException() {
+
+        //when
+       assertThrows(IllegalArgumentException.class, ()->vacancyService.findAllWithFilters(searchCriteriaDtoWrong));
+        //then
+
+        verify(vacancySearchRepository, never()).findAllWithFilters(searchCriteriaDtoWrong);
     }
 
     @Test
