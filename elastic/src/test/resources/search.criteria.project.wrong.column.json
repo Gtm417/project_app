@@ -1,0 +1,44 @@
+{
+  "filters": [
+    {
+      "column": "wrongColumnName",
+      "operations": "LESS_THEN",
+      "values": [
+        "2028/06/20"
+      ]
+    },
+    {
+      "column": "description",
+      "operations": "LIKE",
+      "values": [
+        "o"
+      ]
+    },
+    {
+      "column": "category",
+      "operations": "LIKE",
+      "values": [
+        ""
+      ]
+    },
+    {
+      "column": "isPrivate",
+      "operations": "EQUAL",
+      "values": [
+        "true"
+      ]
+    }
+  ],
+  "page": 0,
+  "size": 10,
+  "sorts": [
+    {
+      "column": "name",
+      "ascending": "false"
+    },
+    {
+      "column": "category",
+      "ascending":"true"
+    }
+  ]
+}
