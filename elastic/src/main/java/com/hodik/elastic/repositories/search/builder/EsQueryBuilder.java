@@ -29,7 +29,6 @@ public class EsQueryBuilder {
             String column = filter.getColumn();
             Operations operation = filter.getOperations();
             List<?> values = filter.getValues();
-            //todo smth with list
             Object value = values.get(0);
 
             switch (operation) {
