@@ -3,17 +3,12 @@ package org.example.projectapp.auth.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.example.projectapp.auth.AuthService;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.security.Key;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Date;
@@ -32,6 +27,7 @@ public class JwtTokenProvider {
     }
 
     public String createToken(String username, String role, boolean isRefreshToken) {
+        Key key = Keys.hmacShaKeyFor(jwtConfig.getSecretKey().getBytes());
         Claims claims = Jwts.claims().setSubject(username);
         LocalDateTime now = LocalDateTime.now();
         Date validity;
@@ -48,7 +44,24 @@ public class JwtTokenProvider {
                 .setClaims(claims)
                 .setIssuedAt(java.sql.Timestamp.valueOf(now))
                 .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecretKey())
+                .signWith(key)
+                .compact();
+    }
+
+    public String createServiceToken() {
+        Key key = Keys.hmacShaKeyFor(jwtConfig.getSecretKey().getBytes());
+        Claims claims = Jwts.claims().setSubject("main_app");
+        claims.put("role", "APP");
+        LocalDateTime currTime = LocalDateTime.now();
+        LocalDateTime resultDate = currTime.plusMinutes(jwtConfig.getServiceTokenValidityInMins());
+        Date validity = java.sql.Timestamp.valueOf(resultDate);
+
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(java.sql.Timestamp.valueOf(currTime))
+                .setExpiration(validity)
+                .signWith(key)
                 .compact();
     }
 
@@ -58,7 +71,8 @@ public class JwtTokenProvider {
     }
 
     private Jws<Claims> parseClaimsJws(String token) {
-        return Jwts.parser().setSigningKey(jwtConfig.getSecretKey()).parseClaimsJws(token);
+        Key key = Keys.hmacShaKeyFor(jwtConfig.getSecretKey().getBytes());
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
     }
 
     public String getUserEmail(String token) {

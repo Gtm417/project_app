@@ -1,5 +1,6 @@
 package org.example.projectapp.controller.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class SkillDto {
     @NotBlank(message = "Should not be empty")
+    @JsonProperty("skillName")
     private String name;
     @NotNull(message = "Should not be empty")
     private SkillExpertiseEnum expertise;

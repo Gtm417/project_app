@@ -67,7 +67,7 @@ public class JwtTokenFilter extends GenericFilterBean {
 
     private void throwJwtAuthExceptionWithMessage(String s, ServletResponse servletResponse) throws IOException {
         SecurityContextHolder.clearContext();
-        ((HttpServletResponse) servletResponse).sendError(HttpServletResponse.SC_BAD_REQUEST);
+        ((HttpServletResponse) servletResponse).sendError(HttpServletResponse.SC_UNAUTHORIZED);
         throw new JwtAuthenticationException(s);
     }
 }
