@@ -1,9 +1,8 @@
 package com.hodik.elastic.controllers;
 
+import com.google.gson.Gson;
 import com.hodik.elastic.dto.ProjectDto;
 import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.dto.SearchFilter;
-import com.hodik.elastic.dto.SearchSort;
 import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
 import com.hodik.elastic.mappers.ProjectMapper;
@@ -15,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.elasticsearch.core.ResourceUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -22,7 +22,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static com.hodik.elastic.util.Operations.LIKE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -47,10 +46,8 @@ class ProjectControllerTest {
 
     private final ProjectDto expectedProjectDto = getProjectDto();
     private final List<ProjectDto> expectedProjectDtoList = List.of(expectedProjectDto);
-    private final SearchSort searchSort = new SearchSort("Name", true);
-    private final List<SearchSort> searchSortList = List.of(searchSort);
-    private final SearchFilter searchFilter = new SearchFilter("Name", LIKE, List.of("Name"));
-    private final SearchCriteriaDto searchCriteriaDto = new SearchCriteriaDto(List.of(searchFilter), 0, 2, searchSortList);
+    private final Gson gson = new Gson();
+    private final SearchCriteriaDto searchCriteriaDto = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.project.success.json"), SearchCriteriaDto.class);
 
     @Mock
     private EsProjectService projectService;
@@ -90,9 +87,9 @@ class ProjectControllerTest {
         //given
         when(projectMapper.convertToProject(expectedProjectDto)).thenReturn(expectedProject);
         //when
-        ResponseEntity<HttpStatus> response = projectController.updateProject(expectedProject.getId(),expectedProjectDto);
+        ResponseEntity<HttpStatus> response = projectController.updateProject(expectedProject.getId(), expectedProjectDto);
         //then
-        verify(projectService).updateProject(expectedProject.getId(),expectedProject);
+        verify(projectService).updateProject(expectedProject.getId(), expectedProject);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
@@ -111,7 +108,7 @@ class ProjectControllerTest {
         when(projectService.findAll()).thenReturn(expectedProjectList);
         when(projectMapper.convertToProjectDto(expectedProject)).thenReturn(expectedProjectDto);
         //when
-        List<ProjectDto> projectDtoList= projectController.getProjects();
+        List<ProjectDto> projectDtoList = projectController.getProjects();
         //then
         verify(projectService).findAll();
         verify(projectMapper, atLeast(1)).convertToProjectDto(expectedProject);
@@ -124,18 +121,19 @@ class ProjectControllerTest {
         when(projectService.findById(expectedProject.getId())).thenReturn(Optional.of(expectedProject));
         when(projectMapper.convertToProjectDto(expectedProject)).thenReturn(expectedProjectDto);
         //when
-        ProjectDto projectDto= projectController.getProject(expectedProject.getId());
+        ProjectDto projectDto = projectController.getProject(expectedProject.getId());
         //then
         verify(projectService).findById(expectedProject.getId());
         verify(projectMapper, atLeast(1)).convertToProjectDto(expectedProject);
         assertEquals(expectedProjectDto, projectDto);
     }
+
     @Test
     void getProjectException() {
         //given
         when(projectService.findById(expectedProject.getId())).thenThrow(EntityNotFoundException.class);
         //when
-        EntityNotFoundException exception= assertThrows(EntityNotFoundException.class,()-> projectController.getProject(expectedProject.getId()));
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> projectController.getProject(expectedProject.getId()));
         //then
         verify(projectService).findById(expectedProject.getId());
         assertEquals(EntityNotFoundException.class, exception.getClass());
@@ -147,7 +145,7 @@ class ProjectControllerTest {
         when(projectService.findAllWithFilters(any(SearchCriteriaDto.class))).thenReturn(expectedProjectList);
         when(projectMapper.convertToProjectDto(expectedProject)).thenReturn(expectedProjectDto);
         //when
-        List<ProjectDto> projectDtoList= projectController.findByFilters(searchCriteriaDto);
+        List<ProjectDto> projectDtoList = projectController.findByFilters(searchCriteriaDto);
         //then
         verify(projectService).findAllWithFilters(searchCriteriaDto);
         verify(projectMapper, atLeast(1)).convertToProjectDto(expectedProject);
