@@ -1,8 +1,7 @@
 package com.hodik.elastic.controllers;
 
+import com.google.gson.Gson;
 import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.dto.SearchFilter;
-import com.hodik.elastic.dto.SearchSort;
 import com.hodik.elastic.dto.UserDto;
 import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
@@ -16,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.elasticsearch.core.ResourceUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.hodik.elastic.model.Expertise.NOVICE;
-import static com.hodik.elastic.util.Operations.LIKE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -46,11 +45,8 @@ class UserControllerTest {
     private final UserDto expectedUserDto = getUserDtoBuild();
     private final List<UserDto> expectedUserDtoList = List.of(expectedUserDto);
 
-    private final SearchSort searchSort = new SearchSort("Name", true);
-    private final List<SearchSort> searchSortList = List.of(searchSort);
-    private final SearchFilter searchFilter = new SearchFilter("firstName", LIKE, List.of("Name"));
-    private final SearchCriteriaDto searchCriteriaDto = new SearchCriteriaDto(List.of(searchFilter), 0, 2, searchSortList);
-
+    private final Gson gson = new Gson();
+    private final SearchCriteriaDto searchCriteriaDto = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.user.success.json"), SearchCriteriaDto.class);
     @Mock
     private EsUserService userService;
 

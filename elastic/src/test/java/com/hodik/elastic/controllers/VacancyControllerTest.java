@@ -1,8 +1,7 @@
 package com.hodik.elastic.controllers;
 
+import com.google.gson.Gson;
 import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.dto.SearchFilter;
-import com.hodik.elastic.dto.SearchSort;
 import com.hodik.elastic.dto.VacancyDto;
 import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
@@ -15,13 +14,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.elasticsearch.core.ResourceUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Optional;
 
-import static com.hodik.elastic.util.Operations.LIKE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
@@ -41,10 +40,9 @@ class VacancyControllerTest {
     private final List<Vacancy> expectedVacancyList = List.of(expectedVacancy);
     private final VacancyDto expectedVacancyDto = getVacancyDtoBuild();
     private final List<VacancyDto> expectedVacancyDtoList = List.of(expectedVacancyDto);
-    private final SearchSort searchSort = new SearchSort("Creator", true);
-    private final List<SearchSort> searchSortList = List.of(searchSort);
-    private final SearchFilter searchFilter = new SearchFilter("Creator", LIKE, List.of("Creator"));
-    private final SearchCriteriaDto searchCriteriaDto = new SearchCriteriaDto(List.of(searchFilter), 0, 2, searchSortList);
+    private final Gson gson = new Gson();
+
+    private final SearchCriteriaDto searchCriteriaDto = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.vacancy.success.json"), SearchCriteriaDto.class);
 
 
     @Mock
@@ -73,7 +71,7 @@ class VacancyControllerTest {
         when(vacancyMapper.convertToVacancy(expectedVacancyDto)).thenReturn(expectedVacancy);
         Mockito.doThrow(EntityAlreadyExistsException.class).when(vacancyService).create(expectedVacancy);
         //when
-      assertThrows(EntityAlreadyExistsException.class,
+        assertThrows(EntityAlreadyExistsException.class,
                 () -> vacancyController.createVacancy(expectedVacancyDto));
         //then
         verify(vacancyService).create(expectedVacancy);
@@ -88,7 +86,7 @@ class VacancyControllerTest {
         //when
         ResponseEntity<HttpStatus> response = vacancyController.updateVacancy(expectedVacancyDto.getId(), expectedVacancyDto);
         //then
-        verify(vacancyService).update(expectedVacancy.getId(),expectedVacancy);
+        verify(vacancyService).update(expectedVacancy.getId(), expectedVacancy);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
@@ -113,12 +111,13 @@ class VacancyControllerTest {
         verify(vacancyMapper).convertToVacancyDto(expectedVacancy);
         assertEquals(expectedVacancyDto, vacancyDto);
     }
+
     @Test
     void getVacancyException() {
         //given
         when(vacancyService.findById(ID)).thenThrow(EntityNotFoundException.class);
         //when
-        assertThrows(EntityNotFoundException.class, ()-> vacancyController.getVacancy(ID));
+        assertThrows(EntityNotFoundException.class, () -> vacancyController.getVacancy(ID));
         //then
         verify(vacancyService).findById(ID);
     }
