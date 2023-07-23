@@ -45,6 +45,8 @@ class EsUserServiceTest {
     public static final String ROLE_USER = "ROLE_USER";
     public static final String EMPLOYEE = "EMPLOYEE";
     public static final String FULL_STACK = "full stack";
+    public static final int PAGE = 0;
+    public static final int SIZE = 2;
     private final User expectedUser = getUserBuild();
 
     private final List<User> expectedUserList = List.of(expectedUser);
@@ -55,9 +57,9 @@ class EsUserServiceTest {
 
     private final SearchCriteriaDto searchCriteriaDtoSuccess = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.user.success.json"), SearchCriteriaDto.class);
     private final SearchCriteriaDto searchCriteriaDtoWrong = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.user.wrong.column.json"), SearchCriteriaDto.class);
-    private final SearchCriteriaDto searchCriteriaDtoFiltersNull = new SearchCriteriaDto(null, 0, 2, searchSortList);
-    private final SearchCriteriaDto searchCriteriaDtoFiltersEmpty = new SearchCriteriaDto(List.of(), 0, 2, searchSortList);
-    private final PageRequest expectedPage = PageRequest.of(0, 2, Sort.by(Sort.Direction.ASC, "Name"));
+    private final SearchCriteriaDto searchCriteriaDtoFiltersNull = new SearchCriteriaDto(null, PAGE, SIZE, searchSortList);
+    private final SearchCriteriaDto searchCriteriaDtoFiltersEmpty = new SearchCriteriaDto(List.of(), PAGE, SIZE, searchSortList);
+    private final PageRequest expectedPage = PageRequest.of(PAGE, SIZE, Sort.by(Sort.Direction.ASC, NAME));
     @Mock
     private PageableMapper pageableMapper;
     @Mock

@@ -39,6 +39,9 @@ class EsVacancyServiceTest {
     public static final String EXPECTED = "Expected";
     public static final long PROJECT_ID = 1L;
     public static final String JOB_POSITION = "job position";
+    public static final int PAGE = 0;
+    public static final int SIZE = 2;
+
     private final Vacancy expectedVacancy = getVacancyBuild();
     private final List<Vacancy> expectedVacancyList = List.of(expectedVacancy);
     private final SearchSort searchSort = new SearchSort("Creator", true);
@@ -47,10 +50,10 @@ class EsVacancyServiceTest {
     private final Gson gson= new Gson();
     private final SearchCriteriaDto searchCriteriaDtoSuccess = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.vacancy.success.json"), SearchCriteriaDto.class);
     private final SearchCriteriaDto searchCriteriaDtoWrong = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.vacancy.wrong.json"), SearchCriteriaDto.class);
-    private final SearchCriteriaDto searchCriteriaDtoFiltersNull = new SearchCriteriaDto(null, 0, 2, searchSortList);
-    private final SearchCriteriaDto searchCriteriaDtoFiltersEmpty = new SearchCriteriaDto(List.of(), 0, 2, searchSortList);
+    private final SearchCriteriaDto searchCriteriaDtoFiltersNull = new SearchCriteriaDto(null, PAGE, SIZE, searchSortList);
+    private final SearchCriteriaDto searchCriteriaDtoFiltersEmpty = new SearchCriteriaDto(List.of(), PAGE, SIZE, searchSortList);
 
-    private final PageRequest expectedPage = PageRequest.of(0, 2, Sort.by(Sort.Direction.ASC, "Creator"));
+    private final PageRequest expectedPage = PageRequest.of(PAGE, SIZE, Sort.by(Sort.Direction.ASC, CREATOR));
 
     @Mock
     private VacancyRepository vacancyRepository;

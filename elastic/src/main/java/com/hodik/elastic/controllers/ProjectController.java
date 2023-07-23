@@ -5,7 +5,6 @@ import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
 import com.hodik.elastic.exceptions.ProjectErrorResponse;
-import com.hodik.elastic.mappers.PageableMapper;
 import com.hodik.elastic.mappers.ProjectMapper;
 import com.hodik.elastic.services.EsProjectService;
 import lombok.extern.log4j.Log4j2;
@@ -23,13 +22,13 @@ import java.util.stream.Collectors;
 public class ProjectController {
     private final EsProjectService projectService;
     private final ProjectMapper projectMapper;
-    private final PageableMapper pageableMapper;
+
 
     @Autowired
-    public ProjectController(EsProjectService projectService, ProjectMapper projectMapper, PageableMapper pageableMapper) {
+    public ProjectController(EsProjectService projectService, ProjectMapper projectMapper) {
         this.projectService = projectService;
         this.projectMapper = projectMapper;
-        this.pageableMapper = pageableMapper;
+
     }
 
     @PostMapping()

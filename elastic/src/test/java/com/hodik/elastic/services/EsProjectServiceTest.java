@@ -42,19 +42,21 @@ class EsProjectServiceTest {
     public static final String IS_COMMERCIAL = "Commercial";
     public static final boolean IS_PRIVATE = false;
     public static final String STATUS = "Status";
+    public static final int PAGE = 0;
+    public static final int SIZE = 2;
 
     private final String searchCriteria = ResourceUtil.readFileFromClasspath("search.criteria.project.success.json");
     Gson gson = new Gson();
     private final SearchCriteriaDto searchCriteriaDtoSuccess = gson.fromJson(searchCriteria, SearchCriteriaDto.class);
     private final SearchCriteriaDto searchCriteriaDtoWrongColumnCase = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.project.wrong.column.json"), SearchCriteriaDto.class);
     private final Project expectedProject = getExpectedProject();
-    private final SearchSort searchSort = new SearchSort("Name", true);
+    private final SearchSort searchSort = new SearchSort(NAME, true);
     private final List<SearchSort> searchSortList = List.of(searchSort);
 
-    private final SearchCriteriaDto searchCriteriaDtoFiltersNull = new SearchCriteriaDto(null, 0, 2, searchSortList);
-    private final SearchCriteriaDto searchCriteriaDtoFiltersEmpty = new SearchCriteriaDto(List.of(), 0, 2, searchSortList);
+    private final SearchCriteriaDto searchCriteriaDtoFiltersNull = new SearchCriteriaDto(null, PAGE, SIZE, searchSortList);
+    private final SearchCriteriaDto searchCriteriaDtoFiltersEmpty = new SearchCriteriaDto(List.of(), PAGE, SIZE, searchSortList);
     private final List<Project> expectedProjectList = List.of(expectedProject);
-    private final PageRequest expectedPage = PageRequest.of(0, 2, Sort.by(Sort.Direction.ASC, "Name"));
+    private final PageRequest expectedPage = PageRequest.of(PAGE, SIZE, Sort.by(Sort.Direction.ASC, NAME));
     @Mock
     private PageableMapper pageableMapper;
     @Mock

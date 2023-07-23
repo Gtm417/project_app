@@ -20,10 +20,13 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class EsQueryBuilderTest {
-    private final SearchSort searchSort = new SearchSort("Name", true);
+    public static final String NAME = "Name";
+    public static final int PAGE = 0;
+    public static final int SIZE = 2;
+    private final SearchSort searchSort = new SearchSort(NAME, true);
     private final List<SearchSort> searchSortList = List.of(searchSort);
-    private final SearchFilter searchFilter = new SearchFilter("Name", LIKE, List.of("Name"));
-    private final SearchCriteriaDto searchCriteriaDto = new SearchCriteriaDto(List.of(searchFilter), 0, 2, searchSortList);
+    private final SearchFilter searchFilter = new SearchFilter(NAME, LIKE, List.of(NAME));
+    private final SearchCriteriaDto searchCriteriaDto = new SearchCriteriaDto(List.of(searchFilter), PAGE, SIZE, searchSortList);
     @Mock
     private PageableMapper pageableMapper;
     @InjectMocks

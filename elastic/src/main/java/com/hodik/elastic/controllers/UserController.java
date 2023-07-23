@@ -5,7 +5,6 @@ import com.hodik.elastic.dto.UserDto;
 import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
 import com.hodik.elastic.exceptions.UserErrorResponse;
-import com.hodik.elastic.mappers.PageableMapper;
 import com.hodik.elastic.mappers.UserMapper;
 import com.hodik.elastic.model.User;
 import com.hodik.elastic.services.EsUserService;
@@ -24,7 +23,7 @@ import java.util.stream.Collectors;
 public class UserController {
     private final EsUserService userService;
     private final UserMapper userMapper;
-    private final PageableMapper pageableMapper;
+
 
 
     // POST users/ -- create
@@ -35,10 +34,10 @@ public class UserController {
     // POST users/search -- search by criteria
 
     @Autowired
-    public UserController(EsUserService userService, UserMapper userMapper, PageableMapper pageableMapper) {
+    public UserController(EsUserService userService, UserMapper userMapper) {
         this.userService = userService;
         this.userMapper = userMapper;
-        this.pageableMapper = pageableMapper;
+
     }
 
 

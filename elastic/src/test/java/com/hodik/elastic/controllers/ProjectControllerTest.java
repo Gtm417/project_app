@@ -60,7 +60,7 @@ class ProjectControllerTest {
     private ProjectController projectController;
 
     @Test
-    void createProject() throws EntityAlreadyExistsException {
+    void shouldCreateProject() throws EntityAlreadyExistsException {
         //given
         when(projectMapper.convertToProject(expectedProjectDto)).thenReturn(expectedProject);
         //when
@@ -71,7 +71,7 @@ class ProjectControllerTest {
     }
 
     @Test
-    void createProjectException() throws EntityAlreadyExistsException {
+    void shouldThrowExceptionWhenProjectAlreadyExists() throws EntityAlreadyExistsException {
         //given
         when(projectMapper.convertToProject(expectedProjectDto)).thenReturn(expectedProject);
         Mockito.doThrow(EntityAlreadyExistsException.class).when(projectService).createProject(expectedProject);
@@ -83,7 +83,7 @@ class ProjectControllerTest {
     }
 
     @Test
-    void updateProject() {
+    void shouldUpdateProject() {
         //given
         when(projectMapper.convertToProject(expectedProjectDto)).thenReturn(expectedProject);
         //when
@@ -94,7 +94,7 @@ class ProjectControllerTest {
     }
 
     @Test
-    void deleteProject() {
+    void shouldDeleteProject() {
         //when
         ResponseEntity<HttpStatus> response = projectController.deleteProject(expectedProject.getId());
         //then
@@ -103,7 +103,7 @@ class ProjectControllerTest {
     }
 
     @Test
-    void getProjects() {
+    void shouldReturnProjectDtoList() {
         //given
         when(projectService.findAll()).thenReturn(expectedProjectList);
         when(projectMapper.convertToProjectDto(expectedProject)).thenReturn(expectedProjectDto);
@@ -116,7 +116,7 @@ class ProjectControllerTest {
     }
 
     @Test
-    void getProjectSuccess() {
+    void shouldReturnProjectDto() {
         //given
         when(projectService.findById(expectedProject.getId())).thenReturn(Optional.of(expectedProject));
         when(projectMapper.convertToProjectDto(expectedProject)).thenReturn(expectedProjectDto);
@@ -129,7 +129,7 @@ class ProjectControllerTest {
     }
 
     @Test
-    void getProjectException() {
+    void shouldThrowExceptionWhenProjectNotFound() {
         //given
         when(projectService.findById(expectedProject.getId())).thenThrow(EntityNotFoundException.class);
         //when
@@ -140,7 +140,7 @@ class ProjectControllerTest {
     }
 
     @Test
-    void findByFilters() {
+    void shouldReturnProjectDtoListByFilters() {
         //given
         when(projectService.findAllWithFilters(any(SearchCriteriaDto.class))).thenReturn(expectedProjectList);
         when(projectMapper.convertToProjectDto(expectedProject)).thenReturn(expectedProjectDto);
