@@ -53,7 +53,7 @@ class VacancyControllerTest {
     private VacancyController vacancyController;
 
     @Test
-    void createVacancySuccess() throws EntityAlreadyExistsException {
+    void shouldCreateVacancy() throws EntityAlreadyExistsException {
         //given
         when(vacancyMapper.convertToVacancy(expectedVacancyDto)).thenReturn(expectedVacancy);
 
@@ -66,7 +66,7 @@ class VacancyControllerTest {
     }
 
     @Test
-    void createVacancyException() throws EntityAlreadyExistsException {
+    void shouldThrowExceptionWhenVacancyAlreadyExists() throws EntityAlreadyExistsException {
         //given
         when(vacancyMapper.convertToVacancy(expectedVacancyDto)).thenReturn(expectedVacancy);
         Mockito.doThrow(EntityAlreadyExistsException.class).when(vacancyService).create(expectedVacancy);
@@ -80,7 +80,7 @@ class VacancyControllerTest {
     }
 
     @Test
-    void updateVacancy() {
+    void shouldUpdateVacancy() {
         //given
         when(vacancyMapper.convertToVacancy(expectedVacancyDto)).thenReturn(expectedVacancy);
         //when
@@ -91,7 +91,7 @@ class VacancyControllerTest {
     }
 
     @Test
-    void deleteVacancy() {
+    void ShouldDeleteVacancy() {
         //when
         ResponseEntity<HttpStatus> response = vacancyController.deleteVacancy(expectedVacancyDto.getId());
         //then
@@ -100,7 +100,7 @@ class VacancyControllerTest {
     }
 
     @Test
-    void getVacancySuccess() {
+    void shouldReturnVacancyDto() {
         //given
         when(vacancyService.findById(ID)).thenReturn(Optional.of(expectedVacancy));
         when(vacancyMapper.convertToVacancyDto(expectedVacancy)).thenReturn(expectedVacancyDto);
@@ -113,7 +113,7 @@ class VacancyControllerTest {
     }
 
     @Test
-    void getVacancyException() {
+    void shouldThrowExceptionWhenVacancyNotFound() {
         //given
         when(vacancyService.findById(ID)).thenThrow(EntityNotFoundException.class);
         //when
@@ -123,7 +123,7 @@ class VacancyControllerTest {
     }
 
     @Test
-    void getVacancies() {
+    void shouldReturnVacancyDtoList() {
         //given
         when(vacancyMapper.convertToVacancyDto(expectedVacancy)).thenReturn(expectedVacancyDto);
         when(vacancyService.findAll()).thenReturn(expectedVacancyList);
@@ -138,7 +138,7 @@ class VacancyControllerTest {
     }
 
     @Test
-    void searchByCriteria() {
+    void shouldReturnVacancyDtoListByFilters() {
         //given
         when(vacancyMapper.convertToVacancyDto(expectedVacancy)).thenReturn(expectedVacancyDto);
         when(vacancyService.findAllWithFilters(searchCriteriaDto)).thenReturn(expectedVacancyList);

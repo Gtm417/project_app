@@ -57,7 +57,7 @@ class UserControllerTest {
     private UserController userController;
 
     @Test
-    void createUserSuccess() throws EntityAlreadyExistsException {
+    void shouldCreateUser() throws EntityAlreadyExistsException {
         //given
         when(userMapper.convertToUser(expectedUserDto)).thenReturn(expectedUser);
         //when
@@ -68,7 +68,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUserException() throws EntityAlreadyExistsException {
+    void shouldThrowExceptionWhenUserAlreadyExists() throws EntityAlreadyExistsException {
         //given
         when(userMapper.convertToUser(expectedUserDto)).thenReturn(expectedUser);
         Mockito.doThrow(EntityAlreadyExistsException.class).when(userService).createUser(expectedUser);
@@ -81,7 +81,7 @@ class UserControllerTest {
     }
 
     @Test
-    void updateUser() {
+    void shouldUpdateUser() {
         //given
         when(userMapper.convertToUser(expectedUserDto)).thenReturn(expectedUser);
         //when
@@ -93,7 +93,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getUsers() {
+    void shouldReturnUserDtoList() {
         //given
         when(userMapper.convertToUserDto(expectedUser)).thenReturn(expectedUserDto);
         when(userService.findAll()).thenReturn(expectedUserList);
@@ -106,7 +106,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getUserSuccess() {
+    void shouldReturnUserDto() {
         //given
         when(userMapper.convertToUserDto(expectedUser)).thenReturn(expectedUserDto);
         when(userService.findById(expectedUserDto.getId())).thenReturn(Optional.of(expectedUser));
@@ -119,7 +119,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getUserException() {
+    void shouldThrowExceptionWhenUserNotFound() {
         //given
 
         when(userService.findById(expectedUserDto.getId())).thenThrow(EntityNotFoundException.class);
@@ -132,7 +132,7 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteUser() {
+    void shouldDeleteUser() {
         //when
         ResponseEntity<HttpStatus> response = userController.deleteUser(expectedUserDto.getId());
         //then
@@ -141,7 +141,7 @@ class UserControllerTest {
     }
 
     @Test
-    void searchByCriteria() {
+    void shouldReturnUserDtoListByFilters() {
         //given
         when(userMapper.convertToUserDto(expectedUser)).thenReturn(expectedUserDto);
         when(userService.findAllWithFilters(searchCriteriaDto)).thenReturn(expectedUserList);
