@@ -35,8 +35,6 @@ public class ProjectSearchRepositoryImpl implements ProjectSearchRepository {
         SearchHits<Project> searchResponse = elasticsearchOperations.search(criteriaQuery,
                 Project.class);
 
-        System.out.println("Criteria query~~~~~~~~~"+criteriaQuery);
-
         return searchResponse.stream()
                 .map(SearchHit::getContent)
                 .collect(Collectors.toList());
