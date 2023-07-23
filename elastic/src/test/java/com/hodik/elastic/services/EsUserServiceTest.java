@@ -74,7 +74,7 @@ class EsUserServiceTest {
 
 
     @Test
-    void createUserSuccess() throws EntityAlreadyExistsException {
+    void shouldCreateUser() throws EntityAlreadyExistsException {
         //given
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
         //when
@@ -84,7 +84,7 @@ class EsUserServiceTest {
     }
 
     @Test
-    void createUserThrowException() {
+    void shouldTrowExceptionWhenUserAlreadyExists() {
         //given
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(expectedUser));
         //when
@@ -97,7 +97,7 @@ class EsUserServiceTest {
     }
 
     @Test
-    void update() {
+    void shouldUpdateUser() {
         //when
         userService.update(expectedUser.getId(), expectedUser);
         //then
@@ -106,13 +106,13 @@ class EsUserServiceTest {
     }
 
     @Test
-    void delete() {
+    void shouldDeleteUser() {
         userService.delete(ID);
         verify(userRepository).deleteById(expectedUser.getId());
     }
 
     @Test
-    void findAll() {
+    void shouldReturnAllUsers () {
         //given
         when(userRepository.findAll()).thenReturn(expectedUserList);
         //when
@@ -122,7 +122,7 @@ class EsUserServiceTest {
     }
 
     @Test
-    void findAllPageable() {
+    void shouldReturnAllUsersByPageable() {
         //given
         when(userRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(expectedUserList, expectedPage, 1));
         //when
@@ -132,7 +132,7 @@ class EsUserServiceTest {
     }
 
     @Test
-    void findAllWithFiltersSuccess() {
+    void shouldReturnUsersByFilters() {
         //given
         when(userSearchRepository.findAllWithFilters(searchCriteriaDtoSuccess)).thenReturn(expectedUserList);
         //when
@@ -142,7 +142,7 @@ class EsUserServiceTest {
         assertEquals(expectedUserList, users);
     }
     @Test
-    void findAllWithFiltersException() {
+    void shouldTrowExceptionWhenWrongColumn() {
 
         //when
       assertThrows(IllegalArgumentException.class, ()->userService.findAllWithFilters(searchCriteriaDtoWrong));
@@ -152,7 +152,7 @@ class EsUserServiceTest {
     }
 
     @Test
-    void findAllWithFiltersWithNullFilters() {
+    void shouldReturnUsersWithNullFilters() {
         //given
 
         when(userRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedUserList, expectedPage, 1));
@@ -168,7 +168,7 @@ class EsUserServiceTest {
     }
 
     @Test
-    void findAllWithFiltersWithEmptyFilters() {
+    void shouldReturnUsersWithEmptyFilters() {
         //given
 
         when(userRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedUserList, expectedPage, 1));
@@ -185,7 +185,7 @@ class EsUserServiceTest {
     }
 
     @Test
-    void findById() {
+    void shouldReturnUserById() {
         //given
         when(userRepository.findById(ID)).thenReturn(Optional.of(expectedUser));
         //when

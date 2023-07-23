@@ -67,7 +67,7 @@ class EsVacancyServiceTest {
     private ArgumentCaptor<Pageable> pageableCaptor;
 
     @Test
-    void createSuccess() throws EntityAlreadyExistsException {
+    void shouldCreateVacancy() throws EntityAlreadyExistsException {
         //given
         when(vacancyRepository.findById(anyLong())).thenReturn(Optional.empty());
         //when
@@ -78,7 +78,7 @@ class EsVacancyServiceTest {
     }
 
     @Test
-    void createException() {
+    void shouldTrowExceptionWhenVacancyAlreadyExists() {
         //given
         when(vacancyRepository.findById(anyLong())).thenReturn(Optional.of(expectedVacancy));
         //when
@@ -89,19 +89,19 @@ class EsVacancyServiceTest {
     }
 
     @Test
-    void update() {
+    void shouldUpdateVacancy() {
         vacancyService.update(expectedVacancy.getId(), expectedVacancy);
         verify(vacancyRepository).save(expectedVacancy);
     }
 
     @Test
-    void delete() {
+    void shouldDeleteVacancy() {
         vacancyService.delete(ID);
         verify(vacancyRepository).deleteById(expectedVacancy.getId());
     }
 
     @Test
-    void findById() {
+    void shouldReturnVacancyById() {
         //given
         when(vacancyRepository.findById(anyLong())).thenReturn(Optional.of(expectedVacancy));
         //when
@@ -114,7 +114,7 @@ class EsVacancyServiceTest {
     }
 
     @Test
-    void findAll() {
+    void shouldReturnAllVacancies() {
         //given
         when(vacancyRepository.findAll()).thenReturn(expectedVacancyList);
         //when
@@ -125,7 +125,7 @@ class EsVacancyServiceTest {
     }
 
     @Test
-    void FindAllPageable() {
+    void shouldReturnAllVacanciesByPageable() {
         //given
         when(vacancyRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedVacancyList, expectedPage, 1));
         //when
@@ -137,7 +137,7 @@ class EsVacancyServiceTest {
     }
 
     @Test
-    void findAllWithFilters() {
+    void shouldReturnVacanciesWithFilters() {
         //given
         when(vacancySearchRepository.findAllWithFilters(any())).thenReturn(expectedVacancyList);
         //when
@@ -147,7 +147,7 @@ class EsVacancyServiceTest {
         verify(vacancySearchRepository).findAllWithFilters(searchCriteriaDtoSuccess);
     }
     @Test
-    void findAllWithException() {
+    void shouldTrowExceptionWhenWrongColumn() {
 
         //when
        assertThrows(IllegalArgumentException.class, ()->vacancyService.findAllWithFilters(searchCriteriaDtoWrong));
@@ -157,7 +157,7 @@ class EsVacancyServiceTest {
     }
 
     @Test
-    void findAllWithNullFilters() {
+    void shouldReturnVacanciesWithNullFilters() {
         //given
         when(vacancyRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedVacancyList, expectedPage, 1));
         when(pageableMapper.getPageable(searchCriteriaDtoFiltersNull)).thenCallRealMethod();
@@ -172,7 +172,7 @@ class EsVacancyServiceTest {
     }
 
     @Test
-    void findAllWithEmptyFilters() {
+    void shouldReturnVacanciesWithEmptyFilters() {
         //given
         when(vacancyRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedVacancyList, expectedPage, 1));
         when(pageableMapper.getPageable(searchCriteriaDtoFiltersEmpty)).thenCallRealMethod();

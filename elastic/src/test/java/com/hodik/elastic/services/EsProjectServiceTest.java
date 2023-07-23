@@ -71,7 +71,7 @@ class EsProjectServiceTest {
 
 
     @Test
-    void createProjectSuccess() throws EntityAlreadyExistsException {
+    void shouldCreateProject() throws EntityAlreadyExistsException {
         //given
         when(projectRepository.findById(anyLong())).thenReturn(Optional.empty());
         //when
@@ -81,7 +81,7 @@ class EsProjectServiceTest {
     }
 
     @Test
-    void createProjectException() {
+    void shouldTrowExceptionWhenProjectAlreadyExists() {
         //given
         when(projectRepository.findById(anyLong())).thenReturn(Optional.of(expectedProject));
         //when
@@ -92,19 +92,19 @@ class EsProjectServiceTest {
     }
 
     @Test
-    void updateProject() {
+    void shouldUpdateProject() {
         projectService.updateProject(expectedProject.getId(), expectedProject);
         verify(projectRepository).save(expectedProject);
     }
 
     @Test
-    void deleteProject() {
+    void shouldDeleteProject() {
         projectService.deleteProject(expectedProject.getId());
         verify(projectRepository).deleteById(expectedProject.getId());
     }
 
     @Test
-    void findAll() {
+    void shouldReturnAllProjects() {
         //given
         when(projectRepository.findAll()).thenReturn(List.of(expectedProject));
         //when
@@ -114,7 +114,7 @@ class EsProjectServiceTest {
     }
 
     @Test
-    void testFindAllPageable() {
+    void shouldReturnAllProjectsByPageable() {
         //given
         when(projectRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedProjectList, expectedPage, 1));
         //when
@@ -124,7 +124,7 @@ class EsProjectServiceTest {
     }
 
     @Test
-    void findAllWithFilters() {
+    void shouldReturnProjectsByFilters() {
         //given
         System.out.println(searchCriteriaDtoSuccess);
         when(projectSearchRepository.findAllWithFilters(searchCriteriaDtoSuccess)).thenReturn(expectedProjectList);
@@ -135,7 +135,7 @@ class EsProjectServiceTest {
         assertEquals(expectedProjectList, projects);
     }
     @Test
-    void findAllWithFiltersException() {
+    void shouldTrowExceptionWhenWrongColumn() {
 
         //when
         assertThrows(IllegalArgumentException.class, ()-> projectService.findAllWithFilters(searchCriteriaDtoWrongColumnCase));
@@ -144,7 +144,7 @@ class EsProjectServiceTest {
     }
 
     @Test
-    void findAllWithNullFilters() {
+    void shouldReturnProjectsWithNullFilters() {
         //given
         when(projectRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedProjectList, expectedPage, 1));
         when(pageableMapper.getPageable(searchCriteriaDtoFiltersNull)).thenCallRealMethod();
@@ -160,7 +160,7 @@ class EsProjectServiceTest {
     }
 
     @Test
-    void findAllWithEmptyFilters() {
+    void shouldReturnProjectsWithEmptyFilters() {
         //given
         when(projectRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedProjectList, expectedPage, 1));
         when(pageableMapper.getPageable(searchCriteriaDtoFiltersEmpty)).thenCallRealMethod();
@@ -177,7 +177,7 @@ class EsProjectServiceTest {
 
 
     @Test
-    void findById() {
+    void shouldReturnProjectById() {
         //given
         Optional<Project> EXPECTED_OPTIONAL_PROJECT = Optional.of(expectedProject);
         when(projectRepository.findById(anyLong())).thenReturn(Optional.of(expectedProject));
