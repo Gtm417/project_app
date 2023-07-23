@@ -6,7 +6,9 @@ import com.hodik.elastic.dto.UserDto;
 import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
 import com.hodik.elastic.mappers.UserMapper;
+import com.hodik.elastic.model.Role;
 import com.hodik.elastic.model.Skill;
+import com.hodik.elastic.model.Status;
 import com.hodik.elastic.model.User;
 import com.hodik.elastic.services.EsUserService;
 import org.junit.jupiter.api.Test;
@@ -37,8 +39,8 @@ class UserControllerTest {
     public static final String PASSWORD = "password";
     public static final String CV = "cv";
     public static final String DESCRIPTION = "description";
-    public static final String ROLE_USER = "ROLE_USER";
-    public static final String EMPLOYEE = "EMPLOYEE";
+    public static final Role ROLE_USER = Role.ROLE_USER;
+    public static final Status STATUS = Status.NEW;
     public static final String FULL_STACK = "full stack";
     private final User expectedUser = getUserBuild();
     private final List<User> expectedUserList = List.of(expectedUser);
@@ -164,7 +166,7 @@ class UserControllerTest {
                 .description(DESCRIPTION)
                 .role(ROLE_USER)
                 .skills(List.of(SKILL))
-                .status(EMPLOYEE)
+                .status(STATUS)
                 .type(FULL_STACK)
                 .build();
     }
@@ -180,7 +182,7 @@ class UserControllerTest {
                 .description(DESCRIPTION)
                 .role(ROLE_USER)
                 .skills(List.of(SKILL))
-                .status(EMPLOYEE)
+                .status(STATUS)
                 .type(FULL_STACK)
                 .build();
     }

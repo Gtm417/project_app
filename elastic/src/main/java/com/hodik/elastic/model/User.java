@@ -43,11 +43,13 @@ public class User {
     @Pattern(regexp = "[A-Z А-Я]\\\\w+", message = "Example : Misha")
     private String lastName;
     @Field(type = FieldType.Keyword)
-    private String role;
+
+    private Role role;
     @Field(type = FieldType.Text)
     private String description;
     @Field(type = FieldType.Keyword)
-    private String status;
+
+    private Status status;
     @Field(type = FieldType.Keyword)
     private String type;
     @Field(type = FieldType.Text)

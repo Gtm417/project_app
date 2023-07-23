@@ -5,7 +5,9 @@ import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.SearchSort;
 import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.mappers.PageableMapper;
+import com.hodik.elastic.model.Role;
 import com.hodik.elastic.model.Skill;
+import com.hodik.elastic.model.Status;
 import com.hodik.elastic.model.User;
 import com.hodik.elastic.repositories.UserRepository;
 import com.hodik.elastic.repositories.UserSearchRepository;
@@ -42,8 +44,8 @@ class EsUserServiceTest {
     public static final String PASSWORD = "password";
     public static final String CV = "cv";
     public static final String DESCRIPTION = "description";
-    public static final String ROLE_USER = "ROLE_USER";
-    public static final String EMPLOYEE = "EMPLOYEE";
+    public static final Role ROLE_USER = Role.ROLE_USER;
+    public static final Status STATUS = Status.NEW;
     public static final String FULL_STACK = "full stack";
     public static final int PAGE = 0;
     public static final int SIZE = 2;
@@ -205,7 +207,7 @@ class EsUserServiceTest {
                 .description(DESCRIPTION)
                 .role(ROLE_USER)
                 .skills(List.of(SKILL))
-                .status(EMPLOYEE)
+                .status(STATUS)
                 .type(FULL_STACK)
                 .build();
     }

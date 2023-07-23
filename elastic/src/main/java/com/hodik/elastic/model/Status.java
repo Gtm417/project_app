@@ -1,6 +1,6 @@
 package com.hodik.elastic.model;
 
 public enum Status {
-   EMPLOYEE, EMPLOYER
+   NEW, OPEN_TO_WORK, ON_PROJECT, STUDYING, SEEKING_MENTEE, HIRING
 
 }
