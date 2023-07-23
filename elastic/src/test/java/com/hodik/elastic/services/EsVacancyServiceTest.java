@@ -78,7 +78,7 @@ class EsVacancyServiceTest {
     }
 
     @Test
-    void shouldTrowExceptionWhenVacancyAlreadyExists() {
+    void shouldTrowExceptionWhenFindByIsPresent() {
         //given
         when(vacancyRepository.findById(anyLong())).thenReturn(Optional.of(expectedVacancy));
         //when

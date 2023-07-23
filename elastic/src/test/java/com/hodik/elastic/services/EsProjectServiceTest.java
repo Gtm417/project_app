@@ -81,7 +81,7 @@ class EsProjectServiceTest {
     }
 
     @Test
-    void shouldTrowExceptionWhenProjectAlreadyExists() {
+    void shouldTrowExceptionWhenFindByIsPresent() {
         //given
         when(projectRepository.findById(anyLong())).thenReturn(Optional.of(expectedProject));
         //when

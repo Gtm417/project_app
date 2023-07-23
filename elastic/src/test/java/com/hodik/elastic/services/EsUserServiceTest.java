@@ -84,7 +84,7 @@ class EsUserServiceTest {
     }
 
     @Test
-    void shouldTrowExceptionWhenUserAlreadyExists() {
+    void shouldTrowExceptionWhenFindByIsPresent() {
         //given
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(expectedUser));
         //when
