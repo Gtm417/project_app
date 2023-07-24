@@ -34,6 +34,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
+
 @ExtendWith(MockitoExtension.class)
 class EsUserServiceTest {
     private static final Skill SKILL = new Skill("skillName", NOVICE);
@@ -52,10 +53,10 @@ class EsUserServiceTest {
     private final User expectedUser = getUserBuild();
 
     private final List<User> expectedUserList = List.of(expectedUser);
-    private final SearchSort searchSort = new SearchSort("Name", true);
+    private final SearchSort searchSort = new SearchSort(NAME, true);
     private final List<SearchSort> searchSortList = List.of(searchSort);
 
-    private final Gson gson= new Gson();
+    private final Gson gson = new Gson();
 
     private final SearchCriteriaDto searchCriteriaDtoSuccess = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.user.success.json"), SearchCriteriaDto.class);
     private final SearchCriteriaDto searchCriteriaDtoWrong = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.user.wrong.column.json"), SearchCriteriaDto.class);
@@ -91,7 +92,7 @@ class EsUserServiceTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(expectedUser));
         //when
         EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class, () ->
-            userService.createUser(expectedUser));
+                userService.createUser(expectedUser));
 
         String message = exception.getMessage();
         //then
@@ -104,7 +105,6 @@ class EsUserServiceTest {
         userService.update(expectedUser.getId(), expectedUser);
         //then
         verify(userRepository).save(expectedUser);
-
     }
 
     @Test
@@ -114,7 +114,7 @@ class EsUserServiceTest {
     }
 
     @Test
-    void shouldReturnAllUsers () {
+    void shouldReturnAllUsers() {
         //given
         when(userRepository.findAll()).thenReturn(expectedUserList);
         //when
@@ -143,11 +143,12 @@ class EsUserServiceTest {
         verify(userSearchRepository).findAllWithFilters(searchCriteriaDtoSuccess);
         assertEquals(expectedUserList, users);
     }
+
     @Test
     void shouldTrowExceptionWhenWrongColumn() {
 
         //when
-      assertThrows(IllegalArgumentException.class, ()->userService.findAllWithFilters(searchCriteriaDtoWrong));
+        assertThrows(IllegalArgumentException.class, () -> userService.findAllWithFilters(searchCriteriaDtoWrong));
         //then
         verify(userSearchRepository, never()).findAllWithFilters(searchCriteriaDtoWrong);
 
@@ -196,6 +197,7 @@ class EsUserServiceTest {
         verify(userRepository).findById(expectedUser.getId());
         assertEquals(Optional.of(expectedUser), user);
     }
+
     private static User getUserBuild() {
         return User.builder()
                 .id(ID)
