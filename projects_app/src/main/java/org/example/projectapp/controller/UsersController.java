@@ -1,7 +1,7 @@
 package org.example.projectapp.controller;
 
 import org.example.projectapp.controller.dto.SearchDto;
-import org.example.projectapp.restclient.ElasticServiceClient;
+import org.example.projectapp.restclient.ElasticUsersServiceClient;
 import org.example.projectapp.service.UserService;
 import org.example.projectapp.service.dto.UserDto;
 import org.springframework.data.domain.Page;
@@ -15,11 +15,11 @@ import java.util.List;
 @RequestMapping("users")
 public class UsersController {
     private final UserService userService;
-    private final ElasticServiceClient elasticClient;
+    private final ElasticUsersServiceClient elasticClient;
 
-    public UsersController(UserService userService, ElasticServiceClient elasticServiceClient) {
+    public UsersController(UserService userService, ElasticUsersServiceClient elasticUsersServiceClient) {
         this.userService = userService;
-        this.elasticClient = elasticServiceClient;
+        this.elasticClient = elasticUsersServiceClient;
     }
 
     @PostMapping("/search")

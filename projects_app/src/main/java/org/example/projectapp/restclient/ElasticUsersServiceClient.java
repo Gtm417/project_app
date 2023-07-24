@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @FeignClient(name = "${service.elastic.feign.name}", url = "${service.elastic.feign.url}")
-public interface ElasticServiceClient {
+public interface ElasticUsersServiceClient {
     @GetMapping("/users")
     List<UserDto> getUsers();
 }
