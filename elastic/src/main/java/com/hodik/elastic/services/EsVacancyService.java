@@ -2,7 +2,7 @@ package com.hodik.elastic.services;
 
 import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.SearchFilter;
-import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
+import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.mappers.PageableMapper;
 import com.hodik.elastic.model.Vacancy;
 import com.hodik.elastic.repositories.VacancyRepository;
@@ -32,10 +32,10 @@ public class EsVacancyService {
         this.pageableMapper = pageableMapper;
     }
 
-    public void create(Vacancy vacancy) throws EntityAlreadyExitsException {
+    public void create(Vacancy vacancy) throws EntityAlreadyExistsException {
         long id = vacancy.getId();
         if (vacancyRepository.findById(id).isPresent()) {
-            throw new EntityAlreadyExitsException("Vacancy already exists id= " + id);
+            throw new EntityAlreadyExistsException("Vacancy already exists id= " + id);
         }
         vacancyRepository.save(vacancy);
         log.info("Vacancy is saved to ES successful id = " + id);

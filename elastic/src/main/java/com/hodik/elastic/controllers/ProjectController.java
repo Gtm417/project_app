@@ -2,10 +2,9 @@ package com.hodik.elastic.controllers;
 
 import com.hodik.elastic.dto.ProjectDto;
 import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
+import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
 import com.hodik.elastic.exceptions.ProjectErrorResponse;
-import com.hodik.elastic.mappers.PageableMapper;
 import com.hodik.elastic.mappers.ProjectMapper;
 import com.hodik.elastic.services.EsProjectService;
 import lombok.extern.log4j.Log4j2;
@@ -23,17 +22,17 @@ import java.util.stream.Collectors;
 public class ProjectController {
     private final EsProjectService projectService;
     private final ProjectMapper projectMapper;
-    private final PageableMapper pageableMapper;
+
 
     @Autowired
-    public ProjectController(EsProjectService projectService, ProjectMapper projectMapper, PageableMapper pageableMapper) {
+    public ProjectController(EsProjectService projectService, ProjectMapper projectMapper) {
         this.projectService = projectService;
         this.projectMapper = projectMapper;
-        this.pageableMapper = pageableMapper;
+
     }
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> createProject(@RequestBody ProjectDto projectDto) throws EntityAlreadyExitsException {
+    public ResponseEntity<HttpStatus> createProject(@RequestBody ProjectDto projectDto) throws EntityAlreadyExistsException {
         projectService.createProject(projectMapper.convertToProject(projectDto));
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -70,7 +69,7 @@ public class ProjectController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<ProjectErrorResponse> exceptionHandler(EntityAlreadyExitsException e) {
+    private ResponseEntity<ProjectErrorResponse> exceptionHandler(EntityAlreadyExistsException e) {
         ProjectErrorResponse response = new ProjectErrorResponse(e.getMessage());
         log.error(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

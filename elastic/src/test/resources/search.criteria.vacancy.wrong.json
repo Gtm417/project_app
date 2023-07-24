@@ -1,0 +1,31 @@
+{
+  "filters": [
+
+    {
+      "column": "wrong column name",
+      "operations": "LIKE",
+      "values": ["в"]
+    },
+    {
+
+      "column": "jobPosition",
+      "operations": "LIKE",
+      "values": ["J"]
+
+    }
+
+  ],
+  "page": 0,
+  "size": 10,
+  "sorts": [
+    {
+      "column": "projectId",
+      "ascending": "false"
+    },
+    {
+      "column": "creator",
+      "ascending": "false"
+    }
+
+  ]
+}

@@ -2,7 +2,7 @@ package com.hodik.elastic.services;
 
 import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.SearchFilter;
-import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
+import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.mappers.PageableMapper;
 import com.hodik.elastic.model.User;
 import com.hodik.elastic.repositories.UserRepository;
@@ -32,10 +32,10 @@ public class EsUserService {
         this.pageableMapper = pageableMapper;
     }
 
-    public void createUser(User user) throws EntityAlreadyExitsException {
+    public void createUser(User user) throws EntityAlreadyExistsException {
         long id = user.getId();
         if (userRepository.findById(id).isPresent()) {
-            throw new EntityAlreadyExitsException("User already exists id= " + id);
+            throw new EntityAlreadyExistsException("User already exists id= " + id);
         }
         userRepository.save(user);
         log.info("User is saved to ES successful id = " + id);
@@ -72,7 +72,7 @@ public class EsUserService {
             Pageable pageable = pageableMapper.getPageable(searchCriteriaDto);
             return findAll(pageable);
         }
-        searchCriteriaDto.getFilters().stream().forEach(x -> SearchColumnUser.getByNameIgnoringCase(x.getColumn()));
+        searchCriteriaDto.getFilters().forEach(x -> SearchColumnUser.getByNameIgnoringCase(x.getColumn()));
         return userSearchRepository.findAllWithFilters(searchCriteriaDto);
     }
 

@@ -1,6 +1,8 @@
 package com.hodik.elastic.dto;
 
+import com.hodik.elastic.model.Role;
 import com.hodik.elastic.model.Skill;
+import com.hodik.elastic.model.Status;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -37,11 +39,11 @@ public class UserDto {
     @Pattern(regexp = "[A-Z А-Я]\\\\w+", message = "Example : Misha")
     private String lastName;
 
-    private String role;
+    private Role role;
 
     private String description;
 
-    private String status;
+    private Status status;
 
     private String type;
 

@@ -1,0 +1,31 @@
+{
+  "filters": [
+
+    {
+      "column": "firstName",
+      "operations": "LIKE",
+      "values": ["Igo"]
+    },
+    {
+
+      "column": "skills.skillName",
+      "operations": "LIKE",
+      "values": ["G"]
+
+    }
+
+  ],
+  "page": 0,
+  "size": 10,
+  "sorts": [
+    {
+      "column": "firstName",
+      "ascending": "false"
+    },
+    {
+      "column": "lastName",
+      "ascending": "false"
+    }
+
+  ]
+}

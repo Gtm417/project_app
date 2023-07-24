@@ -1,9 +1,9 @@
 package com.hodik.elastic.services;
 
+import com.google.gson.Gson;
 import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.dto.SearchFilter;
 import com.hodik.elastic.dto.SearchSort;
-import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
+import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.mappers.PageableMapper;
 import com.hodik.elastic.model.Vacancy;
 import com.hodik.elastic.repositories.VacancyRepository;
@@ -19,38 +19,41 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.ResourceUtil;
 
 import java.util.List;
 import java.util.Optional;
 
-import static com.hodik.elastic.util.Operations.LIKE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class EsVacancyServiceTest {
-    private final Vacancy VACANCY = Vacancy.builder()
-            .id(1L)
-            .aboutProject("about project")
-            .creator("Creator")
-            .description("Description")
-            .expected("Expected")
-            .projectId(1L)
-            .jobPosition("job position")
-            .build();
-    private final List<Vacancy> VACANCIES = List.of(VACANCY);
-    private final SearchSort SEARCH_SORT = new SearchSort("Creator", true);
-    private final List<SearchSort> SEARCH_SORT_LIST = List.of(SEARCH_SORT);
-    private final SearchFilter SEARCH_FILTER = new SearchFilter("Creator", LIKE, List.of("Creator"));
-    private final SearchCriteriaDto SEARCH_CRITERIA_DTO = new SearchCriteriaDto(List.of(SEARCH_FILTER), 0, 2, SEARCH_SORT_LIST);
-    private final SearchCriteriaDto SEARCH_CRITERIA_DTO_FILTERS_NULL = new SearchCriteriaDto(null, 0, 2, SEARCH_SORT_LIST);
-    private final SearchCriteriaDto SEARCH_CRITERIA_DTO_FILTERS_EMPTY = new SearchCriteriaDto(List.of(), 0, 2, SEARCH_SORT_LIST);
+    public static final long ID = 1L;
+    public static final String ABOUT_PROJECT = "about project";
+    public static final String CREATOR = "Creator";
+    public static final String DESCRIPTION = "Description";
+    public static final String EXPECTED = "Expected";
+    public static final long PROJECT_ID = 1L;
+    public static final String JOB_POSITION = "job position";
+    public static final int PAGE = 0;
+    public static final int SIZE = 2;
 
-    private final PageRequest EXPECTED_PAGE = PageRequest.of(0, 2, Sort.by(Sort.Direction.ASC, "Creator"));
+    private final Vacancy expectedVacancy = getVacancyBuild();
+    private final List<Vacancy> expectedVacancyList = List.of(expectedVacancy);
+    private final SearchSort searchSort = new SearchSort("Creator", true);
+    private final List<SearchSort> searchSortList = List.of(searchSort);
+
+    private final Gson gson= new Gson();
+    private final SearchCriteriaDto searchCriteriaDtoSuccess = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.vacancy.success.json"), SearchCriteriaDto.class);
+    private final SearchCriteriaDto searchCriteriaDtoWrong = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.vacancy.wrong.json"), SearchCriteriaDto.class);
+    private final SearchCriteriaDto searchCriteriaDtoFiltersNull = new SearchCriteriaDto(null, PAGE, SIZE, searchSortList);
+    private final SearchCriteriaDto searchCriteriaDtoFiltersEmpty = new SearchCriteriaDto(List.of(), PAGE, SIZE, searchSortList);
+
+    private final PageRequest expectedPage = PageRequest.of(PAGE, SIZE, Sort.by(Sort.Direction.ASC, CREATOR));
 
     @Mock
     private VacancyRepository vacancyRepository;
@@ -64,110 +67,134 @@ class EsVacancyServiceTest {
     private ArgumentCaptor<Pageable> pageableCaptor;
 
     @Test
-    void createSuccess() throws EntityAlreadyExitsException {
+    void shouldCreateVacancy() throws EntityAlreadyExistsException {
         //given
         when(vacancyRepository.findById(anyLong())).thenReturn(Optional.empty());
         //when
-        vacancyService.create(VACANCY);
+        vacancyService.create(expectedVacancy);
         //then
-        verify(vacancyRepository).save(VACANCY);
-        verify(vacancyRepository).findById(VACANCY.getId());
+        verify(vacancyRepository).save(expectedVacancy);
+        verify(vacancyRepository).findById(expectedVacancy.getId());
     }
+
     @Test
-    void createException() throws EntityAlreadyExitsException {
+    void shouldTrowExceptionWhenFindByIsPresent() {
         //given
-        when(vacancyRepository.findById(anyLong())).thenReturn(Optional.of(VACANCY));
+        when(vacancyRepository.findById(anyLong())).thenReturn(Optional.of(expectedVacancy));
         //when
-       EntityAlreadyExitsException exception= assertThrows(EntityAlreadyExitsException.class, ()-> vacancyService.create(VACANCY));
+        EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class, () -> vacancyService.create(expectedVacancy));
         //then
-        verify(vacancyRepository).findById(VACANCY.getId());
+        verify(vacancyRepository).findById(expectedVacancy.getId());
         assertEquals("Vacancy already exists id= 1", exception.getMessage());
     }
 
     @Test
-    void update() {
-        vacancyService.update(VACANCY.getId(), VACANCY);
-        verify(vacancyRepository).save(VACANCY);
+    void shouldUpdateVacancy() {
+        vacancyService.update(expectedVacancy.getId(), expectedVacancy);
+        verify(vacancyRepository).save(expectedVacancy);
     }
 
     @Test
-    void delete() {
-        vacancyService.delete(VACANCY.getId());
-        verify(vacancyRepository).deleteById(VACANCY.getId());
+    void shouldDeleteVacancy() {
+        vacancyService.delete(ID);
+        verify(vacancyRepository).deleteById(expectedVacancy.getId());
     }
 
     @Test
-    void findById() {
+    void shouldReturnVacancyById() {
         //given
-        when(vacancyRepository.findById(anyLong())).thenReturn(Optional.of(VACANCY));
+        when(vacancyRepository.findById(anyLong())).thenReturn(Optional.of(expectedVacancy));
         //when
-        Optional<Vacancy> vacancy= vacancyService.findById(VACANCY.getId());
+        Optional<Vacancy> vacancy = vacancyService.findById(expectedVacancy.getId());
         //then
-        assertEquals(Optional.of(VACANCY), vacancy);
-        verify(vacancyRepository).findById(VACANCY.getId());
+        assertEquals(Optional.of(expectedVacancy), vacancy);
+        verify(vacancyRepository).findById(expectedVacancy.getId());
 
 
     }
 
     @Test
-    void findAll() {
+    void shouldReturnAllVacancies() {
         //given
-        when(vacancyRepository.findAll()).thenReturn(VACANCIES);
+        when(vacancyRepository.findAll()).thenReturn(expectedVacancyList);
         //when
         List<Vacancy> vacancies = vacancyService.findAll();
         //then
         verify(vacancyRepository).findAll();
-        assertEquals(VACANCIES, vacancies);
+        assertEquals(expectedVacancyList, vacancies);
     }
 
     @Test
-    void FindAllPageable() {
+    void shouldReturnAllVacanciesByPageable() {
         //given
-        when(vacancyRepository.findAll(EXPECTED_PAGE)).thenReturn(new PageImpl<>(VACANCIES, EXPECTED_PAGE,1));
+        when(vacancyRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedVacancyList, expectedPage, 1));
         //when
-        List<Vacancy> vacancies = vacancyService.findAll(EXPECTED_PAGE);
+        List<Vacancy> vacancies = vacancyService.findAll(expectedPage);
         //then
-        assertEquals(VACANCIES, vacancies);
-        verify(vacancyRepository).findAll(EXPECTED_PAGE);
+        assertEquals(expectedVacancyList, vacancies);
+        verify(vacancyRepository).findAll(expectedPage);
 
     }
 
     @Test
-    void findAllWithFilters() {
+    void shouldReturnVacanciesWithFilters() {
         //given
-        when(vacancySearchRepository.findAllWithFilters(any())).thenReturn(VACANCIES);
+        when(vacancySearchRepository.findAllWithFilters(any())).thenReturn(expectedVacancyList);
         //when
-        List<Vacancy> vacancies = vacancyService.findAllWithFilters(SEARCH_CRITERIA_DTO);
+        List<Vacancy> vacancies = vacancyService.findAllWithFilters(searchCriteriaDtoSuccess);
         //then
-        assertEquals(VACANCIES, vacancies);
-        verify(vacancySearchRepository).findAllWithFilters(SEARCH_CRITERIA_DTO);
+        assertEquals(expectedVacancyList, vacancies);
+        verify(vacancySearchRepository).findAllWithFilters(searchCriteriaDtoSuccess);
     }
     @Test
-    void findAllWithNullFilters() {
-        //given
-        when(vacancyRepository.findAll(EXPECTED_PAGE)).thenReturn(new PageImpl<>(VACANCIES, EXPECTED_PAGE,1));
-        when(pageableMapper.getPageable(SEARCH_CRITERIA_DTO_FILTERS_NULL)).thenCallRealMethod();
+    void shouldTrowExceptionWhenWrongColumn() {
+
         //when
-        List<Vacancy> vacancies = vacancyService.findAllWithFilters(SEARCH_CRITERIA_DTO_FILTERS_NULL);
+       assertThrows(IllegalArgumentException.class, ()->vacancyService.findAllWithFilters(searchCriteriaDtoWrong));
         //then
-        assertEquals(VACANCIES, vacancies);
+
+        verify(vacancySearchRepository, never()).findAllWithFilters(searchCriteriaDtoWrong);
+    }
+
+    @Test
+    void shouldReturnVacanciesWithNullFilters() {
+        //given
+        when(vacancyRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedVacancyList, expectedPage, 1));
+        when(pageableMapper.getPageable(searchCriteriaDtoFiltersNull)).thenCallRealMethod();
+        //when
+        List<Vacancy> vacancies = vacancyService.findAllWithFilters(searchCriteriaDtoFiltersNull);
+        //then
+        assertEquals(expectedVacancyList, vacancies);
         verify(vacancyRepository).findAll(pageableCaptor.capture());
-        verify(pageableMapper).getPageable(SEARCH_CRITERIA_DTO_FILTERS_NULL);
-        Pageable value= pageableCaptor.getValue();
-        assertEquals(EXPECTED_PAGE, value);
+        verify(pageableMapper).getPageable(searchCriteriaDtoFiltersNull);
+        Pageable value = pageableCaptor.getValue();
+        assertEquals(expectedPage, value);
     }
+
     @Test
-    void findAllWithEmptyFilters() {
+    void shouldReturnVacanciesWithEmptyFilters() {
         //given
-        when(vacancyRepository.findAll(EXPECTED_PAGE)).thenReturn(new PageImpl<>(VACANCIES, EXPECTED_PAGE,1));
-        when(pageableMapper.getPageable(SEARCH_CRITERIA_DTO_FILTERS_EMPTY)).thenCallRealMethod();
+        when(vacancyRepository.findAll(expectedPage)).thenReturn(new PageImpl<>(expectedVacancyList, expectedPage, 1));
+        when(pageableMapper.getPageable(searchCriteriaDtoFiltersEmpty)).thenCallRealMethod();
         //when
-        List<Vacancy> vacancies = vacancyService.findAllWithFilters(SEARCH_CRITERIA_DTO_FILTERS_EMPTY);
+        List<Vacancy> vacancies = vacancyService.findAllWithFilters(searchCriteriaDtoFiltersEmpty);
         //then
-        assertEquals(VACANCIES, vacancies);
-        verify(pageableMapper).getPageable(SEARCH_CRITERIA_DTO_FILTERS_EMPTY);
+        assertEquals(expectedVacancyList, vacancies);
+        verify(pageableMapper).getPageable(searchCriteriaDtoFiltersEmpty);
         verify(vacancyRepository).findAll(pageableCaptor.capture());
-        Pageable value= pageableCaptor.getValue();
-        assertEquals(EXPECTED_PAGE, value);
+        Pageable value = pageableCaptor.getValue();
+        assertEquals(expectedPage, value);
+    }
+
+    private Vacancy getVacancyBuild() {
+        return Vacancy.builder()
+                .id(ID)
+                .aboutProject(ABOUT_PROJECT)
+                .creator(CREATOR)
+                .description(DESCRIPTION)
+                .expected(EXPECTED)
+                .projectId(PROJECT_ID)
+                .jobPosition(JOB_POSITION)
+                .build();
     }
 }

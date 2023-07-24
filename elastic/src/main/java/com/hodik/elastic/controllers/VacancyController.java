@@ -2,10 +2,9 @@ package com.hodik.elastic.controllers;
 
 import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.VacancyDto;
-import com.hodik.elastic.exceptions.EntityAlreadyExitsException;
+import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
 import com.hodik.elastic.exceptions.VacancyErrorResponse;
-import com.hodik.elastic.mappers.PageableMapper;
 import com.hodik.elastic.mappers.VacancyMapper;
 import com.hodik.elastic.services.EsVacancyService;
 import lombok.extern.log4j.Log4j2;
@@ -23,17 +22,17 @@ import java.util.stream.Collectors;
 public class VacancyController {
     private final EsVacancyService vacancyService;
     private final VacancyMapper vacancyMapper;
-    private final PageableMapper pageableMapper;
+
 
     @Autowired
-    public VacancyController(EsVacancyService vacancyService, VacancyMapper vacancyMapper, PageableMapper pageableMapper) {
+    public VacancyController(EsVacancyService vacancyService, VacancyMapper vacancyMapper) {
         this.vacancyService = vacancyService;
         this.vacancyMapper = vacancyMapper;
-        this.pageableMapper = pageableMapper;
+
     }
 
     @PostMapping()
-    public ResponseEntity<HttpStatus> createVacancy(@RequestBody VacancyDto vacancyDto) throws EntityAlreadyExitsException {
+    public ResponseEntity<HttpStatus> createVacancy(@RequestBody VacancyDto vacancyDto) throws EntityAlreadyExistsException {
         vacancyService.create(vacancyMapper.convertToVacancy(vacancyDto));
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -51,7 +50,7 @@ public class VacancyController {
     }
 
     @GetMapping("/{id}")
-    public VacancyDto getVacancy(@PathVariable long id) throws EntityAlreadyExitsException {
+    public VacancyDto getVacancy(@PathVariable long id) {
         return vacancyMapper.convertToVacancyDto(vacancyService.findById(id).orElseThrow(EntityNotFoundException::new));
     }
 
@@ -63,11 +62,11 @@ public class VacancyController {
     @PostMapping("/search")
     public List<VacancyDto> searchByCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
         log.info("Search request to index Vacancies" + searchCriteriaDto);
-      return vacancyService.findAllWithFilters(searchCriteriaDto).stream().map(vacancyMapper::convertToVacancyDto).collect(Collectors.toList());
+        return vacancyService.findAllWithFilters(searchCriteriaDto).stream().map(vacancyMapper::convertToVacancyDto).collect(Collectors.toList());
     }
 
     @ExceptionHandler
-    private ResponseEntity<VacancyErrorResponse> exceptionHandler(EntityAlreadyExitsException e) {
+    private ResponseEntity<VacancyErrorResponse> exceptionHandler (EntityAlreadyExistsException e) {
         VacancyErrorResponse message = new VacancyErrorResponse(e.getMessage());
         log.error(e.getMessage());
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
@@ -79,6 +78,7 @@ public class VacancyController {
         log.error(e.getMessage());
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler
     private ResponseEntity<VacancyErrorResponse> exceptionHandler(IllegalArgumentException e) {
         VacancyErrorResponse message = new VacancyErrorResponse(e.getMessage());
