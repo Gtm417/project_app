@@ -1,9 +1,11 @@
 package org.example.projectapp.service.impl;
 
 import org.example.projectapp.controller.dto.RegisterUserDto;
+import org.example.projectapp.mappers.UserMapper;
 import org.example.projectapp.model.Status;
 import org.example.projectapp.model.User;
 import org.example.projectapp.repository.UserRepository;
+import org.example.projectapp.restclient.ElasticUsersServiceClient;
 import org.example.projectapp.service.RegistrationService;
 import org.example.projectapp.service.exception.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +19,28 @@ import static org.example.projectapp.model.Role.ROLE_USER;
 public class UserRegistrationService implements RegistrationService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final ElasticUsersServiceClient elasticUsersServiceClient;
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserRegistrationService(PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public UserRegistrationService(PasswordEncoder passwordEncoder, UserRepository userRepository, ElasticUsersServiceClient elasticUsersServiceClient, UserMapper userMapper) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.elasticUsersServiceClient = elasticUsersServiceClient;
+        this.userMapper = userMapper;
     }
 
     @Override
     public User register(RegisterUserDto registerDto) {
         userRepository.findByEmail(registerDto.getEmail())
-                .ifPresent((u) -> {throw new UserAlreadyExistsException(registerDto, "User already exists");});
+                .ifPresent((u) -> {
+                    throw new UserAlreadyExistsException(registerDto, "User already exists");
+                });
 
         User user = buildUser(registerDto);
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        elasticUsersServiceClient.createUser(userMapper.convertToUserElasticDto(user));
+        return savedUser;
     }
 
     private User buildUser(RegisterUserDto dto) {

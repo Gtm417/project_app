@@ -6,10 +6,7 @@ import com.hodik.elastic.dto.UserDto;
 import com.hodik.elastic.exceptions.EntityAlreadyExistsException;
 import com.hodik.elastic.exceptions.EntityNotFoundException;
 import com.hodik.elastic.mappers.UserMapper;
-import com.hodik.elastic.model.Role;
-import com.hodik.elastic.model.Skill;
-import com.hodik.elastic.model.Status;
-import com.hodik.elastic.model.User;
+import com.hodik.elastic.model.*;
 import com.hodik.elastic.services.EsUserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,12 +33,11 @@ class UserControllerTest {
     public static final String NAME = "Name";
     public static final String LAST_NAME = "LastName";
     public static final String NAME_GMAIL_COM = "name@gmail.com";
-    public static final String PASSWORD = "password";
     public static final String CV = "cv";
     public static final String DESCRIPTION = "description";
     public static final Role ROLE_USER = Role.ROLE_USER;
     public static final Status STATUS = Status.NEW;
-    public static final String FULL_STACK = "full stack";
+    public static final UserType USER_TYPE = UserType.STUDENT;
     private final User expectedUser = getUserBuild();
     private final List<User> expectedUserList = List.of(expectedUser);
     private final UserDto expectedUserDto = getUserDtoBuild();
@@ -161,13 +157,12 @@ class UserControllerTest {
                 .firstName(NAME)
                 .lastName(LAST_NAME)
                 .email(NAME_GMAIL_COM)
-                .password(PASSWORD)
                 .cv(CV)
                 .description(DESCRIPTION)
                 .role(ROLE_USER)
                 .skills(List.of(SKILL))
                 .status(STATUS)
-                .type(FULL_STACK)
+                .type(USER_TYPE)
                 .build();
     }
 
@@ -177,13 +172,12 @@ class UserControllerTest {
                 .firstName(NAME)
                 .lastName(LAST_NAME)
                 .email(NAME_GMAIL_COM)
-                .password(PASSWORD)
                 .cv(CV)
                 .description(DESCRIPTION)
                 .role(ROLE_USER)
                 .skills(List.of(SKILL))
                 .status(STATUS)
-                .type(FULL_STACK)
+                .type(USER_TYPE)
                 .build();
     }
 }
