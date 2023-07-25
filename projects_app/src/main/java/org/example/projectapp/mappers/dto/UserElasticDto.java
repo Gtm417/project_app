@@ -1,18 +1,15 @@
-package com.hodik.elastic.dto;
+package org.example.projectapp.mappers.dto;
 
-import com.hodik.elastic.model.Role;
-import com.hodik.elastic.model.Skill;
-import com.hodik.elastic.model.Status;
-import com.hodik.elastic.model.UserType;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.example.projectapp.model.Role;
+import org.example.projectapp.model.Skill;
+import org.example.projectapp.model.Status;
+import org.example.projectapp.model.UserType;
 
 import java.util.List;
 
@@ -20,32 +17,16 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDto {
-
+public class UserElasticDto {
     private long id;
-
-    @Email(regexp = ".+@.+\\..+|", message = "Provide correct email")
     private String email;
-
-
-    @NotEmpty(message = "Enter the name")
-    @Pattern(regexp = "[A-Z А-Я]\\\\w+", message = "Example : Misha")
     private String firstName;
-
-    @NotEmpty(message = "Enter the last name")
-    @Pattern(regexp = "[A-Z А-Я]\\\\w+", message = "Example : Misha")
     private String lastName;
-
     private Role role;
-
     private String description;
-
     private Status status;
-
     private UserType type;
-
     private String cv;// probably just text (not sure yet)
-
     private List<Skill> skills; //(nested indexable field)
 
     @Override
@@ -64,3 +45,5 @@ public class UserDto {
                 .toString();
     }
 }
+
+

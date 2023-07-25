@@ -18,9 +18,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class ProjectSearchRepositoryImplTest {
-    private final Gson gson= new Gson();
+    private final Gson gson = new Gson();
     private final SearchCriteriaDto searchCriteriaDto = gson.fromJson(ResourceUtil.readFileFromClasspath("search.criteria.project.success.json"), SearchCriteriaDto.class);
     @Mock
     private ElasticsearchOperations elasticsearchOperations; // autowired bean
@@ -46,6 +47,7 @@ class ProjectSearchRepositoryImplTest {
         List<Project> projects = searchRepository.findAllWithFilters(searchCriteriaDto);
 
         //then
+
         assertNotNull(projects);
     }
 }

@@ -1,0 +1,823 @@
+2023-07-24 17:51:25.483 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-24 17:51:25.541 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 3272 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-24 17:51:25.548 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-24 17:51:26.858 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-24 17:51:26.873 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-24 17:51:27.096 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-24 17:51:27.172 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 75 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-24 17:51:27.180 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-24 17:51:27.188 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-24 17:51:27.835 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2023-07-24 17:51:27.856 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2023-07-24 17:51:27.858 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-24 17:51:27.858 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-24 17:51:27.967 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic] - Initializing Spring embedded WebApplicationContext
+2023-07-24 17:51:27.968 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2368 ms
+2023-07-24 17:51:28.827 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-24 17:51:28.987 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-24 17:51:29.011 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-24 17:51:29.222 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@33e50ff2, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7ab33ca8, org.springframework.security.web.context.SecurityContextHolderFilter@1584c019, org.springframework.security.web.header.HeaderWriterFilter@63a7781, org.springframework.security.web.authentication.logout.LogoutFilter@5fd18419, com.hodik.elastic.security.JwtTokenFilter@6ec63f8, org.springframework.security.web.session.ConcurrentSessionFilter@7dd45c93, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4fe2dd02, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@726a8729, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@704d3b00, org.springframework.security.web.session.SessionManagementFilter@4b691611, org.springframework.security.web.access.ExceptionTranslationFilter@4492b393, org.springframework.security.web.access.intercept.AuthorizationFilter@37cfda1c]
+2023-07-24 17:51:29.629 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+2023-07-24 17:51:29.645 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/elastic'
+2023-07-24 17:51:29.654 [main] INFO  com.hodik.elastic.ElasticApplication - Started ElasticApplication in 4.676 seconds (process running for 5.905)
+2023-07-24 17:52:53.037 [http-nio-8082-exec-3] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-24 17:52:53.038 [http-nio-8082-exec-3] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-07-24 17:52:53.041 [http-nio-8082-exec-3] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2023-07-24 17:56:19.687 [http-nio-8082-exec-9] ERROR org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic].[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [/elastic] threw exception
+com.hodik.elastic.security.JwtAuthenticationException: JWT token is expired or invalid
+	at com.hodik.elastic.security.JwtTokenFilter.throwJwtAuthExceptionWithMessage(JwtTokenFilter.java:51) ~[classes/:?]
+	at com.hodik.elastic.security.JwtTokenFilter.doFilter(JwtTokenFilter.java:36) ~[classes/:?]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:166) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:894) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at java.lang.Thread.run(Thread.java:833) [?:?]
+Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:399) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:529) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:589) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.ImmutableJwtParser.parseClaimsJws(ImmutableJwtParser.java:173) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at com.hodik.elastic.security.JwtTokenService.parseClaimsJws(JwtTokenService.java:52) ~[classes/:?]
+	at com.hodik.elastic.security.JwtTokenService.validateToken(JwtTokenService.java:39) ~[classes/:?]
+	at com.hodik.elastic.security.JwtTokenFilter.tryAuthenticateByToken(JwtTokenFilter.java:42) ~[classes/:?]
+	at com.hodik.elastic.security.JwtTokenFilter.doFilter(JwtTokenFilter.java:32) ~[classes/:?]
+	... 51 more
+2023-07-24 17:56:19.706 [http-nio-8082-exec-9] ERROR org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic].[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] threw exception
+com.hodik.elastic.security.JwtAuthenticationException: JWT token is expired or invalid
+	at com.hodik.elastic.security.JwtTokenFilter.throwJwtAuthExceptionWithMessage(JwtTokenFilter.java:51) ~[classes/:?]
+	at com.hodik.elastic.security.JwtTokenFilter.doFilter(JwtTokenFilter.java:36) ~[classes/:?]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:642) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:410) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:340) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:277) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardHostValve.custom(StandardHostValve.java:358) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardHostValve.status(StandardHostValve.java:222) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardHostValve.throwable(StandardHostValve.java:304) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:149) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:894) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at java.lang.Thread.run(Thread.java:833) [?:?]
+Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:399) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:529) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:589) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.ImmutableJwtParser.parseClaimsJws(ImmutableJwtParser.java:173) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at com.hodik.elastic.security.JwtTokenService.parseClaimsJws(JwtTokenService.java:52) ~[classes/:?]
+	at com.hodik.elastic.security.JwtTokenService.validateToken(JwtTokenService.java:39) ~[classes/:?]
+	at com.hodik.elastic.security.JwtTokenFilter.tryAuthenticateByToken(JwtTokenFilter.java:42) ~[classes/:?]
+	at com.hodik.elastic.security.JwtTokenFilter.doFilter(JwtTokenFilter.java:32) ~[classes/:?]
+	... 49 more
+2023-07-24 17:56:19.709 [http-nio-8082-exec-9] ERROR org.apache.catalina.core.ContainerBase.[Tomcat].[localhost] - Exception Processing ErrorPage[errorCode=0, location=/error]
+com.hodik.elastic.security.JwtAuthenticationException: JWT token is expired or invalid
+	at com.hodik.elastic.security.JwtTokenFilter.throwJwtAuthExceptionWithMessage(JwtTokenFilter.java:51) ~[classes/:?]
+	at com.hodik.elastic.security.JwtTokenFilter.doFilter(JwtTokenFilter.java:36) ~[classes/:?]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.1.0.jar:6.1.0]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:352) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:268) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:101) ~[spring-web-6.0.9.jar:6.0.9]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:642) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:410) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:340) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:277) ~[tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardHostValve.custom(StandardHostValve.java:358) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardHostValve.status(StandardHostValve.java:222) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardHostValve.throwable(StandardHostValve.java:304) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:149) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:894) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) [tomcat-embed-core-10.1.8.jar:10.1.8]
+	at java.lang.Thread.run(Thread.java:833) [?:?]
+Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:399) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:529) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseClaimsJws(DefaultJwtParser.java:589) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at io.jsonwebtoken.impl.ImmutableJwtParser.parseClaimsJws(ImmutableJwtParser.java:173) ~[jjwt-impl-0.11.5.jar:0.11.5]
+	at com.hodik.elastic.security.JwtTokenService.parseClaimsJws(JwtTokenService.java:52) ~[classes/:?]
+	at com.hodik.elastic.security.JwtTokenService.validateToken(JwtTokenService.java:39) ~[classes/:?]
+	at com.hodik.elastic.security.JwtTokenFilter.tryAuthenticateByToken(JwtTokenFilter.java:42) ~[classes/:?]
+	at com.hodik.elastic.security.JwtTokenFilter.doFilter(JwtTokenFilter.java:32) ~[classes/:?]
+	... 49 more
+2023-07-24 18:22:04.088 [http-nio-8082-exec-3] TRACE tracer - curl -iX POST 'http://localhost:9200/projects/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"0"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 469
+#
+# {"took":14,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"projects","_id":"0","_version":1,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.Project","id":0,"name":"Java test project","isPrivate":false,"finalPlannedDate":"2025-09-15","startDate":"2019-07-05","category":"Java+Kotlin","description":"Cool","isCommercial":"Commercial","status":"Ok"}}]}}
+2023-07-24 18:22:04.469 [http-nio-8082-exec-3] ERROR com.hodik.elastic.controllers.ProjectController - Project already exits id= 0
+2023-07-24 18:22:38.036 [http-nio-8082-exec-6] TRACE tracer - curl -iX POST 'http://localhost:9200/projects/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"0"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 468
+#
+# {"took":2,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"projects","_id":"0","_version":1,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.Project","id":0,"name":"Java test project","isPrivate":false,"finalPlannedDate":"2025-09-15","startDate":"2019-07-05","category":"Java+Kotlin","description":"Cool","isCommercial":"Commercial","status":"Ok"}}]}}
+2023-07-24 18:22:38.038 [http-nio-8082-exec-6] ERROR com.hodik.elastic.controllers.ProjectController - Project already exits id= 0
+2023-07-24 18:23:13.569 [http-nio-8082-exec-8] INFO  com.hodik.elastic.controllers.ProjectController - Search request to index Projects {"filters":[{"column":"finalPlannedDate","operations":"LESS_THEN","values":["2028\/06\/20"]},{"column":"description","operations":"LIKE","values":["o"]},{"column":"category","operations":"LIKE","values":[""]},{"column":"isPrivate","operations":"EQUAL","values":["true"]}],"page":0,"size":10,"sorts":[{"column":"name","ascending":false},{"column":"category","ascending":true}]}
+2023-07-24 18:23:13.657 [http-nio-8082-exec-8] TRACE tracer - curl -iX POST 'http://localhost:9200/projects/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"range":{"finalPlannedDate":{"lte":"2028/06/20"}}},{"query_string":{"analyze_wildcard":true,"fields":["description"],"query":"*o*"}},{"query_string":{"analyze_wildcard":true,"fields":["category"],"query":"**"}},{"match":{"isPrivate":{"operator":"or","query":"true"}}}]}},"size":10,"sort":[{"name":{"mode":"min","order":"desc"}},{"category":{"mode":"min","order":"asc"}}],"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 830
+#
+# {"took":51,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":2,"relation":"eq"},"max_score":null,"hits":[{"_index":"projects","_id":"2","_version":1,"_score":null,"_source":{"_class":"com.hodik.elastic.model.Project","id":2,"name":"Java test project","isPrivate":true,"finalPlannedDate":"2023-09-15","startDate":"2015-06-05","category":"Java","description":"Cool","isCommercial":"Commercial","status":"Ok"},"sort":["Java test project","Java"]},{"_index":"projects","_id":"1","_version":1,"_score":null,"_source":{"_class":"com.hodik.elastic.model.Project","id":1,"name":"C# test project","isPrivate":true,"finalPlannedDate":"2025-09-15","startDate":"2019-07-05","category":"C#","description":"Cool","isCommercial":"Commercial","status":"Ok"},"sort":["C# test project","C#"]}]}}
+2023-07-24 18:23:22.735 [http-nio-8082-exec-9] ERROR com.hodik.elastic.controllers.UserController - Column not found finalPlannedDate
+2023-07-24 18:25:10.047 [http-nio-8082-exec-2] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 161
+#
+# {"took":15,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":2,"relation":"eq"},"max_score":null,"hits":[]}}
+2023-07-24 18:25:10.065 [http-nio-8082-exec-2] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":2,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 972
+#
+# {"took":10,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":2,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"0","_version":8,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":0,"email":"vasya@gmail.com","password":"Vasya2012","firstName":"Vasya","lastName":"Petrov","role":"User","description":"Software ingeneer","status":"employee","type":"full stack","cv":"Same text ...","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}},{"_index":"users","_id":"1","_version":2,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":1,"email":"igor@gmail.com","password":"Igor2003","firstName":"Igor","lastName":"Ivanov","role":"User","description":"Software ingeneer","status":"employee","type":"full stack","cv":"Same text ...","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}}]}}
+2023-07-24 18:25:10.080 [http-nio-8082-exec-2] ERROR com.hodik.elastic.controllers.UserController - No enum constant com.hodik.elastic.model.Role.User
+2023-07-24 18:25:21.650 [http-nio-8082-exec-5] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 161
+#
+# {"took":10,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":2,"relation":"eq"},"max_score":null,"hits":[]}}
+2023-07-24 18:25:21.659 [http-nio-8082-exec-5] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":2,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 971
+#
+# {"took":2,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":2,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"0","_version":8,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":0,"email":"vasya@gmail.com","password":"Vasya2012","firstName":"Vasya","lastName":"Petrov","role":"User","description":"Software ingeneer","status":"employee","type":"full stack","cv":"Same text ...","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}},{"_index":"users","_id":"1","_version":2,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":1,"email":"igor@gmail.com","password":"Igor2003","firstName":"Igor","lastName":"Ivanov","role":"User","description":"Software ingeneer","status":"employee","type":"full stack","cv":"Same text ...","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}}]}}
+2023-07-24 18:25:21.661 [http-nio-8082-exec-5] ERROR com.hodik.elastic.controllers.UserController - No enum constant com.hodik.elastic.model.Role.User
+2023-07-24 18:39:20.877 [http-nio-8082-exec-6] TRACE tracer - curl -iX PUT 'http://localhost:9200/users/_doc/0?refresh=false' -d '{"_class":"com.hodik.elastic.model.User","id":0,"email":"vasya@gmail.com","password":"Vasya2012","firstName":"Vasya","lastName":"Petrov","role":"ROLE_USER","description":"Some text","status":"NEW","type":"STUDENT","cv":"CV text","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 139
+#
+# {"_index":"users","_id":"0","_version":9,"result":"updated","_shards":{"total":2,"successful":1,"failed":0},"_seq_no":10,"_primary_term":3}
+2023-07-24 18:39:20.963 [http-nio-8082-exec-6] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_refresh'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 49
+#
+# {"_shards":{"total":2,"successful":1,"failed":0}}
+2023-07-24 18:39:20.964 [http-nio-8082-exec-6] INFO  com.hodik.elastic.services.EsUserService - User is updated in ES successful id = 0
+2023-07-24 18:41:40.052 [http-nio-8082-exec-10] WARN  org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `com.hodik.elastic.model.Role` from String "User": not one of the values accepted for Enum class: [ROLE_USER, ROLE_ADMIN]]
+2023-07-24 18:41:52.821 [http-nio-8082-exec-1] WARN  org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `com.hodik.elastic.model.Role` from String "User": not one of the values accepted for Enum class: [ROLE_USER, ROLE_ADMIN]]
+2023-07-24 18:43:05.182 [http-nio-8082-exec-3] TRACE tracer - curl -iX PUT 'http://localhost:9200/users/_doc/1?refresh=false' -d '{"_class":"com.hodik.elastic.model.User","id":1,"email":"igor@gmail.com","password":"Igor2003","firstName":"Igor","lastName":"Ivanov","role":"ROLE_USER","description":"Software ingeneer","status":"NEW","type":"STUDENT","cv":"CV text","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 139
+#
+# {"_index":"users","_id":"1","_version":3,"result":"updated","_shards":{"total":2,"successful":1,"failed":0},"_seq_no":11,"_primary_term":3}
+2023-07-24 18:43:05.238 [http-nio-8082-exec-3] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_refresh'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 49
+#
+# {"_shards":{"total":2,"successful":1,"failed":0}}
+2023-07-24 18:43:05.240 [http-nio-8082-exec-3] INFO  com.hodik.elastic.services.EsUserService - User is updated in ES successful id = 1
+2023-07-24 18:43:15.796 [http-nio-8082-exec-5] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 160
+#
+# {"took":1,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":2,"relation":"eq"},"max_score":null,"hits":[]}}
+2023-07-24 18:43:15.804 [http-nio-8082-exec-5] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":2,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 945
+#
+# {"took":0,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":2,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"0","_version":9,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":0,"email":"vasya@gmail.com","password":"Vasya2012","firstName":"Vasya","lastName":"Petrov","role":"ROLE_USER","description":"Some text","status":"NEW","type":"STUDENT","cv":"CV text","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}},{"_index":"users","_id":"1","_version":3,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":1,"email":"igor@gmail.com","password":"Igor2003","firstName":"Igor","lastName":"Ivanov","role":"ROLE_USER","description":"Software ingeneer","status":"NEW","type":"STUDENT","cv":"CV text","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}}]}}
+2023-07-24 18:43:27.377 [http-nio-8082-exec-7] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"1"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 554
+#
+# {"took":3,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"1","_version":3,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":1,"email":"igor@gmail.com","password":"Igor2003","firstName":"Igor","lastName":"Ivanov","role":"ROLE_USER","description":"Software ingeneer","status":"NEW","type":"STUDENT","cv":"CV text","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}}]}}
+2023-07-25 12:38:14.070 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-25 12:38:14.127 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 28724 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-25 12:38:14.132 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-25 12:38:14.723 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 12:38:14.735 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-25 12:38:14.962 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 12:38:15.032 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 69 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-25 12:38:15.039 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-25 12:38:15.046 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-25 12:38:15.728 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2023-07-25 12:38:15.746 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2023-07-25 12:38:15.748 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-25 12:38:15.748 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-25 12:38:16.020 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic] - Initializing Spring embedded WebApplicationContext
+2023-07-25 12:38:16.023 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1836 ms
+2023-07-25 12:38:17.093 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 12:38:17.207 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 12:38:17.232 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 12:38:17.497 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@45e11627, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@ec5f944, org.springframework.security.web.context.SecurityContextHolderFilter@63a7781, org.springframework.security.web.header.HeaderWriterFilter@4f8659d0, org.springframework.security.web.authentication.logout.LogoutFilter@2b395581, com.hodik.elastic.security.JwtTokenFilter@6cbbb9c4, org.springframework.security.web.session.ConcurrentSessionFilter@72110818, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@22686ddb, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5353dd09, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5b4954b2, org.springframework.security.web.session.SessionManagementFilter@9e62fb, org.springframework.security.web.access.ExceptionTranslationFilter@3c3e363, org.springframework.security.web.access.intercept.AuthorizationFilter@266da047]
+2023-07-25 12:38:17.956 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+2023-07-25 12:38:17.988 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/elastic'
+2023-07-25 12:38:18.000 [main] INFO  com.hodik.elastic.ElasticApplication - Started ElasticApplication in 4.408 seconds (process running for 5.572)
+2023-07-25 12:39:14.684 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-25 12:39:14.737 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 31616 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-25 12:39:14.744 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-25 12:39:15.394 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 12:39:15.406 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-25 12:39:15.592 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 12:39:15.680 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 87 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-25 12:39:15.689 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-25 12:39:15.697 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-25 12:39:16.266 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2023-07-25 12:39:16.276 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2023-07-25 12:39:16.277 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-25 12:39:16.277 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-25 12:39:16.370 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic] - Initializing Spring embedded WebApplicationContext
+2023-07-25 12:39:16.372 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1569 ms
+2023-07-25 12:39:17.056 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 12:39:17.180 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 12:39:17.204 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 12:39:17.415 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@283d3628, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5b3518e1, org.springframework.security.web.context.SecurityContextHolderFilter@379f9555, org.springframework.security.web.header.HeaderWriterFilter@43c0c13a, org.springframework.security.web.authentication.logout.LogoutFilter@5b4954b2, com.hodik.elastic.security.JwtTokenFilter@16da1abc, org.springframework.security.web.session.ConcurrentSessionFilter@320ff86f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7d64a960, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@cdbe995, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5fd18419, org.springframework.security.web.session.SessionManagementFilter@4492b393, org.springframework.security.web.access.ExceptionTranslationFilter@9e62fb, org.springframework.security.web.access.intercept.AuthorizationFilter@2e7bb00e]
+2023-07-25 12:39:17.765 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+2023-07-25 12:39:17.777 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/elastic'
+2023-07-25 12:39:17.786 [main] INFO  com.hodik.elastic.ElasticApplication - Started ElasticApplication in 3.522 seconds (process running for 4.372)
+2023-07-25 12:49:57.286 [http-nio-8082-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 12:49:57.286 [http-nio-8082-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-07-25 12:49:57.288 [http-nio-8082-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-07-25 12:49:57.666 [http-nio-8082-exec-1] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"0"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 550
+#
+# {"took":29,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"0","_version":9,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":0,"email":"vasya@gmail.com","password":"Vasya2012","firstName":"Vasya","lastName":"Petrov","role":"ROLE_USER","description":"Some text","status":"NEW","type":"STUDENT","cv":"CV text","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}}]}}
+2023-07-25 12:49:57.921 [http-nio-8082-exec-1] ERROR com.hodik.elastic.controllers.UserController - User already exists id= 0
+2023-07-25 13:40:26.579 [http-nio-8082-exec-2] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"2"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 160
+#
+# {"took":9,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":0,"relation":"eq"},"max_score":null,"hits":[]}}
+2023-07-25 13:40:26.837 [http-nio-8082-exec-2] TRACE tracer - curl -iX PUT 'http://localhost:9200/users/_doc/2?refresh=false' -d '{"_class":"com.hodik.elastic.model.User","id":2,"email":"igor2@gmail.com","firstName":"Igor","lastName":"Ivanov","status":"NEW","type":"STUDENT"}'
+# HTTP/1.1 201 Created
+# Location: /users/_doc/2
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 139
+#
+# {"_index":"users","_id":"2","_version":1,"result":"created","_shards":{"total":2,"successful":1,"failed":0},"_seq_no":12,"_primary_term":3}
+2023-07-25 13:40:26.878 [http-nio-8082-exec-2] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_refresh'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 49
+#
+# {"_shards":{"total":2,"successful":1,"failed":0}}
+2023-07-25 13:40:26.882 [http-nio-8082-exec-2] INFO  com.hodik.elastic.services.EsUserService - User is saved to ES successful id = 2
+2023-07-25 13:42:21.434 [http-nio-8082-exec-3] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"2"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 369
+#
+# {"took":5,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"2","_version":1,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":2,"email":"igor2@gmail.com","firstName":"Igor","lastName":"Ivanov","status":"NEW","type":"STUDENT"}}]}}
+2023-07-25 14:29:43.459 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-25 14:29:43.513 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 28692 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-25 14:29:43.519 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-25 14:29:44.570 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 14:29:44.588 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-25 14:29:44.899 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 14:29:45.013 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 113 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-25 14:29:45.026 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-25 14:29:45.038 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 11 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-25 14:29:46.424 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2023-07-25 14:29:46.456 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2023-07-25 14:29:46.458 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-25 14:29:46.459 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-25 14:29:46.681 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic] - Initializing Spring embedded WebApplicationContext
+2023-07-25 14:29:46.684 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3109 ms
+2023-07-25 14:29:48.559 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 14:29:48.795 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 14:29:48.849 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 14:29:49.256 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@75ed7512, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5ab5924c, org.springframework.security.web.context.SecurityContextHolderFilter@374b6e33, org.springframework.security.web.header.HeaderWriterFilter@6eabe718, org.springframework.security.web.authentication.logout.LogoutFilter@57416e49, com.hodik.elastic.security.JwtTokenFilter@297c9a9b, org.springframework.security.web.session.ConcurrentSessionFilter@7e3ee128, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@53ba1175, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1584c019, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@33ebe4f0, org.springframework.security.web.session.SessionManagementFilter@5353dd09, org.springframework.security.web.access.ExceptionTranslationFilter@4def42c3, org.springframework.security.web.access.intercept.AuthorizationFilter@844e66d]
+2023-07-25 14:29:49.897 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+2023-07-25 14:29:49.922 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/elastic'
+2023-07-25 14:29:49.940 [main] INFO  com.hodik.elastic.ElasticApplication - Started ElasticApplication in 7.027 seconds (process running for 8.349)
+2023-07-25 14:31:24.044 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-25 14:31:24.100 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 7608 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-25 14:31:24.106 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-25 14:31:24.744 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 14:31:24.756 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-25 14:31:24.972 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 14:31:25.040 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 68 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-25 14:31:25.046 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-25 14:31:25.051 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-25 14:31:25.642 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2023-07-25 14:31:25.654 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2023-07-25 14:31:25.655 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-25 14:31:25.655 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-25 14:31:25.739 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic] - Initializing Spring embedded WebApplicationContext
+2023-07-25 14:31:25.741 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1578 ms
+2023-07-25 14:31:26.378 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 14:31:26.485 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 14:31:26.507 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 14:31:26.690 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7d1f3fe9, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@74d22ddd, org.springframework.security.web.context.SecurityContextHolderFilter@4b691611, org.springframework.security.web.header.HeaderWriterFilter@9e62fb, org.springframework.security.web.authentication.logout.LogoutFilter@45e11627, com.hodik.elastic.security.JwtTokenFilter@5f34907b, org.springframework.security.web.session.ConcurrentSessionFilter@32b46831, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@379f9555, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5d92e8e2, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@283d3628, org.springframework.security.web.session.SessionManagementFilter@f9b8129, org.springframework.security.web.access.ExceptionTranslationFilter@5486ee92, org.springframework.security.web.access.intercept.AuthorizationFilter@5c8ab9de]
+2023-07-25 14:31:27.069 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+2023-07-25 14:31:27.085 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/elastic'
+2023-07-25 14:31:27.094 [main] INFO  com.hodik.elastic.ElasticApplication - Started ElasticApplication in 3.468 seconds (process running for 4.327)
+2023-07-25 14:45:51.210 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-25 14:45:51.270 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 11452 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-25 14:45:51.276 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-25 14:45:51.990 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 14:45:51.999 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 4 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-25 14:45:52.177 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 14:45:52.259 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 82 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-25 14:45:52.266 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-25 14:45:52.272 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-25 14:45:52.932 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2023-07-25 14:45:52.953 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2023-07-25 14:45:52.954 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-25 14:45:52.955 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-25 14:45:53.083 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic] - Initializing Spring embedded WebApplicationContext
+2023-07-25 14:45:53.085 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1747 ms
+2023-07-25 14:45:53.872 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 14:45:53.977 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 14:45:54.001 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 14:45:54.175 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5b3518e1, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5fd18419, org.springframework.security.web.context.SecurityContextHolderFilter@7e3ee128, org.springframework.security.web.header.HeaderWriterFilter@731db93f, org.springframework.security.web.authentication.logout.LogoutFilter@74eec640, com.hodik.elastic.security.JwtTokenFilter@671ea6ff, org.springframework.security.web.session.ConcurrentSessionFilter@192b472d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@166ce247, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7dd45c93, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3a88f6fb, org.springframework.security.web.session.SessionManagementFilter@55fb36de, org.springframework.security.web.access.ExceptionTranslationFilter@205159dc, org.springframework.security.web.access.intercept.AuthorizationFilter@7d1f3fe9]
+2023-07-25 14:45:54.544 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+2023-07-25 14:45:54.560 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/elastic'
+2023-07-25 14:45:54.568 [main] INFO  com.hodik.elastic.ElasticApplication - Started ElasticApplication in 3.81 seconds (process running for 4.824)
+2023-07-25 14:46:22.798 [http-nio-8082-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 14:46:22.800 [http-nio-8082-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-07-25 14:46:22.803 [http-nio-8082-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2023-07-25 14:46:23.238 [http-nio-8082-exec-1] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"3"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 160
+#
+# {"took":8,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":0,"relation":"eq"},"max_score":null,"hits":[]}}
+2023-07-25 14:46:23.533 [http-nio-8082-exec-1] ERROR com.hodik.elastic.controllers.UserController - null
+2023-07-25 14:46:30.570 [http-nio-8082-exec-4] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"2"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 369
+#
+# {"took":2,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"2","_version":1,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":2,"email":"igor2@gmail.com","firstName":"Igor","lastName":"Ivanov","status":"NEW","type":"STUDENT"}}]}}
+2023-07-25 15:19:53.734 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-25 15:19:53.789 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 15776 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-25 15:19:53.794 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-25 15:19:54.455 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 15:19:54.467 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-25 15:19:54.652 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 15:19:54.730 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 76 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-25 15:19:54.739 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-25 15:19:54.747 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-25 15:19:55.482 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2023-07-25 15:19:55.521 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2023-07-25 15:19:55.523 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-25 15:19:55.524 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-25 15:19:55.731 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic] - Initializing Spring embedded WebApplicationContext
+2023-07-25 15:19:55.734 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1884 ms
+2023-07-25 15:19:56.812 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 15:19:56.968 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 15:19:57.001 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 15:19:57.248 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5c76fce4, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5aab5b31, org.springframework.security.web.context.SecurityContextHolderFilter@2e7bb00e, org.springframework.security.web.header.HeaderWriterFilter@1584c019, org.springframework.security.web.authentication.logout.LogoutFilter@5ad57e90, com.hodik.elastic.security.JwtTokenFilter@5dc769f9, org.springframework.security.web.session.ConcurrentSessionFilter@3973b6d4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@74d22ddd, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3a88f6fb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5408d4b3, org.springframework.security.web.session.SessionManagementFilter@2c6927f0, org.springframework.security.web.access.ExceptionTranslationFilter@6003220a, org.springframework.security.web.access.intercept.AuthorizationFilter@32e697ac]
+2023-07-25 15:19:57.750 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+2023-07-25 15:19:57.872 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/elastic'
+2023-07-25 15:19:57.891 [main] INFO  com.hodik.elastic.ElasticApplication - Started ElasticApplication in 4.631 seconds (process running for 5.629)
+2023-07-25 15:25:17.208 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-25 15:25:17.262 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 20056 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-25 15:25:17.268 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-25 15:25:17.917 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 15:25:17.929 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-25 15:25:18.102 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 15:25:18.187 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 84 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-25 15:25:18.195 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-25 15:25:18.200 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-25 15:25:18.787 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2023-07-25 15:25:18.799 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2023-07-25 15:25:18.800 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-25 15:25:18.800 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-25 15:25:18.882 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic] - Initializing Spring embedded WebApplicationContext
+2023-07-25 15:25:18.884 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1559 ms
+2023-07-25 15:25:19.578 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 15:25:19.703 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 15:25:19.726 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 15:25:19.918 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@5c8ab9de, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@57416e49, org.springframework.security.web.context.SecurityContextHolderFilter@84f51d9, org.springframework.security.web.header.HeaderWriterFilter@42cc5460, org.springframework.security.web.authentication.logout.LogoutFilter@266da047, com.hodik.elastic.security.JwtTokenFilter@4b1ec694, org.springframework.security.web.session.ConcurrentSessionFilter@22686ddb, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@8383a14, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7e3ee128, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2e7bb00e, org.springframework.security.web.session.SessionManagementFilter@72110818, org.springframework.security.web.access.ExceptionTranslationFilter@2a7bc16b, org.springframework.security.web.access.intercept.AuthorizationFilter@9205c0a]
+2023-07-25 15:25:20.285 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+2023-07-25 15:25:20.302 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/elastic'
+2023-07-25 15:25:20.311 [main] INFO  com.hodik.elastic.ElasticApplication - Started ElasticApplication in 3.524 seconds (process running for 4.423)
+2023-07-25 15:50:44.921 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-25 15:50:44.997 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 28772 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-25 15:50:45.005 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-25 15:50:45.908 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 15:50:45.923 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-25 15:50:46.193 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 15:50:46.279 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 85 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-25 15:50:46.288 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-25 15:50:46.296 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-25 15:50:47.151 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2023-07-25 15:50:47.169 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2023-07-25 15:50:47.171 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-25 15:50:47.171 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-25 15:50:47.308 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic] - Initializing Spring embedded WebApplicationContext
+2023-07-25 15:50:47.310 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2215 ms
+2023-07-25 15:50:48.302 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 15:50:48.438 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 15:50:48.463 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 15:50:48.734 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6326c5ec, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@138a85d3, org.springframework.security.web.context.SecurityContextHolderFilter@726a8729, org.springframework.security.web.header.HeaderWriterFilter@5353dd09, org.springframework.security.web.authentication.logout.LogoutFilter@75ed7512, com.hodik.elastic.security.JwtTokenFilter@55b5cd2b, org.springframework.security.web.session.ConcurrentSessionFilter@16b64a03, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7dd91ffc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@2c6927f0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@709d86a2, org.springframework.security.web.session.SessionManagementFilter@5d92e8e2, org.springframework.security.web.access.ExceptionTranslationFilter@7bfa1eb5, org.springframework.security.web.access.intercept.AuthorizationFilter@21e484b]
+2023-07-25 15:50:49.199 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+2023-07-25 15:50:49.216 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/elastic'
+2023-07-25 15:50:49.230 [main] INFO  com.hodik.elastic.ElasticApplication - Started ElasticApplication in 4.881 seconds (process running for 5.973)
+2023-07-25 16:25:35.081 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
+2023-07-25 16:25:35.135 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 13812 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
+2023-07-25 16:25:35.140 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
+2023-07-25 16:25:35.758 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 16:25:35.766 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 4 ms. Found 0 Elasticsearch repository interfaces.
+2023-07-25 16:25:35.950 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Elasticsearch repositories in DEFAULT mode.
+2023-07-25 16:25:36.029 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 77 ms. Found 3 Elasticsearch repository interfaces.
+2023-07-25 16:25:36.036 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Bootstrapping Spring Data Reactive Elasticsearch repositories in DEFAULT mode.
+2023-07-25 16:25:36.042 [main] INFO  org.springframework.data.repository.config.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Reactive Elasticsearch repository interfaces.
+2023-07-25 16:25:36.656 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8082 (http)
+2023-07-25 16:25:36.668 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8082"]
+2023-07-25 16:25:36.669 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-07-25 16:25:36.669 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.8]
+2023-07-25 16:25:36.779 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic] - Initializing Spring embedded WebApplicationContext
+2023-07-25 16:25:36.781 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1589 ms
+2023-07-25 16:25:37.515 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/projects'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 16:25:37.627 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/users'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 16:25:37.646 [main] TRACE tracer - curl -iX HEAD 'http://localhost:9200/vacancies'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# Transfer-Encoding: chunked
+#
+2023-07-25 16:25:37.848 [main] INFO  org.springframework.security.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@19faedcc, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2c6927f0, org.springframework.security.web.context.SecurityContextHolderFilter@6eabe718, org.springframework.security.web.header.HeaderWriterFilter@6d8b7ea9, org.springframework.security.web.authentication.logout.LogoutFilter@16b64a03, com.hodik.elastic.security.JwtTokenFilter@173f1614, org.springframework.security.web.session.ConcurrentSessionFilter@731db93f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@f9b8129, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@63a7781, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5ef2cbe6, org.springframework.security.web.session.SessionManagementFilter@406ad6d5, org.springframework.security.web.access.ExceptionTranslationFilter@4b544732, org.springframework.security.web.access.intercept.AuthorizationFilter@7dd91ffc]
+2023-07-25 16:25:38.195 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8082"]
+2023-07-25 16:25:38.209 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8082 (http) with context path '/elastic'
+2023-07-25 16:25:38.220 [main] INFO  com.hodik.elastic.ElasticApplication - Started ElasticApplication in 3.609 seconds (process running for 4.505)
+2023-07-25 16:31:47.994 [http-nio-8082-exec-3] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/elastic] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 16:31:47.994 [http-nio-8082-exec-3] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-07-25 16:31:47.995 [http-nio-8082-exec-3] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-07-25 16:31:48.329 [http-nio-8082-exec-3] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"6"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 161
+#
+# {"took":19,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":0,"relation":"eq"},"max_score":null,"hits":[]}}
+2023-07-25 16:31:48.645 [http-nio-8082-exec-3] TRACE tracer - curl -iX PUT 'http://localhost:9200/users/_doc/6?refresh=false' -d '{"_class":"com.hodik.elastic.model.User","id":6,"email":"igor6@gmail.com","firstName":"Igor","lastName":"Ivanov","role":"ROLE_USER","status":"NEW","type":"STUDENT"}'
+# HTTP/1.1 201 Created
+# Location: /users/_doc/6
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 139
+#
+# {"_index":"users","_id":"6","_version":1,"result":"created","_shards":{"total":2,"successful":1,"failed":0},"_seq_no":13,"_primary_term":3}
+2023-07-25 16:31:48.705 [http-nio-8082-exec-3] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_refresh'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 49
+#
+# {"_shards":{"total":2,"successful":1,"failed":0}}
+2023-07-25 16:31:48.706 [http-nio-8082-exec-3] INFO  com.hodik.elastic.services.EsUserService - User is saved to ES successful id = 6
+2023-07-25 16:33:20.336 [http-nio-8082-exec-1] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 161
+#
+# {"took":18,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":4,"relation":"eq"},"max_score":null,"hits":[]}}
+2023-07-25 16:33:20.353 [http-nio-8082-exec-1] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":4,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 1386
+#
+# {"took":8,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":4,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"0","_version":9,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":0,"email":"vasya@gmail.com","password":"Vasya2012","firstName":"Vasya","lastName":"Petrov","role":"ROLE_USER","description":"Some text","status":"NEW","type":"STUDENT","cv":"CV text","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}},{"_index":"users","_id":"1","_version":3,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":1,"email":"igor@gmail.com","password":"Igor2003","firstName":"Igor","lastName":"Ivanov","role":"ROLE_USER","description":"Software ingeneer","status":"NEW","type":"STUDENT","cv":"CV text","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}},{"_index":"users","_id":"2","_version":1,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":2,"email":"igor2@gmail.com","firstName":"Igor","lastName":"Ivanov","status":"NEW","type":"STUDENT"}},{"_index":"users","_id":"6","_version":1,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":6,"email":"igor6@gmail.com","firstName":"Igor","lastName":"Ivanov","role":"ROLE_USER","status":"NEW","type":"STUDENT"}}]}}
+2023-07-25 16:34:30.837 [http-nio-8082-exec-6] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"6"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 389
+#
+# {"took":21,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"6","_version":1,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":6,"email":"igor6@gmail.com","firstName":"Igor","lastName":"Ivanov","role":"ROLE_USER","status":"NEW","type":"STUDENT"}}]}}
+2023-07-25 16:34:36.835 [http-nio-8082-exec-7] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"5"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 160
+#
+# {"took":2,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":0,"relation":"eq"},"max_score":null,"hits":[]}}
+2023-07-25 16:34:36.841 [http-nio-8082-exec-7] ERROR com.hodik.elastic.controllers.UserController - null
+2023-07-25 16:34:39.954 [http-nio-8082-exec-10] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"4"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 160
+#
+# {"took":0,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":0,"relation":"eq"},"max_score":null,"hits":[]}}
+2023-07-25 16:34:39.956 [http-nio-8082-exec-10] ERROR com.hodik.elastic.controllers.UserController - null
+2023-07-25 16:34:43.162 [http-nio-8082-exec-2] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"3"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 160
+#
+# {"took":0,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":0,"relation":"eq"},"max_score":null,"hits":[]}}
+2023-07-25 16:34:43.163 [http-nio-8082-exec-2] ERROR com.hodik.elastic.controllers.UserController - null
+2023-07-25 16:34:46.069 [http-nio-8082-exec-1] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"2"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 369
+#
+# {"took":1,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"2","_version":1,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":2,"email":"igor2@gmail.com","firstName":"Igor","lastName":"Ivanov","status":"NEW","type":"STUDENT"}}]}}
+2023-07-25 16:34:58.112 [http-nio-8082-exec-5] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"1"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 555
+#
+# {"took":12,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"1","_version":3,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":1,"email":"igor@gmail.com","password":"Igor2003","firstName":"Igor","lastName":"Ivanov","role":"ROLE_USER","description":"Software ingeneer","status":"NEW","type":"STUDENT","cv":"CV text","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}}]}}
+2023-07-25 16:35:06.485 [http-nio-8082-exec-8] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"0"}}]}},"size":10000,"track_scores":false,"version":true}'
+# HTTP/1.1 200 OK
+# X-elastic-product: Elasticsearch
+# content-type: application/vnd.elasticsearch+json;compatible-with=8
+# content-length: 549
+#
+# {"took":0,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"0","_version":9,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":0,"email":"vasya@gmail.com","password":"Vasya2012","firstName":"Vasya","lastName":"Petrov","role":"ROLE_USER","description":"Some text","status":"NEW","type":"STUDENT","cv":"CV text","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}}]}}

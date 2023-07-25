@@ -21,6 +21,7 @@ public class ProjectSearchRepositoryImpl implements ProjectSearchRepository {
 
     private final EsQueryBuilder queryBuilder;
 
+
     @Autowired
     public ProjectSearchRepositoryImpl(ElasticsearchOperations elasticsearchOperations, EsQueryBuilder queryBuilder) {
         this.elasticsearchOperations = elasticsearchOperations;
