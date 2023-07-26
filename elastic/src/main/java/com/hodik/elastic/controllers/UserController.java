@@ -25,7 +25,6 @@ public class UserController {
     private final UserMapper userMapper;
 
 
-
     // POST users/ -- create
     // PUT users/{id} -- update
     // GET users -- all
@@ -53,13 +52,20 @@ public class UserController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @PutMapping()
+    public ResponseEntity<HttpStatus> createUserList(@RequestBody List<UserDto> userDtoList) {
+        userService.createUserList(userDtoList.stream().map(userMapper::convertToUser).toList());
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @GetMapping()
     public List<UserDto> getUsers() {
         List<User> users = userService.findAll();
         return users.stream().map(userMapper::convertToUserDto).collect(Collectors.toList());
     }
+
     @GetMapping("/{id}")
-    public  UserDto getUser(@PathVariable long id){
+    public UserDto getUser(@PathVariable long id) {
         return userMapper.convertToUserDto(userService.findById(id).orElseThrow(EntityNotFoundException::new));
     }
 
@@ -68,26 +74,30 @@ public class UserController {
         userService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
     @PostMapping("/search")
     public List<UserDto> searchByCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
         List<User> users = userService.findAllWithFilters(searchCriteriaDto);
-        log.info("Search request to index Users "  + searchCriteriaDto);
+        log.info("Search request to index Users " + searchCriteriaDto);
         return users.stream().map(userMapper::convertToUserDto).collect(Collectors.toList());
     }
+
     @ExceptionHandler
-    private ResponseEntity<UserErrorResponse> exceptionHandler (EntityAlreadyExistsException e){
-     UserErrorResponse responseEntity = new UserErrorResponse(e.getMessage());
-        log.error(e.getMessage());
-     return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
-    }
-    @ExceptionHandler
-    private ResponseEntity<UserErrorResponse> exceptionHandler (EntityNotFoundException e){
+    private ResponseEntity<UserErrorResponse> exceptionHandler(EntityAlreadyExistsException e) {
         UserErrorResponse responseEntity = new UserErrorResponse(e.getMessage());
         log.error(e.getMessage());
         return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler
-    private ResponseEntity<UserErrorResponse> exceptionHandler (IllegalArgumentException e){
+    private ResponseEntity<UserErrorResponse> exceptionHandler(EntityNotFoundException e) {
+        UserErrorResponse responseEntity = new UserErrorResponse(e.getMessage());
+        log.error(e.getMessage());
+        return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<UserErrorResponse> exceptionHandler(IllegalArgumentException e) {
         UserErrorResponse responseEntity = new UserErrorResponse(e.getMessage());
         log.error(e.getMessage());
         return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
