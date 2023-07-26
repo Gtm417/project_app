@@ -38,18 +38,18 @@ public class EsUserService {
             throw new EntityAlreadyExistsException("User already exists id= " + id);
         }
         userRepository.save(user);
-        log.info("User is saved to ES successful id = " + id);
+        log.info("[ELASTIC] User is saved to ES successful id = " + id);
     }
 
     public void update(long id, User user) {
         user.setId(id);
         userRepository.save(user);
-        log.info("User is updated in ES successful id = " + id);
+        log.info("[ELASTIC] User is updated in ES successful id = " + id);
     }
 
     public void delete(long id) {
         userRepository.deleteById(id);
-        log.info("User is deleted from ES successful id = " + id);
+        log.info("[ELASTIC] User is deleted from ES successful id = " + id);
     }
 
     public List<User> findAll() {
@@ -57,7 +57,9 @@ public class EsUserService {
         userRepository.findAll().forEach(users::add);
         return users;
 
-    } public List<User> findAll(Pageable pageable) {
+    }
+
+    public List<User> findAll(Pageable pageable) {
         List<User> users = new ArrayList<>();
         userRepository.findAll(pageable).forEach(users::add);
         return users;
@@ -76,9 +78,13 @@ public class EsUserService {
         return userSearchRepository.findAllWithFilters(searchCriteriaDto);
     }
 
-
     public Optional<User> findById(long id) {
         return userRepository.findById(id);
+    }
+
+    public void createUserList(List<User> users) {
+        userRepository.saveAll(users);
+        log.info("[ELASTIC] List of users is saved successful");
     }
 }
 
