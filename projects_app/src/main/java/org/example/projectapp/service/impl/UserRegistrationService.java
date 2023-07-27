@@ -1,7 +1,7 @@
 package org.example.projectapp.service.impl;
 
 import org.example.projectapp.controller.dto.RegisterUserDto;
-import org.example.projectapp.mappers.UserMapper;
+import org.example.projectapp.mapper.UserMapper;
 import org.example.projectapp.model.Status;
 import org.example.projectapp.model.User;
 import org.example.projectapp.repository.UserRepository;

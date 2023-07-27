@@ -1,7 +1,7 @@
 package org.example.projectapp.controller.rebaseToElasticcontroller;
 
-import org.example.projectapp.mappers.UserMapper;
-import org.example.projectapp.mappers.dto.UserElasticDto;
+import org.example.projectapp.mapper.UserMapper;
+import org.example.projectapp.mapper.dto.UserElasticDto;
 import org.example.projectapp.model.User;
 import org.example.projectapp.restclient.ElasticUsersServiceClient;
 import org.example.projectapp.service.UserService;
