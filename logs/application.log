@@ -236,7 +236,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 469
 #
 # {"took":14,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"projects","_id":"0","_version":1,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.Project","id":0,"name":"Java test project","isPrivate":false,"finalPlannedDate":"2025-09-15","startDate":"2019-07-05","category":"Java+Kotlin","description":"Cool","isCommercial":"Commercial","status":"Ok"}}]}}
-2023-07-24 18:22:04.469 [http-nio-8082-exec-3] ERROR com.hodik.elastic.controllers.ProjectController - Project already exits id= 0
+2023-07-24 18:22:04.469 [http-nio-8082-exec-3] ERROR com.hodik.elastic.controller.ProjectController - Project already exits id= 0
 2023-07-24 18:22:38.036 [http-nio-8082-exec-6] TRACE tracer - curl -iX POST 'http://localhost:9200/projects/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"0"}}]}},"size":10000,"track_scores":false,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -244,8 +244,8 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 468
 #
 # {"took":2,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"projects","_id":"0","_version":1,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.Project","id":0,"name":"Java test project","isPrivate":false,"finalPlannedDate":"2025-09-15","startDate":"2019-07-05","category":"Java+Kotlin","description":"Cool","isCommercial":"Commercial","status":"Ok"}}]}}
-2023-07-24 18:22:38.038 [http-nio-8082-exec-6] ERROR com.hodik.elastic.controllers.ProjectController - Project already exits id= 0
-2023-07-24 18:23:13.569 [http-nio-8082-exec-8] INFO  com.hodik.elastic.controllers.ProjectController - Search request to index Projects {"filters":[{"column":"finalPlannedDate","operations":"LESS_THEN","values":["2028\/06\/20"]},{"column":"description","operations":"LIKE","values":["o"]},{"column":"category","operations":"LIKE","values":[""]},{"column":"isPrivate","operations":"EQUAL","values":["true"]}],"page":0,"size":10,"sorts":[{"column":"name","ascending":false},{"column":"category","ascending":true}]}
+2023-07-24 18:22:38.038 [http-nio-8082-exec-6] ERROR com.hodik.elastic.controller.ProjectController - Project already exits id= 0
+2023-07-24 18:23:13.569 [http-nio-8082-exec-8] INFO  com.hodik.elastic.controller.ProjectController - Search request to index Projects {"filters":[{"column":"finalPlannedDate","operations":"LESS_THEN","values":["2028\/06\/20"]},{"column":"description","operations":"LIKE","values":["o"]},{"column":"category","operations":"LIKE","values":[""]},{"column":"isPrivate","operations":"EQUAL","values":["true"]}],"page":0,"size":10,"sorts":[{"column":"name","ascending":false},{"column":"category","ascending":true}]}
 2023-07-24 18:23:13.657 [http-nio-8082-exec-8] TRACE tracer - curl -iX POST 'http://localhost:9200/projects/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"range":{"finalPlannedDate":{"lte":"2028/06/20"}}},{"query_string":{"analyze_wildcard":true,"fields":["description"],"query":"*o*"}},{"query_string":{"analyze_wildcard":true,"fields":["category"],"query":"**"}},{"match":{"isPrivate":{"operator":"or","query":"true"}}}]}},"size":10,"sort":[{"name":{"mode":"min","order":"desc"}},{"category":{"mode":"min","order":"asc"}}],"track_scores":false,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -253,7 +253,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 830
 #
 # {"took":51,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":2,"relation":"eq"},"max_score":null,"hits":[{"_index":"projects","_id":"2","_version":1,"_score":null,"_source":{"_class":"com.hodik.elastic.model.Project","id":2,"name":"Java test project","isPrivate":true,"finalPlannedDate":"2023-09-15","startDate":"2015-06-05","category":"Java","description":"Cool","isCommercial":"Commercial","status":"Ok"},"sort":["Java test project","Java"]},{"_index":"projects","_id":"1","_version":1,"_score":null,"_source":{"_class":"com.hodik.elastic.model.Project","id":1,"name":"C# test project","isPrivate":true,"finalPlannedDate":"2025-09-15","startDate":"2019-07-05","category":"C#","description":"Cool","isCommercial":"Commercial","status":"Ok"},"sort":["C# test project","C#"]}]}}
-2023-07-24 18:23:22.735 [http-nio-8082-exec-9] ERROR com.hodik.elastic.controllers.UserController - Column not found finalPlannedDate
+2023-07-24 18:23:22.735 [http-nio-8082-exec-9] ERROR com.hodik.elastic.controller.UserController - Column not found finalPlannedDate
 2023-07-24 18:25:10.047 [http-nio-8082-exec-2] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -268,7 +268,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 972
 #
 # {"took":10,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":2,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"0","_version":8,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":0,"email":"vasya@gmail.com","password":"Vasya2012","firstName":"Vasya","lastName":"Petrov","role":"User","description":"Software ingeneer","status":"employee","type":"full stack","cv":"Same text ...","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}},{"_index":"users","_id":"1","_version":2,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":1,"email":"igor@gmail.com","password":"Igor2003","firstName":"Igor","lastName":"Ivanov","role":"User","description":"Software ingeneer","status":"employee","type":"full stack","cv":"Same text ...","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}}]}}
-2023-07-24 18:25:10.080 [http-nio-8082-exec-2] ERROR com.hodik.elastic.controllers.UserController - No enum constant com.hodik.elastic.model.Role.User
+2023-07-24 18:25:10.080 [http-nio-8082-exec-2] ERROR com.hodik.elastic.controller.UserController - No enum constant com.hodik.elastic.model.Role.User
 2023-07-24 18:25:21.650 [http-nio-8082-exec-5] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -283,7 +283,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 971
 #
 # {"took":2,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":2,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"0","_version":8,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":0,"email":"vasya@gmail.com","password":"Vasya2012","firstName":"Vasya","lastName":"Petrov","role":"User","description":"Software ingeneer","status":"employee","type":"full stack","cv":"Same text ...","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}},{"_index":"users","_id":"1","_version":2,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":1,"email":"igor@gmail.com","password":"Igor2003","firstName":"Igor","lastName":"Ivanov","role":"User","description":"Software ingeneer","status":"employee","type":"full stack","cv":"Same text ...","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}}]}}
-2023-07-24 18:25:21.661 [http-nio-8082-exec-5] ERROR com.hodik.elastic.controllers.UserController - No enum constant com.hodik.elastic.model.Role.User
+2023-07-24 18:25:21.661 [http-nio-8082-exec-5] ERROR com.hodik.elastic.controller.UserController - No enum constant com.hodik.elastic.model.Role.User
 2023-07-24 18:39:20.877 [http-nio-8082-exec-6] TRACE tracer - curl -iX PUT 'http://localhost:9200/users/_doc/0?refresh=false' -d '{"_class":"com.hodik.elastic.model.User","id":0,"email":"vasya@gmail.com","password":"Vasya2012","firstName":"Vasya","lastName":"Petrov","role":"ROLE_USER","description":"Some text","status":"NEW","type":"STUDENT","cv":"CV text","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -298,7 +298,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-24 18:39:20.964 [http-nio-8082-exec-6] INFO  com.hodik.elastic.services.EsUserService - User is updated in ES successful id = 0
+2023-07-24 18:39:20.964 [http-nio-8082-exec-6] INFO  com.hodik.elastic.service.EsUserService - User is updated in ES successful id = 0
 2023-07-24 18:41:40.052 [http-nio-8082-exec-10] WARN  org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `com.hodik.elastic.model.Role` from String "User": not one of the values accepted for Enum class: [ROLE_USER, ROLE_ADMIN]]
 2023-07-24 18:41:52.821 [http-nio-8082-exec-1] WARN  org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `com.hodik.elastic.model.Role` from String "User": not one of the values accepted for Enum class: [ROLE_USER, ROLE_ADMIN]]
 2023-07-24 18:43:05.182 [http-nio-8082-exec-3] TRACE tracer - curl -iX PUT 'http://localhost:9200/users/_doc/1?refresh=false' -d '{"_class":"com.hodik.elastic.model.User","id":1,"email":"igor@gmail.com","password":"Igor2003","firstName":"Igor","lastName":"Ivanov","role":"ROLE_USER","description":"Software ingeneer","status":"NEW","type":"STUDENT","cv":"CV text","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}'
@@ -315,7 +315,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-24 18:43:05.240 [http-nio-8082-exec-3] INFO  com.hodik.elastic.services.EsUserService - User is updated in ES successful id = 1
+2023-07-24 18:43:05.240 [http-nio-8082-exec-3] INFO  com.hodik.elastic.service.EsUserService - User is updated in ES successful id = 1
 2023-07-24 18:43:15.796 [http-nio-8082-exec-5] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -421,7 +421,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 550
 #
 # {"took":29,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":1,"relation":"eq"},"max_score":1.0,"hits":[{"_index":"users","_id":"0","_version":9,"_score":1.0,"_source":{"_class":"com.hodik.elastic.model.User","id":0,"email":"vasya@gmail.com","password":"Vasya2012","firstName":"Vasya","lastName":"Petrov","role":"ROLE_USER","description":"Some text","status":"NEW","type":"STUDENT","cv":"CV text","skills":[{"skillName":"Java","expertise":"NOVICE"},{"skillName":"Git","expertise":"ADVANCED"}]}}]}}
-2023-07-25 12:49:57.921 [http-nio-8082-exec-1] ERROR com.hodik.elastic.controllers.UserController - User already exists id= 0
+2023-07-25 12:49:57.921 [http-nio-8082-exec-1] ERROR com.hodik.elastic.controller.UserController - User already exists id= 0
 2023-07-25 13:40:26.579 [http-nio-8082-exec-2] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"2"}}]}},"size":10000,"track_scores":false,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -444,7 +444,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-25 13:40:26.882 [http-nio-8082-exec-2] INFO  com.hodik.elastic.services.EsUserService - User is saved to ES successful id = 2
+2023-07-25 13:40:26.882 [http-nio-8082-exec-2] INFO  com.hodik.elastic.service.EsUserService - User is saved to ES successful id = 2
 2023-07-25 13:42:21.434 [http-nio-8082-exec-3] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"2"}}]}},"size":10000,"track_scores":false,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -573,7 +573,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 160
 #
 # {"took":8,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":0,"relation":"eq"},"max_score":null,"hits":[]}}
-2023-07-25 14:46:23.533 [http-nio-8082-exec-1] ERROR com.hodik.elastic.controllers.UserController - null
+2023-07-25 14:46:23.533 [http-nio-8082-exec-1] ERROR com.hodik.elastic.controller.UserController - null
 2023-07-25 14:46:30.570 [http-nio-8082-exec-4] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"2"}}]}},"size":10000,"track_scores":false,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -754,7 +754,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-25 16:31:48.706 [http-nio-8082-exec-3] INFO  com.hodik.elastic.services.EsUserService - User is saved to ES successful id = 6
+2023-07-25 16:31:48.706 [http-nio-8082-exec-3] INFO  com.hodik.elastic.service.EsUserService - User is saved to ES successful id = 6
 2023-07-25 16:33:20.336 [http-nio-8082-exec-1] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -783,7 +783,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 160
 #
 # {"took":2,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":0,"relation":"eq"},"max_score":null,"hits":[]}}
-2023-07-25 16:34:36.841 [http-nio-8082-exec-7] ERROR com.hodik.elastic.controllers.UserController - null
+2023-07-25 16:34:36.841 [http-nio-8082-exec-7] ERROR com.hodik.elastic.controller.UserController - null
 2023-07-25 16:34:39.954 [http-nio-8082-exec-10] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"4"}}]}},"size":10000,"track_scores":false,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -791,7 +791,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 160
 #
 # {"took":0,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":0,"relation":"eq"},"max_score":null,"hits":[]}}
-2023-07-25 16:34:39.956 [http-nio-8082-exec-10] ERROR com.hodik.elastic.controllers.UserController - null
+2023-07-25 16:34:39.956 [http-nio-8082-exec-10] ERROR com.hodik.elastic.controller.UserController - null
 2023-07-25 16:34:43.162 [http-nio-8082-exec-2] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"3"}}]}},"size":10000,"track_scores":false,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -799,7 +799,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 160
 #
 # {"took":0,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":0,"relation":"eq"},"max_score":null,"hits":[]}}
-2023-07-25 16:34:43.163 [http-nio-8082-exec-2] ERROR com.hodik.elastic.controllers.UserController - null
+2023-07-25 16:34:43.163 [http-nio-8082-exec-2] ERROR com.hodik.elastic.controller.UserController - null
 2023-07-25 16:34:46.069 [http-nio-8082-exec-1] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"2"}}]}},"size":10000,"track_scores":false,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -924,7 +924,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:37:50.107 [http-nio-8082-exec-1] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] List of users is saved successful
+2023-07-26 15:37:50.107 [http-nio-8082-exec-1] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] List of users is saved successful
 2023-07-26 15:38:39.099 [http-nio-8082-exec-4] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -965,7 +965,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:39:29.653 [http-nio-8082-exec-6] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] List of users is saved successful
+2023-07-26 15:39:29.653 [http-nio-8082-exec-6] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] List of users is saved successful
 2023-07-26 15:39:56.988 [http-nio-8082-exec-10] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1008,7 +1008,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:46:39.797 [http-nio-8082-exec-8] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 2
+2023-07-26 15:46:39.797 [http-nio-8082-exec-8] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 2
 2023-07-26 15:46:48.134 [http-nio-8082-exec-9] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"1"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1023,7 +1023,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:46:48.149 [http-nio-8082-exec-9] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 1
+2023-07-26 15:46:48.149 [http-nio-8082-exec-9] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 1
 2023-07-26 15:46:52.944 [http-nio-8082-exec-10] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"3"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1038,7 +1038,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:46:53.036 [http-nio-8082-exec-10] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 3
+2023-07-26 15:46:53.036 [http-nio-8082-exec-10] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 3
 2023-07-26 15:46:57.164 [http-nio-8082-exec-1] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"4"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1053,7 +1053,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:46:57.181 [http-nio-8082-exec-1] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 4
+2023-07-26 15:46:57.181 [http-nio-8082-exec-1] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 4
 2023-07-26 15:47:07.309 [http-nio-8082-exec-3] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"from":0,"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"1"}}]}},"size":10000,"track_scores":false,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1061,7 +1061,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 160
 #
 # {"took":3,"timed_out":false,"_shards":{"total":1,"successful":1,"skipped":0,"failed":0},"hits":{"total":{"value":0,"relation":"eq"},"max_score":null,"hits":[]}}
-2023-07-26 15:47:07.314 [http-nio-8082-exec-3] ERROR com.hodik.elastic.controllers.UserController - null
+2023-07-26 15:47:07.314 [http-nio-8082-exec-3] ERROR com.hodik.elastic.controller.UserController - null
 2023-07-26 15:47:13.368 [http-nio-8082-exec-5] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1090,7 +1090,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:47:32.395 [http-nio-8082-exec-6] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 5
+2023-07-26 15:47:32.395 [http-nio-8082-exec-6] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 5
 2023-07-26 15:47:38.616 [http-nio-8082-exec-7] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"6"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1105,7 +1105,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:47:38.633 [http-nio-8082-exec-7] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 6
+2023-07-26 15:47:38.633 [http-nio-8082-exec-7] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 6
 2023-07-26 15:47:43.907 [http-nio-8082-exec-8] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"7"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1120,7 +1120,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:47:43.912 [http-nio-8082-exec-8] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 7
+2023-07-26 15:47:43.912 [http-nio-8082-exec-8] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 7
 2023-07-26 15:47:50.894 [http-nio-8082-exec-9] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"8"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1135,7 +1135,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:47:50.899 [http-nio-8082-exec-9] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 8
+2023-07-26 15:47:50.899 [http-nio-8082-exec-9] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 8
 2023-07-26 15:47:56.744 [http-nio-8082-exec-10] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"9"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1150,7 +1150,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:47:56.748 [http-nio-8082-exec-10] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 9
+2023-07-26 15:47:56.748 [http-nio-8082-exec-10] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 9
 2023-07-26 15:48:02.496 [http-nio-8082-exec-1] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1191,7 +1191,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:48:38.359 [http-nio-8082-exec-2] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] List of users is saved successful
+2023-07-26 15:48:38.359 [http-nio-8082-exec-2] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] List of users is saved successful
 2023-07-26 15:48:58.774 [http-nio-8082-exec-4] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1220,7 +1220,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:49:15.062 [http-nio-8082-exec-5] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 1
+2023-07-26 15:49:15.062 [http-nio-8082-exec-5] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 1
 2023-07-26 15:49:19.868 [http-nio-8082-exec-7] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"3"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1235,7 +1235,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:49:19.888 [http-nio-8082-exec-7] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 3
+2023-07-26 15:49:19.888 [http-nio-8082-exec-7] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 3
 2023-07-26 15:49:22.060 [http-nio-8082-exec-8] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"4"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1250,7 +1250,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:49:22.078 [http-nio-8082-exec-8] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 4
+2023-07-26 15:49:22.078 [http-nio-8082-exec-8] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 4
 2023-07-26 15:49:24.548 [http-nio-8082-exec-9] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"5"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1265,7 +1265,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:49:24.585 [http-nio-8082-exec-9] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 5
+2023-07-26 15:49:24.585 [http-nio-8082-exec-9] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 5
 2023-07-26 15:49:29.549 [http-nio-8082-exec-1] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"6"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1280,7 +1280,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:49:29.587 [http-nio-8082-exec-1] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 6
+2023-07-26 15:49:29.587 [http-nio-8082-exec-1] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 6
 2023-07-26 15:49:33.320 [http-nio-8082-exec-2] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"5"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1295,7 +1295,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:49:33.325 [http-nio-8082-exec-2] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 5
+2023-07-26 15:49:33.325 [http-nio-8082-exec-2] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 5
 2023-07-26 15:49:35.489 [http-nio-8082-exec-3] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"5"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1310,7 +1310,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 15:49:35.494 [http-nio-8082-exec-3] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 5
+2023-07-26 15:49:35.494 [http-nio-8082-exec-3] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 5
 2023-07-26 16:42:15.673 [background-preinit] INFO  org.hibernate.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.0.Final
 2023-07-26 16:42:15.727 [main] INFO  com.hodik.elastic.ElasticApplication - Starting ElasticApplication using Java 17.0.6 with PID 5308 (C:\Users\m-god\IdeaProjects\project_app\elastic\target\classes started by m-god in C:\Users\m-god\IdeaProjects\project_app)
 2023-07-26 16:42:15.733 [main] INFO  com.hodik.elastic.ElasticApplication - No active profile set, falling back to 1 default profile: "default"
@@ -1414,7 +1414,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:00:37.028 [http-nio-8082-exec-1] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] List of users is saved successful
+2023-07-26 17:00:37.028 [http-nio-8082-exec-1] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] List of users is saved successful
 2023-07-26 17:01:14.757 [http-nio-8082-exec-2] TRACE tracer - curl -iX POST 'http://localhost:9200/_bulk?refresh=false' -d '{"index":{"_id":"1","_index":"users"}}
 {"_class":"com.hodik.elastic.model.User","id":1,"email":"igor@gmail.com","firstName":"Igor","lastName":"Ivanov","role":"ROLE_ADMIN","status":"NEW","type":"STUDENT","skills":[]}
 {"index":{"_id":"2","_index":"users"}}
@@ -1441,7 +1441,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:01:14.775 [http-nio-8082-exec-2] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] List of users is saved successful
+2023-07-26 17:01:14.775 [http-nio-8082-exec-2] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] List of users is saved successful
 2023-07-26 17:01:33.200 [http-nio-8082-exec-6] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"5"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1456,7 +1456,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:01:33.225 [http-nio-8082-exec-6] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 5
+2023-07-26 17:01:33.225 [http-nio-8082-exec-6] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 5
 2023-07-26 17:01:36.814 [http-nio-8082-exec-5] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"4"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1471,7 +1471,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:01:36.828 [http-nio-8082-exec-5] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 4
+2023-07-26 17:01:36.828 [http-nio-8082-exec-5] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 4
 2023-07-26 17:01:40.340 [http-nio-8082-exec-4] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"3"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1486,7 +1486,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:01:40.392 [http-nio-8082-exec-4] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 3
+2023-07-26 17:01:40.392 [http-nio-8082-exec-4] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 3
 2023-07-26 17:01:44.042 [http-nio-8082-exec-7] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"2"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1501,7 +1501,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:01:44.056 [http-nio-8082-exec-7] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 2
+2023-07-26 17:01:44.056 [http-nio-8082-exec-7] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 2
 2023-07-26 17:01:47.946 [http-nio-8082-exec-8] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"1"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1516,7 +1516,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:01:47.961 [http-nio-8082-exec-8] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 1
+2023-07-26 17:01:47.961 [http-nio-8082-exec-8] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 1
 2023-07-26 17:02:00.384 [http-nio-8082-exec-9] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1545,7 +1545,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:02:11.540 [http-nio-8082-exec-10] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 6
+2023-07-26 17:02:11.540 [http-nio-8082-exec-10] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 6
 2023-07-26 17:45:08.042 [http-nio-8082-exec-3] TRACE tracer - curl -iX POST 'http://localhost:9200/_bulk?refresh=false' -d '{"index":{"_id":"1","_index":"users"}}
 {"_class":"com.hodik.elastic.model.User","id":1,"email":"igor@gmail.com","firstName":"Igor","lastName":"Ivanov","role":"ROLE_ADMIN","status":"NEW","type":"STUDENT","skills":[]}
 {"index":{"_id":"2","_index":"users"}}
@@ -1572,7 +1572,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:45:08.098 [http-nio-8082-exec-3] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] List of users is saved successful
+2023-07-26 17:45:08.098 [http-nio-8082-exec-3] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] List of users is saved successful
 2023-07-26 17:45:23.682 [http-nio-8082-exec-5] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1601,7 +1601,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:45:36.088 [http-nio-8082-exec-4] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 6
+2023-07-26 17:45:36.088 [http-nio-8082-exec-4] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 6
 2023-07-26 17:45:42.502 [http-nio-8082-exec-8] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"5"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1616,7 +1616,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:45:42.517 [http-nio-8082-exec-8] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 5
+2023-07-26 17:45:42.517 [http-nio-8082-exec-8] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 5
 2023-07-26 17:45:45.885 [http-nio-8082-exec-9] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"4"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1631,7 +1631,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:45:45.899 [http-nio-8082-exec-9] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 4
+2023-07-26 17:45:45.899 [http-nio-8082-exec-9] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 4
 2023-07-26 17:45:48.470 [http-nio-8082-exec-10] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"3"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1646,7 +1646,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:45:48.483 [http-nio-8082-exec-10] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 3
+2023-07-26 17:45:48.483 [http-nio-8082-exec-10] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 3
 2023-07-26 17:45:50.953 [http-nio-8082-exec-1] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"2"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1661,7 +1661,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:45:50.967 [http-nio-8082-exec-1] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 2
+2023-07-26 17:45:50.967 [http-nio-8082-exec-1] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 2
 2023-07-26 17:45:53.250 [http-nio-8082-exec-2] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"1"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1676,7 +1676,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 17:45:53.265 [http-nio-8082-exec-2] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 1
+2023-07-26 17:45:53.265 [http-nio-8082-exec-2] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 1
 2023-07-26 18:13:20.685 [http-nio-8082-exec-5] TRACE tracer - curl -iX POST 'http://localhost:9200/_bulk?refresh=false' -d '{"index":{"_id":"2","_index":"users"}}
 {"_class":"com.hodik.elastic.model.User","id":2,"email":"igor2@gmail.com","firstName":"Igor","lastName":"Ivanov","role":"ROLE_ADMIN","status":"NEW","type":"STUDENT","skills":[]}
 {"index":{"_id":"3","_index":"users"}}
@@ -1695,7 +1695,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 18:13:20.730 [http-nio-8082-exec-5] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] List of users is saved successful
+2023-07-26 18:13:20.730 [http-nio-8082-exec-5] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] List of users is saved successful
 2023-07-26 18:15:25.868 [http-nio-8082-exec-7] TRACE tracer - curl -iX POST 'http://localhost:9200/_bulk?refresh=false' -d '{"index":{"_id":"2","_index":"users"}}
 {"_class":"com.hodik.elastic.model.User","id":2,"email":"igor2@gmail.com","firstName":"Igor","lastName":"Ivanov","role":"ROLE_ADMIN","status":"NEW","type":"STUDENT","skills":[]}
 {"index":{"_id":"3","_index":"users"}}
@@ -1714,7 +1714,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 18:15:25.922 [http-nio-8082-exec-7] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] List of users is saved successful
+2023-07-26 18:15:25.922 [http-nio-8082-exec-7] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] List of users is saved successful
 2023-07-26 18:15:38.971 [http-nio-8082-exec-10] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1747,7 +1747,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 18:16:32.954 [http-nio-8082-exec-2] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] List of users is saved successful
+2023-07-26 18:16:32.954 [http-nio-8082-exec-2] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] List of users is saved successful
 2023-07-26 18:16:54.832 [http-nio-8082-exec-6] TRACE tracer - curl -iX POST 'http://localhost:9200/_bulk?refresh=false' -d '{"index":{"_id":"1","_index":"users"}}
 {"_class":"com.hodik.elastic.model.User","id":1,"email":"igor@gmail.com","firstName":"Igor","lastName":"Ivanov","role":"ROLE_ADMIN","status":"NEW","type":"STUDENT","skills":[]}
 {"index":{"_id":"2","_index":"users"}}
@@ -1774,7 +1774,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 18:16:54.848 [http-nio-8082-exec-6] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] List of users is saved successful
+2023-07-26 18:16:54.848 [http-nio-8082-exec-6] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] List of users is saved successful
 2023-07-26 18:17:49.978 [http-nio-8082-exec-7] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1803,7 +1803,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 18:18:02.965 [http-nio-8082-exec-9] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 1
+2023-07-26 18:18:02.965 [http-nio-8082-exec-9] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 1
 2023-07-26 18:18:06.989 [http-nio-8082-exec-10] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"2"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1818,7 +1818,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 18:18:07.005 [http-nio-8082-exec-10] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 2
+2023-07-26 18:18:07.005 [http-nio-8082-exec-10] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 2
 2023-07-26 18:18:09.514 [http-nio-8082-exec-1] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"3"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1833,7 +1833,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 18:18:09.527 [http-nio-8082-exec-1] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 3
+2023-07-26 18:18:09.527 [http-nio-8082-exec-1] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 3
 2023-07-26 18:18:11.889 [http-nio-8082-exec-2] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"4"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1848,7 +1848,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 18:18:11.899 [http-nio-8082-exec-2] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 4
+2023-07-26 18:18:11.899 [http-nio-8082-exec-2] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 4
 2023-07-26 18:18:14.084 [http-nio-8082-exec-3] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"5"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1863,7 +1863,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 18:18:14.098 [http-nio-8082-exec-3] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 5
+2023-07-26 18:18:14.098 [http-nio-8082-exec-3] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 5
 2023-07-26 18:18:17.341 [http-nio-8082-exec-6] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"6"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1878,7 +1878,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 18:18:17.354 [http-nio-8082-exec-6] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 6
+2023-07-26 18:18:17.354 [http-nio-8082-exec-6] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 6
 2023-07-26 18:18:19.889 [http-nio-8082-exec-5] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_delete_by_query' -d '{"query":{"bool":{"must":[{"query_string":{"default_operator":"and","fields":["id"],"query":"6"}}]}}}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
@@ -1893,7 +1893,7 @@ Caused by: io.jsonwebtoken.security.SignatureException: JWT signature does not m
 # content-length: 49
 #
 # {"_shards":{"total":2,"successful":1,"failed":0}}
-2023-07-26 18:18:19.895 [http-nio-8082-exec-5] INFO  com.hodik.elastic.services.EsUserService - [ELASTIC] User is deleted from ES successful id = 6
+2023-07-26 18:18:19.895 [http-nio-8082-exec-5] INFO  com.hodik.elastic.service.EsUserService - [ELASTIC] User is deleted from ES successful id = 6
 2023-07-26 18:18:24.693 [http-nio-8082-exec-4] TRACE tracer - curl -iX POST 'http://localhost:9200/users/_search?typed_keys=true&search_type=query_then_fetch' -d '{"_source":false,"from":0,"query":{"wrapper":{"query":"eyJtYXRjaF9hbGwiOnt9fQ=="}},"size":0,"track_scores":false,"track_total_hits":2147483647,"version":true}'
 # HTTP/1.1 200 OK
 # X-elastic-product: Elasticsearch
