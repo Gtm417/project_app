@@ -1,8 +1,6 @@
 package com.hodik.elastic.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,6 +43,6 @@ public class Project {
     @Field(type = FieldType.Text)
     private boolean isCommercial;
     @Field(type = FieldType.Keyword)
-    @Enumerated(value = EnumType.STRING)
+
     private ProjectStatus status;
 }
