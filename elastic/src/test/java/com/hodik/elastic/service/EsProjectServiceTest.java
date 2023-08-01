@@ -6,6 +6,7 @@ import com.hodik.elastic.dto.SearchSort;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.mapper.PageableMapper;
 import com.hodik.elastic.model.Project;
+import com.hodik.elastic.model.ProjectStatus;
 import com.hodik.elastic.repository.ProjectRepository;
 import com.hodik.elastic.repository.ProjectSearchRepository;
 import org.junit.jupiter.api.Test;
@@ -39,9 +40,9 @@ class EsProjectServiceTest {
     public static final LocalDate CREATED_DATE = LocalDate.of(2020, 7, 5);
     public static final String DESCRIPTION = "Description";
     public static final LocalDate FINAL_PLANNED_DATE = LocalDate.of(2025, 12, 31);
-    public static final String IS_COMMERCIAL = "Commercial";
+    public static final boolean IS_COMMERCIAL = true;
     public static final boolean IS_PRIVATE = false;
-    public static final String STATUS = "Status";
+    public static final ProjectStatus STATUS = ProjectStatus.NEW;
     public static final int PAGE = 0;
     public static final int SIZE = 2;
 
