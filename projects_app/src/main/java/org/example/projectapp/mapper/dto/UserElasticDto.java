@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.example.projectapp.model.Role;
-import org.example.projectapp.model.Skill;
 import org.example.projectapp.model.Status;
 import org.example.projectapp.model.UserType;
 
@@ -27,7 +26,7 @@ public class UserElasticDto {
     private Status status;
     private UserType type;
     private String cv;// probably just text (not sure yet)
-    private List<Skill> skills; //(nested indexable field)
+    private List<SkillElasticDto> skills; //(nested indexable field)
 
     @Override
     public String toString() {

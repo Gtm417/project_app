@@ -19,6 +19,8 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User {
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private Set<SkillExpertise> skills;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -51,8 +53,6 @@ public class User {
     private Set<ProjectNotification> projectNotifications;
     @ManyToMany(mappedBy = "subscribers", fetch = FetchType.LAZY)
     private Set<Vacancy> subVacancies;
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private Set<SkillExpertise> skills;
 
     @Override
     public boolean equals(Object o) {

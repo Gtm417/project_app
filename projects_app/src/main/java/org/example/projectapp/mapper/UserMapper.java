@@ -1,20 +1,32 @@
 package org.example.projectapp.mapper;
 
+import org.example.projectapp.mapper.dto.SkillElasticDto;
 import org.example.projectapp.mapper.dto.UserElasticDto;
 import org.example.projectapp.model.User;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
-    private final ModelMapper modelMapper;
 
-    public UserMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
 
     public UserElasticDto convertToUserElasticDto(User user) {
-        return modelMapper.map(user, UserElasticDto.class);
+//
+        List<SkillElasticDto> skillsDtoList = user.getSkills().stream().map(x -> new SkillElasticDto(x.getSkill().getName(), x.getExpertise())).collect(Collectors.toList());
+        return UserElasticDto.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .role(user.getRole())
+                .email(user.getEmail())
+                .cv(Arrays.toString(user.getCv()))
+                .type(user.getType())
+                .status(user.getStatus())
+                .description(user.getDescription())
+                .skills(skillsDtoList).build();
     }
 
 }
