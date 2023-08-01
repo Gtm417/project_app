@@ -1,6 +1,8 @@
 package com.hodik.elastic.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +28,7 @@ public class Project {
     @Field(type = FieldType.Keyword)
     private String name;
     @Field(type = FieldType.Boolean)
-    private Boolean isPrivate;
+    private boolean isPrivate;
     @Field(type = FieldType.Date)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate createdDate; //(timestamp)
@@ -41,7 +43,8 @@ public class Project {
     @Field(type = FieldType.Keyword)
     private String description;
     @Field(type = FieldType.Text)
-    private String isCommercial;
+    private boolean isCommercial;
     @Field(type = FieldType.Keyword)
-    private String status;
+    @Enumerated(value = EnumType.STRING)
+    private ProjectStatus status;
 }
