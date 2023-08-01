@@ -135,7 +135,6 @@ class EsProjectServiceTest {
         verify(projectSearchRepository).findAllWithFilters(searchCriteriaDtoSuccess);
         assertEquals(expectedProjectList, projects);
     }
-
     @Test
     void shouldTrowExceptionWhenWrongColumn() {
 
@@ -190,7 +189,6 @@ class EsProjectServiceTest {
         assertEquals(EXPECTED_OPTIONAL_PROJECT, project);
 
     }
-
     private Project getExpectedProject() {
         return Project.builder()
                 .id(ID)

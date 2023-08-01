@@ -27,8 +27,7 @@ public class Project {
     @Field(type = FieldType.Keyword)
     private String name;
     @Field(type = FieldType.Boolean)
-    private Boolean isPrivate;
-
+    private boolean isPrivate;
     @Field(type = FieldType.Date)
     @ValueConverter(CustomDatePropertyValueConverter.class)
     private LocalDateTime createdDate; //(timestamp)
