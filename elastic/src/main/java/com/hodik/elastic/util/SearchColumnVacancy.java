@@ -1,7 +1,7 @@
 package com.hodik.elastic.util;
 
 public enum SearchColumnVacancy implements SearchColumn {
-    PROJECT_ID("projectId"), DESCRIPTION("description"), CREATOR("creator"), ABOUT_PROJECT("aboutProject"),
+    PROJECT_ID("skillId"), DESCRIPTION("description"), CREATOR("creator"), ABOUT_PROJECT("aboutProject"),
     EXPECTED("expected"), JOB_POSITION("jobPosition");
 
     final String name;

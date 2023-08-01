@@ -12,8 +12,8 @@ public interface ProjectMemberRepository extends JpaRepository<ProjectMember, Lo
     @Query("SELECT pm.projectRole FROM ProjectMember pm WHERE pm.project = :project and pm.user = :user")
     ProjectRole getProjectRoleForUser(@Param("project") Project project, @Param("user") User user);
 
-    @Query("SELECT pm.projectRole FROM ProjectMember pm WHERE pm.project.id = :projectId and pm.user = :user")
-    ProjectRole getProjectRoleForUser(@Param("projectId") Long projectId, @Param("user") User user);
+    @Query("SELECT pm.projectRole FROM ProjectMember pm WHERE pm.project.id = :skillId and pm.user = :user")
+    ProjectRole getProjectRoleForUser(@Param("skillId") Long projectId, @Param("user") User user);
 
     ProjectMember getByProjectAndUser(Project project, User user);
 }

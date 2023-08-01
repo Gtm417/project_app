@@ -18,6 +18,8 @@ import java.util.Set;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "skills")
 public class Skill {
+    @OneToMany(mappedBy = "skill", fetch = FetchType.LAZY)
+    private Set<SkillExpertise> users;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,8 +28,6 @@ public class Skill {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "skill", fetch = FetchType.LAZY)
-    private Set<SkillExpertise> users;
 
     public Skill() {
 
