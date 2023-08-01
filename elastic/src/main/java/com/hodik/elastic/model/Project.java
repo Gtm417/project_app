@@ -28,7 +28,6 @@ public class Project {
     private String name;
     @Field(type = FieldType.Boolean)
     private Boolean isPrivate;
-
     @Field(type = FieldType.Date)
     @ValueConverter(CustomDatePropertyValueConverter.class)
     private LocalDateTime createdDate; //(timestamp)
@@ -43,7 +42,7 @@ public class Project {
 
     @Field(type = FieldType.Keyword)
     private String category;
-    @Field(type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     private String description;
     @Field(type = FieldType.Boolean)
     private Boolean isCommercial;
