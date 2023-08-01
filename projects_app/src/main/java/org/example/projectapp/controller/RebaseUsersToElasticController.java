@@ -1,4 +1,4 @@
-package org.example.projectapp.controller.dto;
+package org.example.projectapp.controller;
 
 import org.example.projectapp.mapper.UserMapper;
 import org.example.projectapp.mapper.dto.UserElasticDto;
