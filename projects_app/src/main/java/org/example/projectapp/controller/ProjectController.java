@@ -35,7 +35,6 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.createProject(projectDto));
     }
 
-
     @PutMapping("/{id}/notification")
     public ResponseEntity<?> createProject(@PathVariable("id") Long id,
                                            @RequestBody @Valid @NotNull(message = "Should not be empty") Boolean enable) {
