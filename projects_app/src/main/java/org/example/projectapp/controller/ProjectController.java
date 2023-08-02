@@ -58,7 +58,7 @@ public class ProjectController {
         return ResponseEntity.ok(projectResponseDto);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<ProjectDto>> getProjects() {
         return ResponseEntity.ok(elasticProjectServiceClient.getProjects());
     }
