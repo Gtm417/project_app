@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -52,7 +53,7 @@ public class User {
     @ManyToMany(mappedBy = "subscribers", fetch = FetchType.LAZY)
     private Set<Vacancy> subVacancies;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private Set<SkillExpertise> skills;
+    private Set<SkillExpertise> skills = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

@@ -33,6 +33,14 @@ public class SkillController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/{skillId}")
+    public ResponseEntity<?> updateSkill(@PathVariable Long userId,
+                                         @PathVariable Long skillId,
+                                         @RequestBody @Valid SkillDto skillDto) {
+        skillsService.updateSkill(userId, skillId, skillDto);
+        return ResponseEntity.ok().build();
+    }
+
     @ExceptionHandler(AlreadyAssignedSkillException.class)
     public ResponseEntity<String> alreadyAssignedSkillHandling(AlreadyAssignedSkillException e) {
         logger.info("[SKILL] User {} already have such skill {}", e.getUserId(), e.getSkillName());

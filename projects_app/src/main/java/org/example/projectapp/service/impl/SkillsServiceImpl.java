@@ -2,6 +2,7 @@ package org.example.projectapp.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.example.projectapp.auth.AuthService;
+import org.example.projectapp.controller.dto.SkillDto;
 import org.example.projectapp.mapper.UserMapper;
 import org.example.projectapp.mapper.dto.UserElasticDto;
 import org.example.projectapp.model.*;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+
 
 @Service
 public class SkillsServiceImpl implements SkillsService {
@@ -86,6 +88,31 @@ public class SkillsServiceImpl implements SkillsService {
             userFromAuth.getSkills().remove(skillExpertise);
         }
         synchroniseUserToElastic(userFromAuth);
+        Optional<SkillExpertise> optionalSkillExpertise = skillExpertiseRepository.findById(id);
+        optionalSkillExpertise.ifPresent(skillExpertiseRepository::delete);
+    }
+
+    @Override
+    public UserSkillDto updateSkill(Long userId, Long skillId, SkillDto skillDto) {
+        User userFromAuth = authService.getUserFromAuth();
+        checkAccess(userId, userFromAuth);
+
+        Optional<SkillExpertise> optionalSkillExpertise =
+                skillExpertiseRepository.findById(new UserSkillCompositeKey(userId, skillId));
+        if (optionalSkillExpertise.isPresent()) {
+            logger.info("Update user={} skill={}", userId, skillDto);
+            SkillExpertise skillExpertise = optionalSkillExpertise.get();
+            skillExpertise.setExpertise(skillDto.getExpertise());
+            skillExpertiseRepository.save(skillExpertise);
+            synchroniseUserToElastic(userFromAuth);
+        }
+
+        return UserSkillDto.builder()
+                .skillId(skillId)
+                .skillName(skillDto.getName())
+                .userId(userId)
+                .expertise(skillDto.getExpertise())
+                .build();
     }
 
     private UserSkillDto mapToDto(SkillExpertise skillExpertise) {

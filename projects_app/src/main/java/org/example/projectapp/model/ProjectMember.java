@@ -7,6 +7,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Builder
 @NoArgsConstructor
@@ -76,6 +77,22 @@ public class ProjectMember {
 
     public void setAddedAt(LocalDateTime addedAt) {
         this.addedAt = addedAt;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProjectMember)) return false;
+        ProjectMember that = (ProjectMember) o;
+        return Objects.equals(id, that.id) &&
+                projectRole == that.projectRole &&
+                Objects.equals(addedAt, that.addedAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, projectRole, addedAt);
     }
 
     @Override
