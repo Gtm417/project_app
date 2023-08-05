@@ -26,7 +26,7 @@ public class Project {
     @Field(type = FieldType.Keyword)
     private String name;
     @Field(type = FieldType.Boolean)
-    private Boolean isPrivate;
+    private boolean isPrivate;
     @Field(type = FieldType.Date)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate createdDate; //(timestamp)
@@ -41,7 +41,8 @@ public class Project {
     @Field(type = FieldType.Keyword)
     private String description;
     @Field(type = FieldType.Text)
-    private String isCommercial;
+    private boolean isCommercial;
     @Field(type = FieldType.Keyword)
-    private String status;
+
+    private ProjectStatus status;
 }

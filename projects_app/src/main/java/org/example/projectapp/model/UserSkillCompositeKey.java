@@ -1,6 +1,7 @@
 package org.example.projectapp.model;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -12,6 +13,7 @@ import java.util.Objects;
 
 @Data
 @Setter
+@Getter
 @Embeddable
 public class UserSkillCompositeKey implements Serializable {
 
@@ -19,14 +21,14 @@ public class UserSkillCompositeKey implements Serializable {
     private Long userId;
 
     @Column(name = "skill_id")
-    private Long projectId;
+    private Long skillId;
 
     public UserSkillCompositeKey() {
     }
 
-    public UserSkillCompositeKey(Long userId, Long projectId) {
+    public UserSkillCompositeKey(Long userId, Long skillId) {
         this.userId = userId;
-        this.projectId = projectId;
+        this.skillId = skillId;
     }
 
     @Override
@@ -35,19 +37,19 @@ public class UserSkillCompositeKey implements Serializable {
         if (!(o instanceof UserSkillCompositeKey)) return false;
         UserSkillCompositeKey that = (UserSkillCompositeKey) o;
         return Objects.equals(userId, that.userId) &&
-                Objects.equals(projectId, that.projectId);
+                Objects.equals(skillId, that.skillId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, projectId);
+        return Objects.hash(userId, skillId);
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
                 .append("userId", userId)
-                .append("projectId", projectId)
+                .append("skillId", skillId)
                 .toString();
     }
 }

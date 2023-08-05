@@ -1,6 +1,7 @@
 package com.hodik.elastic.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hodik.elastic.model.ProjectStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,9 +33,9 @@ public class ProjectDto {
 
     private String description;
 
-    private String isCommercial;
+    private boolean isCommercial;
 
-    private String status;
+    private ProjectStatus status;
 
     @Override
     public String toString() {

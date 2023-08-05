@@ -32,7 +32,7 @@ public class VacancyDto {
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
                 .append("id", id)
-                .append("projectId", projectId)
+                .append("skillId", projectId)
                 .append("creator", creator)
                 .append("description", description)
                 .append("aboutProject", aboutProject)
