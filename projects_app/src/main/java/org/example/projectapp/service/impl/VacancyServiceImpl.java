@@ -36,7 +36,7 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     @Transactional
-    @PreAuthorize("hasPermission(#dto.skillId,'org.example.projectapp.model.Project', 'vacancies:write')")
+    @PreAuthorize("hasPermission(#dto.projectId,'org.example.projectapp.model.Project', 'vacancies:write')")
     public Vacancy createVacancy(VacancyDto dto) {
         Project project = projectRepository.findById(dto.getProjectId())
                 .orElseThrow(() -> new CustomEntityNotFoundException(dto.getProjectId(), Project.class.getName()));

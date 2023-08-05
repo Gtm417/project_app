@@ -12,10 +12,8 @@ import java.util.stream.Collectors;
 @Component
 public class UserMapper {
 
-
     public UserElasticDto convertToUserElasticDto(User user) {
-//
-        List<SkillElasticDto> skillsDtoList = user.getSkills().stream().map(x -> new SkillElasticDto(x.getSkill().getName(), x.getExpertise())).collect(Collectors.toList());
+        List<SkillElasticDto> skillsDtoList = getSkillsDto(user);
         return UserElasticDto.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
@@ -26,7 +24,14 @@ public class UserMapper {
                 .type(user.getType())
                 .status(user.getStatus())
                 .description(user.getDescription())
-                .skills(skillsDtoList).build();
+                .skills(skillsDtoList)
+                .build();
+    }
+
+    private List<SkillElasticDto> getSkillsDto(User user) {
+        return user.getSkills().stream()
+                .map(x -> new SkillElasticDto(x.getSkill().getName(), x.getExpertise()))
+                .collect(Collectors.toList());
     }
 
 }
