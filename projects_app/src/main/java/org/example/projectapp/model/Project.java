@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -43,7 +42,7 @@ public class Project {
     private Set<ProjectMember> projectMembers;
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private Set<ProjectNotification> usersToNotify;
-    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Vacancy> vacancies;
 
     public Long getId() {
@@ -134,6 +133,22 @@ public class Project {
         this.projectMembers = projectMembers;
     }
 
+    public Set<ProjectNotification> getUsersToNotify() {
+        return usersToNotify;
+    }
+
+    public void setUsersToNotify(Set<ProjectNotification> usersToNotify) {
+        this.usersToNotify = usersToNotify;
+    }
+
+    public Set<Vacancy> getVacancies() {
+        return vacancies;
+    }
+
+    public void setVacancies(Set<Vacancy> vacancies) {
+        this.vacancies = vacancies;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -153,13 +168,13 @@ public class Project {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, isPrivate, createDate, scheduledEndDate,
-                startDate, category, description, status, isCommercial);
+        return Objects.hash(id, name, isPrivate, createDate, scheduledEndDate, startDate, category,
+                description, status, isCommercial, usersToNotify);
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+        return new ToStringBuilder(this)
                 .append("id", id)
                 .append("name", name)
                 .append("isPrivate", isPrivate)

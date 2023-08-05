@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
-@FeignClient(name = "${service.elastic.feign.name}", url = "${service.elastic.feign.url}")
+@FeignClient(name = "${service.elastic.users.feign.name}", url = "${service.elastic.feign.url}")
 public interface ElasticUsersServiceClient {
     @GetMapping("/users")
     List<UserDto> getUsers();

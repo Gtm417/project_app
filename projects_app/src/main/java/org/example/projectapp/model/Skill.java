@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public class Skill {
     private String name;
 
     @OneToMany(mappedBy = "skill", fetch = FetchType.LAZY)
-    private Set<SkillExpertise> users;
+    private Set<SkillExpertise> users = new HashSet<>();
 
     public Skill() {
 

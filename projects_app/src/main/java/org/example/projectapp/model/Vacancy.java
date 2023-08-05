@@ -37,7 +37,7 @@ public class Vacancy {
     @Column(name = "job_position")
     private String jobPosition;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id")
     private Project project;
 
@@ -76,7 +76,7 @@ public class Vacancy {
                 .append("aboutProject", aboutProject)
                 .append("expected", expected)
                 .append("jobPosition", jobPosition)
-                .append("project", project)
+                .append("project", project.getId() != null ? project.getId() : null)
                 .toString();
     }
 }

@@ -22,8 +22,8 @@ public class VacancyController {
     }
 
     @PostMapping
-    public ResponseEntity<Vacancy> createVacancy(@RequestBody @Valid VacancyDto dto) {
-        Vacancy vacancy = vacancyService.createVacancy(dto);
+    public ResponseEntity<VacancyDto> createVacancy(@RequestBody @Valid VacancyDto dto) {
+        VacancyDto vacancy = vacancyService.createVacancy(dto);
         return ResponseEntity.ok(vacancy);
     }
 
