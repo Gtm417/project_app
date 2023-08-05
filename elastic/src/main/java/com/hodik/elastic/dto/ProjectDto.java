@@ -1,6 +1,5 @@
 package com.hodik.elastic.dto;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.hodik.elastic.model.ProjectStatus;
