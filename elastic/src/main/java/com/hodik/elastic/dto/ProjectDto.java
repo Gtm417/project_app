@@ -1,5 +1,6 @@
 package com.hodik.elastic.dto;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.hodik.elastic.model.ProjectStatus;
@@ -47,17 +48,6 @@ public class ProjectDto {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
-                .append("id", id)
-                .append("name", name)
-                .append("isPrivate", isPrivate)
-                .append("createdDate", createdDate)
-                .append("finalPlannedDate", finalPlannedDate)
-                .append("startDate", startDate)
-                .append("category", category)
-                .append("description", description)
-                .append("isCommercial", isCommercial)
-                .append("status", status)
-                .toString();
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).append("id", id).append("name", name).append("isPrivate", isPrivate).append("createdDate", createdDate).append("finalPlannedDate", finalPlannedDate).append("startDate", startDate).append("category", category).append("description", description).append("isCommercial", isCommercial).append("status", status).toString();
     }
 }

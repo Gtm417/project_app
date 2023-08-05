@@ -47,6 +47,5 @@ public class Project {
     @Field(type = FieldType.Boolean)
     private Boolean isCommercial;
     @Field(type = FieldType.Keyword)
-
     private ProjectStatus status;
 }
