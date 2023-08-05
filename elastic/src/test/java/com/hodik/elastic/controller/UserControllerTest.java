@@ -1,4 +1,4 @@
-package com.hodik.elastic.controller;
+package com.hodik.elastic.controllers;
 
 import com.google.gson.Gson;
 import com.hodik.elastic.dto.SearchCriteriaDto;

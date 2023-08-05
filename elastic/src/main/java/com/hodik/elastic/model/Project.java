@@ -1,6 +1,6 @@
 package com.hodik.elastic.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hodik.elastic.util.CustomDatePropertyValueConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +10,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.ValueConverter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -26,22 +27,26 @@ public class Project {
     @Field(type = FieldType.Keyword)
     private String name;
     @Field(type = FieldType.Boolean)
-    private boolean isPrivate;
+    private Boolean isPrivate;
+
     @Field(type = FieldType.Date)
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate createdDate; //(timestamp)
+    @ValueConverter(CustomDatePropertyValueConverter.class)
+    private LocalDateTime createdDate; //(timestamp)
+
     @Field(type = FieldType.Date)
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate finalPlannedDate;// (timestamp) //– date when project ends
+    @ValueConverter(CustomDatePropertyValueConverter.class)
+    private LocalDateTime finalPlannedDate;// (timestamp) //– date when project ends
+
     @Field(type = FieldType.Date)
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate startDate; //(timestamp) //– date when project starts
+    @ValueConverter(CustomDatePropertyValueConverter.class)
+    private LocalDateTime startDate; //(timestamp) //– date when project starts
+
     @Field(type = FieldType.Keyword)
     private String category;
-    @Field(type = FieldType.Keyword)
-    private String description;
     @Field(type = FieldType.Text)
-    private boolean isCommercial;
+    private String description;
+    @Field(type = FieldType.Boolean)
+    private Boolean isCommercial;
     @Field(type = FieldType.Keyword)
     private ProjectStatus status;
 }

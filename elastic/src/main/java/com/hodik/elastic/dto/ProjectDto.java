@@ -1,7 +1,10 @@
 package com.hodik.elastic.dto;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.hodik.elastic.model.ProjectStatus;
+import com.hodik.elastic.util.CustomLocalDateTimeDeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +12,7 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -22,34 +25,29 @@ public class ProjectDto {
     private String name;
 
     private Boolean isPrivate;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate createdDate; //(timestamp)
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate finalPlannedDate;// (timestamp) //– date when project ends
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate startDate; //(timestamp) //– date when project starts
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @JsonDeserialize(using = CustomLocalDateTimeDeSerializer.class)
+    private LocalDateTime createdDate; //(timestamp)
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @JsonDeserialize(using = CustomLocalDateTimeDeSerializer.class)
+    private LocalDateTime finalPlannedDate;// (timestamp) //– date when project ends
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @JsonDeserialize(using = CustomLocalDateTimeDeSerializer.class)
+    private LocalDateTime startDate; //(timestamp) //– date when project starts
 
     private String category;
 
     private String description;
 
-    private boolean isCommercial;
+    private Boolean isCommercial;
 
     private ProjectStatus status;
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
-                .append("id", id)
-                .append("name", name)
-                .append("isPrivate", isPrivate)
-                .append("createdDate", createdDate)
-                .append("finalPlannedDate", finalPlannedDate)
-                .append("startDate", startDate)
-                .append("category", category)
-                .append("description", description)
-                .append("isCommercial", isCommercial)
-                .append("status", status)
-                .toString();
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).append("id", id).append("name", name).append("isPrivate", isPrivate).append("createdDate", createdDate).append("finalPlannedDate", finalPlannedDate).append("startDate", startDate).append("category", category).append("description", description).append("isCommercial", isCommercial).append("status", status).toString();
     }
 }

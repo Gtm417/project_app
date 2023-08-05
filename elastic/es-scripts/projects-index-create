@@ -3,41 +3,39 @@ curl --location --request PUT 'localhost:9200/projects' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Basic ZWxhc3RpYzplbGFzdGlj' \
 --data '{
-  "mappings": {
-          "properties": {
-              "id": {
-                  "type": "long"
-              },
-              "name": {
-                  "type": "keyword"
-              },
-              "isPrivate":{
-                  "type":"boolean"
-              },
-                 "createdData": {
-              "format": "dd-MM-yyyy||yyyy-MM-dd||dd/MM/yyyy||yyyy/MM/dd",
-                                  "type": "date"
-      },
-      "finalPlannedDate": {
-                "format": "dd-MM-yyyy||yyyy-MM-dd||dd/MM/yyyy||yyyy/MM/dd",
-                                  "type": "date"
-      },
-      "startDate": {
-               "format": "dd-MM-yyyy||yyyy-MM-dd||dd/MM/yyyy||yyyy/MM/dd",
-                                  "type": "date"
-      },
-              "category":{
-                  "type":"keyword"
-              },
-              "description":{
-                  "type":"text"
-              },
-              "isCommercial":{
-                  "type":"keyword"
-              },
-              "status":{
-                  "type":"keyword"
-              }
-          }
+  {
+    "mappings": {
+      "properties": {
+        "id": {
+          "type": "long"
+        },
+        "name": {
+          "type": "keyword"
+        },
+        "isPrivate": {
+          "type": "boolean"
+        },
+        "createdData": {
+          "type": "date",
+        },
+        "finalPlannedDate": {
+          "type": "date"
+        },
+        "startDate": {
+          "type": "date"
+        },
+        "category": {
+          "type": "keyword"
+        },
+        "description": {
+          "type": "text"
+        },
+        "isCommercial": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "keyword"
+        }
       }
+    }
   }
