@@ -89,7 +89,7 @@ class EsProjectServiceTest {
         EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class,
                 () -> projectService.createProject(expectedProject));
         //then
-        assertEquals("Project already exits id= 1", exception.getMessage());
+        assertEquals("[ELASTIC] Project already exits id= 1", exception.getMessage());
     }
 
     @Test
