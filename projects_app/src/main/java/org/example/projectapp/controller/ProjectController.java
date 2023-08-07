@@ -3,7 +3,7 @@ package org.example.projectapp.controller;
 import org.example.projectapp.controller.dto.ProjectDto;
 import org.example.projectapp.controller.dto.ProjectInfoDto;
 import org.example.projectapp.controller.dto.SearchDto;
-import org.example.projectapp.restclient.ElasticProjectServiceClient;
+import org.example.projectapp.restclient.ElasticProjectsServiceClient;
 import org.example.projectapp.service.ProjectService;
 import org.example.projectapp.service.dto.ProjectResponseDto;
 import org.example.projectapp.service.exception.ProjectAlreadyExistsException;
@@ -23,9 +23,9 @@ public class ProjectController {
     private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 
     private final ProjectService projectService;
-    private final ElasticProjectServiceClient elasticProjectServiceClient;
+    private final ElasticProjectsServiceClient elasticProjectServiceClient;
 
-    public ProjectController(ProjectService projectService, ElasticProjectServiceClient elasticProjectServiceClient) {
+    public ProjectController(ProjectService projectService, ElasticProjectsServiceClient elasticProjectServiceClient) {
         this.projectService = projectService;
         this.elasticProjectServiceClient = elasticProjectServiceClient;
     }
@@ -34,6 +34,7 @@ public class ProjectController {
     public ResponseEntity<?> createProject(@RequestBody @Valid ProjectDto projectDto) {
         return ResponseEntity.ok(projectService.createProject(projectDto));
     }
+
 
     @PutMapping("/{id}/notification")
     public ResponseEntity<?> createProject(@PathVariable("id") Long id,

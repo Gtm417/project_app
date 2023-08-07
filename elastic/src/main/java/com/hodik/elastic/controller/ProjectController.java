@@ -37,6 +37,12 @@ public class ProjectController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @PostMapping("/sync")
+    public ResponseEntity<HttpStatus> createProjectList(@RequestBody List<ProjectDto> projectDtoList) {
+        projectService.createProjectList(projectDtoList.stream().map(projectMapper::convertToProject).toList());
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> updateProject(@PathVariable long id, @RequestBody ProjectDto projectDto) {
         projectService.updateProject(id, projectMapper.convertToProject(projectDto));

@@ -106,6 +106,16 @@ public class ProjectServiceImpl implements ProjectService {
         return new PageImpl<>(collect);
     }
 
+    @Override
+    public List<Project> findProjectsByListId(List<Long> ids) {
+        return projectRepository.findAllById(ids);
+    }
+
+    @Override
+    public List<Project> findAllProjects() {
+        return projectRepository.findAll();
+    }
+
     private ProjectResponseDto projectMapper(Project project) {
         return ProjectResponseDto.builder()
                 .id(project.getId())
