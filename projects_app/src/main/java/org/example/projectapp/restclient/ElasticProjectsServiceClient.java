@@ -12,7 +12,7 @@ import java.util.List;
 
 @FeignClient(name = "${service.elastic.projects.feign.name}", url = "${service.elastic.feign.url}/projects")
 public interface ElasticProjectsServiceClient {
-    @GetMapping()
+    @GetMapping
     List<ProjectDto> getProjects();
 
     @PostMapping("/sync")
