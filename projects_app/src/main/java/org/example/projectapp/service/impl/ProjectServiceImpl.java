@@ -5,9 +5,11 @@ import org.example.projectapp.auth.AuthService;
 import org.example.projectapp.controller.dto.ProjectDto;
 import org.example.projectapp.controller.dto.ProjectInfoDto;
 import org.example.projectapp.controller.dto.SearchDto;
+import org.example.projectapp.mapper.ProjectMapper;
 import org.example.projectapp.model.*;
 import org.example.projectapp.repository.ProjectNotificationRepository;
 import org.example.projectapp.repository.ProjectRepository;
+import org.example.projectapp.restclient.ElasticProjectsServiceClient;
 import org.example.projectapp.service.ProjectMemberService;
 import org.example.projectapp.service.ProjectService;
 import org.example.projectapp.service.dto.ProjectResponseDto;
@@ -32,16 +34,20 @@ public class ProjectServiceImpl implements ProjectService {
     private final AuthService authService;
     private final ProjectMemberService projectMemberService;
     private final SearchCriteriaBuilder<Project> searchCriteriaBuilder;
+    private final ElasticProjectsServiceClient elasticProjectsServiceClient;
+    private final ProjectMapper projectMapper;
 
     public ProjectServiceImpl(ProjectRepository projectRepository,
                               ProjectNotificationRepository projectNotificationRepository,
                               AuthService authService, ProjectMemberService projectMemberService,
-                              SearchCriteriaBuilder<Project> searchCriteriaBuilder) {
+                              SearchCriteriaBuilder<Project> searchCriteriaBuilder, ElasticProjectsServiceClient elasticProjectsServiceClient, ProjectMapper projectMapper) {
         this.projectRepository = projectRepository;
         this.projectNotificationRepository = projectNotificationRepository;
         this.authService = authService;
         this.projectMemberService = projectMemberService;
         this.searchCriteriaBuilder = searchCriteriaBuilder;
+        this.elasticProjectsServiceClient = elasticProjectsServiceClient;
+        this.projectMapper = projectMapper;
     }
 
     @Override
@@ -56,6 +62,7 @@ public class ProjectServiceImpl implements ProjectService {
         User userFromAuth = authService.getUserFromAuth();
         projectRepository.saveAndFlush(project);
         projectMemberService.saveProjectMemberAndReturn(ProjectRole.OWNER, project, userFromAuth);
+        elasticProjectsServiceClient.createProject(projectMapper.convertToProjectElasticDto(project));
         return project;
     }
 
