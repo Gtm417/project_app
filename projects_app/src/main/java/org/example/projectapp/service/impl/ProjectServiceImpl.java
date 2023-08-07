@@ -41,7 +41,9 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectServiceImpl(ProjectRepository projectRepository,
                               ProjectNotificationRepository projectNotificationRepository,
                               AuthService authService, ProjectMemberService projectMemberService,
-                              SearchCriteriaBuilder<Project> searchCriteriaBuilder, ElasticProjectsServiceClient elasticProjectsServiceClient, ProjectMapper projectMapper) {
+                              SearchCriteriaBuilder<Project> searchCriteriaBuilder,
+                              ElasticProjectsServiceClient elasticProjectsServiceClient,
+                              ProjectMapper projectMapper) {
         this.projectRepository = projectRepository;
         this.projectNotificationRepository = projectNotificationRepository;
         this.authService = authService;
@@ -91,7 +93,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     private ProjectResponseDto saveAndReturnDto(Project project) {
         Project savedProject = projectRepository.save(project);
-
         return projectMapper(savedProject);
     }
 
