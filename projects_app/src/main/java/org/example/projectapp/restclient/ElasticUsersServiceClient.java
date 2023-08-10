@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
-@FeignClient(name = "${service.elastic.users.feign.name}", url = "${service.elastic.feign.url}")
+@FeignClient(name = "${service.elastic.feign.name}", url = "${service.elastic.feign.url}/users")
 public interface ElasticUsersServiceClient {
-    @GetMapping("/users")
+    @GetMapping()
     List<UserDto> getUsers();
 
-    @PostMapping("/users")
+    @PostMapping()
     void createUser(UserElasticDto userElasticDto);
 
-    @PutMapping("/users")
+    @PutMapping()
     void createUserList(List<UserElasticDto> userElasticDtoList);
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/{id}")
     void updateUser(@PathVariable long id, UserElasticDto userElasticDto);
 }
