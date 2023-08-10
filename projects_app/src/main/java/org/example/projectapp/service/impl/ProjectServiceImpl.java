@@ -38,7 +38,6 @@ public class ProjectServiceImpl implements ProjectService {
     private final ElasticProjectsServiceClient elasticProjectsServiceClient;
     private final ProjectMapper projectMapper;
 
-
     public ProjectServiceImpl(ProjectRepository projectRepository,
                               ProjectNotificationRepository projectNotificationRepository,
                               AuthService authService, ProjectMemberService projectMemberService,
@@ -96,7 +95,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     private ProjectResponseDto saveAndReturnDto(Project project) {
         Project savedProject = projectRepository.save(project);
-
         return projectMapper(savedProject);
     }
 
