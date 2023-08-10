@@ -18,7 +18,7 @@ public interface ElasticProjectsServiceClient {
     @PostMapping("/sync")
     void createProjectList(List<ProjectElasticDto> projectDtoList);
 
-    @PostMapping()
+    @PostMapping
     void createProject(ProjectElasticDto projectElasticDto);
 
     @PutMapping("/{id}")

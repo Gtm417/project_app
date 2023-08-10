@@ -93,6 +93,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     private ProjectResponseDto saveAndReturnDto(Project project) {
         Project savedProject = projectRepository.save(project);
+
         return projectMapper(savedProject);
     }
 
