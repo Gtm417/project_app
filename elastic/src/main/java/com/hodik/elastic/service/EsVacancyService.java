@@ -35,22 +35,22 @@ public class EsVacancyService {
     public void create(Vacancy vacancy) throws EntityAlreadyExistsException {
         long id = vacancy.getId();
         if (vacancyRepository.findById(id).isPresent()) {
-            throw new EntityAlreadyExistsException("Vacancy already exists id= " + id);
+            throw new EntityAlreadyExistsException("[ELASTIC] Vacancy already exists id= " + id);
         }
         vacancyRepository.save(vacancy);
-        log.info("Vacancy is saved to ES successful id = " + id);
+        log.info("[ELASTIC] Vacancy is saved to ES successful id = {} ", id);
     }
 
     public void update(long id, Vacancy vacancy) {
         vacancy.setId(id);
         vacancyRepository.save(vacancy);
-        log.info("Vacancy is saved to ES successful id = " + id);
+        log.info("[ELASTIC] Vacancy is saved to ES successful id ={} ", id);
 
     }
 
     public void delete(long id) {
         vacancyRepository.deleteById(id);
-        log.info("Vacancy is deleted from ES successful id = " + id);
+        log.info("[ELASTIC] Vacancy is deleted from ES successful id ={} ", id);
 
     }
 
@@ -77,5 +77,10 @@ public class EsVacancyService {
         }
         searchCriteriaDto.getFilters().forEach(x -> SearchColumnVacancy.getByNameIgnoringCase(x.getColumn()));
         return vacancySearchRepository.findAllWithFilters(searchCriteriaDto);
+    }
+
+    public void createVacanciesList(List<Vacancy> vacancies) {
+        vacancyRepository.saveAll(vacancies);
+        log.info("[ELASTIC] list of vacancies is rebased successful");
     }
 }

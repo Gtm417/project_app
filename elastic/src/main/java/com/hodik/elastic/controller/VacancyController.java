@@ -37,6 +37,12 @@ public class VacancyController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @PostMapping("/sync")
+    public ResponseEntity<HttpStatus> createVacanciesList(@RequestBody List<VacancyDto> vacancyDtoList) {
+        vacancyService.createVacanciesList(vacancyDtoList.stream().map(vacancyMapper::convertToVacancy).toList());
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> updateVacancy(@PathVariable long id, @RequestBody VacancyDto vacancyDto) {
         vacancyService.update(id, vacancyMapper.convertToVacancy(vacancyDto));
@@ -66,7 +72,7 @@ public class VacancyController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<VacancyErrorResponse> exceptionHandler (EntityAlreadyExistsException e) {
+    private ResponseEntity<VacancyErrorResponse> exceptionHandler(EntityAlreadyExistsException e) {
         VacancyErrorResponse message = new VacancyErrorResponse(e.getMessage());
         log.error(e.getMessage());
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);

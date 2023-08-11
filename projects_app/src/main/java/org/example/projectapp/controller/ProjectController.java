@@ -5,11 +5,14 @@ import org.example.projectapp.controller.dto.ProjectInfoDto;
 import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.restclient.ElasticProjectsServiceClient;
 import org.example.projectapp.service.ProjectService;
+import org.example.projectapp.service.VacancyService;
 import org.example.projectapp.service.dto.ProjectResponseDto;
 import org.example.projectapp.service.exception.ProjectAlreadyExistsException;
+import org.example.projectapp.service.exception.ProjectNotMatchException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,10 +27,12 @@ public class ProjectController {
 
     private final ProjectService projectService;
     private final ElasticProjectsServiceClient elasticProjectServiceClient;
+    private final VacancyService vacancyService;
 
-    public ProjectController(ProjectService projectService, ElasticProjectsServiceClient elasticProjectServiceClient) {
+    public ProjectController(ProjectService projectService, ElasticProjectsServiceClient elasticProjectServiceClient, VacancyService vacancyService) {
         this.projectService = projectService;
         this.elasticProjectServiceClient = elasticProjectServiceClient;
+        this.vacancyService = vacancyService;
     }
 
     @PostMapping
@@ -50,6 +55,12 @@ public class ProjectController {
                                                @RequestBody @Valid ProjectInfoDto projectInfoDto) {
         ProjectResponseDto projectResponseDto = projectService.updateProjectInfo(id, projectInfoDto);
         return ResponseEntity.ok(projectResponseDto);
+    }
+
+    @DeleteMapping("/{id}/vacancies/{vacancyId}")
+    public ResponseEntity<HttpStatus> deleteVacancy(@PathVariable Long id, @PathVariable Long vacancyId) {
+        vacancyService.deleteVacancy(id, vacancyId);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PutMapping("/{id}/private")
@@ -75,6 +86,12 @@ public class ProjectController {
         String projectName = ex.getProjectName();
         logger.info("[PROJECT] Project already exists with name \"{}\"", projectName);
         return ResponseEntity.badRequest().body(projectName);
+    }
+
+    @ExceptionHandler(ProjectNotMatchException.class)
+    public ResponseEntity<String> projectNotMatchException(ProjectNotMatchException ex) {
+        logger.info("[PROJECT] {}", ex.getMessage());
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
 }
