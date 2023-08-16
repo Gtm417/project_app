@@ -1,8 +1,10 @@
 package org.example.projectapp.service.impl;
 
 import org.example.projectapp.auth.AuthService;
+import org.example.projectapp.controller.VacancyController;
 import org.example.projectapp.controller.dto.VacancyDto;
 import org.example.projectapp.mapper.VacancyMapper;
+import org.example.projectapp.mapper.dto.VacancyElasticDto;
 import org.example.projectapp.model.Project;
 import org.example.projectapp.model.User;
 import org.example.projectapp.model.Vacancy;
@@ -14,6 +16,8 @@ import org.example.projectapp.service.exception.CustomEntityNotFoundException;
 import org.example.projectapp.service.exception.ProjectNotMatchException;
 import org.example.projectapp.service.notification.EventNotificationService;
 import org.example.projectapp.service.notification.message.VacancySubscriptionMessageDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +35,7 @@ public class VacancyServiceImpl implements VacancyService {
     private final EventNotificationService notificationService;
     private final ElasticVacanciesServiceClient elasticVacanciesServiceClient;
     private final VacancyMapper vacancyMapper;
+    private final Logger logger = LoggerFactory.getLogger(VacancyController.class);
 
     public VacancyServiceImpl(ProjectRepository projectRepository, VacancyRepository vacancyRepository,
                               AuthService authService, EventNotificationService notificationService, ElasticVacanciesServiceClient elasticVacanciesServiceClient, VacancyMapper vacancyMapper) {
@@ -49,7 +54,8 @@ public class VacancyServiceImpl implements VacancyService {
         Vacancy vacancy = getVacancy(dto);
 
         Vacancy save = vacancyRepository.save(vacancy);
-        elasticVacanciesServiceClient.createVacancy(vacancyMapper.convertToVacancyElasticDto(vacancy));
+        VacancyElasticDto vacancyElasticDto = vacancyMapper.convertToVacancyElasticDto(vacancy);
+        elasticVacanciesServiceClient.createVacancy(vacancyElasticDto);
         return dto;
     }
 
@@ -157,6 +163,7 @@ public class VacancyServiceImpl implements VacancyService {
     public void deleteVacancy(Long projectId, Long vacancyId) {
         Vacancy vacancy = tryGetVacancy(vacancyId);
         if (!Objects.equals(projectId, vacancy.getProject().getId())) {
+            logger.info("[PROJECT] Vacancy couldn't delete. Project with id={} doesn't have vacancy id= {}", projectId, vacancyId);
             throw new ProjectNotMatchException(String.format("Project with id=%s doesn't have vacancy id=%s", projectId, vacancyId));
         }
         vacancyRepository.deleteById(vacancyId);

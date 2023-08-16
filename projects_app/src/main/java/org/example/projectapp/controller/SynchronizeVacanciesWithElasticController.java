@@ -19,12 +19,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/vacancies")
-public class RebaseVacanciesToElasticController {
+public class SynchronizeVacanciesWithElasticController {
     private final VacancyService vacancyService;
     private final ElasticVacanciesServiceClient elasticVacanciesServiceClient;
     private final VacancyMapper vacancyMapper;
 
-    public RebaseVacanciesToElasticController(VacancyService vacancyService, ElasticVacanciesServiceClient elasticVacanciesServiceClient, VacancyMapper vacancyMapper) {
+    public SynchronizeVacanciesWithElasticController(VacancyService vacancyService, ElasticVacanciesServiceClient elasticVacanciesServiceClient, VacancyMapper vacancyMapper) {
         this.vacancyService = vacancyService;
         this.elasticVacanciesServiceClient = elasticVacanciesServiceClient;
         this.vacancyMapper = vacancyMapper;
@@ -32,7 +32,7 @@ public class RebaseVacanciesToElasticController {
 
 
     @PostMapping("/sync")
-    public ResponseEntity<HttpStatus> rebaseVacancies(@RequestBody @Nullable List<Long> ids) {
+    public ResponseEntity<HttpStatus> syncVacancies(@RequestBody @Nullable List<Long> ids) {
         List<Vacancy> vacancies;
         if (!CollectionUtils.isEmpty(ids)) {
             vacancies = vacancyService.findVacanciesByListId(ids);

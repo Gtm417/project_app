@@ -31,7 +31,7 @@ public class VacancyController {
         return ResponseEntity.ok(vacancy);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<VacancyDto>> getVacancies() {
         return ResponseEntity.ok(elasticClient.getVacancies());
     }

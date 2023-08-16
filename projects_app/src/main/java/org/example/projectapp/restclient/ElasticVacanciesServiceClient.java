@@ -7,21 +7,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "${service.elastic.vacancies.feign.name}", url = "${service.elastic.feign.url}")
+@FeignClient(name = "${service.elastic.vacancies.feign.name}", url = "${service.elastic.feign.url}/vacancies")
 public interface ElasticVacanciesServiceClient {
 
-    @GetMapping("/vacancies")
+    @GetMapping
     List<VacancyDto> getVacancies();
 
-    @PostMapping("/vacancies")
+    @PostMapping
     void createVacancy(VacancyElasticDto vacancyElasticDto);
 
-    @PostMapping("/vacancies/sync")
+    @PostMapping("/sync")
     void createVacancyList(List<VacancyElasticDto> vacancyElasticDtoList);
 
-    @PutMapping("/vacancies/{id}")
+    @PutMapping("/{id}")
     void updateVacancy(@PathVariable long id, VacancyElasticDto vacancyElasticDto);
 
-    @DeleteMapping("vacancies/{id}")
+    @DeleteMapping("/{id}")
     void deleteVacancy(@PathVariable long id);
 }
