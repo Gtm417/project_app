@@ -28,15 +28,15 @@ public class ProjectDto {
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @JsonDeserialize(using = CustomLocalDateTimeDeSerializer.class)
-    private LocalDateTime createdDate; //(timestamp)
+    private LocalDateTime createdDate;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @JsonDeserialize(using = CustomLocalDateTimeDeSerializer.class)
-    private LocalDateTime finalPlannedDate;// (timestamp) //– date when project ends
+    private LocalDateTime finalPlannedDate;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @JsonDeserialize(using = CustomLocalDateTimeDeSerializer.class)
-    private LocalDateTime startDate; //(timestamp) //– date when project starts
+    private LocalDateTime startDate;
 
     private String category;
 
@@ -48,6 +48,17 @@ public class ProjectDto {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE).append("id", id).append("name", name).append("isPrivate", isPrivate).append("createdDate", createdDate).append("finalPlannedDate", finalPlannedDate).append("startDate", startDate).append("category", category).append("description", description).append("isCommercial", isCommercial).append("status", status).toString();
+        return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
+                .append("id", id)
+                .append("name", name)
+                .append("isPrivate", isPrivate)
+                .append("createdDate", createdDate)
+                .append("finalPlannedDate", finalPlannedDate)
+                .append("startDate", startDate)
+                .append("category", category)
+                .append("description", description)
+                .append("isCommercial", isCommercial)
+                .append("status", status)
+                .toString();
     }
 }

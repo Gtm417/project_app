@@ -12,13 +12,13 @@ import java.util.List;
 
 @FeignClient(name = "${service.elastic.feign.name}", url = "${service.elastic.feign.url}/users")
 public interface ElasticUsersServiceClient {
-    @GetMapping()
+    @GetMapping
     List<UserDto> getUsers();
 
-    @PostMapping()
+    @PostMapping
     void createUser(UserElasticDto userElasticDto);
 
-    @PutMapping()
+    @PutMapping
     void createUserList(List<UserElasticDto> userElasticDtoList);
 
     @PutMapping("/{id}")

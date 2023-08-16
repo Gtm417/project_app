@@ -30,15 +30,15 @@ public class Project {
     private Boolean isPrivate;
     @Field(type = FieldType.Date)
     @ValueConverter(CustomDatePropertyValueConverter.class)
-    private LocalDateTime createdDate; //(timestamp)
+    private LocalDateTime createdDate;
 
     @Field(type = FieldType.Date)
     @ValueConverter(CustomDatePropertyValueConverter.class)
-    private LocalDateTime finalPlannedDate;// (timestamp) //– date when project ends
+    private LocalDateTime finalPlannedDate;
 
     @Field(type = FieldType.Date)
     @ValueConverter(CustomDatePropertyValueConverter.class)
-    private LocalDateTime startDate; //(timestamp) //– date when project starts
+    private LocalDateTime startDate;
 
     @Field(type = FieldType.Keyword)
     private String category;

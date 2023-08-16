@@ -20,12 +20,12 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/projects")
-public class RebaseProjectsToElasticController {
+public class SynchronizeProjectsWithElasticController {
     private final ProjectService projectService;
     private final ProjectMapper projectMapper;
     private final ElasticProjectsServiceClient elasticProjectsServiceClient;
 
-    public RebaseProjectsToElasticController(ProjectService projectService, ProjectMapper projectMapper, ElasticProjectsServiceClient elasticProjectsServiceClient) {
+    public SynchronizeProjectsWithElasticController(ProjectService projectService, ProjectMapper projectMapper, ElasticProjectsServiceClient elasticProjectsServiceClient) {
         this.projectService = projectService;
         this.projectMapper = projectMapper;
         this.elasticProjectsServiceClient = elasticProjectsServiceClient;
@@ -33,7 +33,7 @@ public class RebaseProjectsToElasticController {
 
 
     @PostMapping("/sync")
-    public HttpEntity<HttpStatus> rebaseProjects(@RequestBody @Nullable List<Long> ids) {
+    public HttpEntity<HttpStatus> syncProjects(@RequestBody @Nullable List<Long> ids) {
         List<Project> projects;
         if (!CollectionUtils.isEmpty(ids)) {
             projects = projectService.findProjectsByListId(ids);

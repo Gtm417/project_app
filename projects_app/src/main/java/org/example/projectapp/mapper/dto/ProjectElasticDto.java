@@ -23,11 +23,11 @@ public class ProjectElasticDto {
     private String name;
     private Boolean isPrivate;
     @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
-    private LocalDateTime createdDate; //(timestamp)
+    private LocalDateTime createdDate;
     @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
-    private LocalDateTime finalPlannedDate;// (timestamp) //– date when project ends
+    private LocalDateTime finalPlannedDate;
     @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
-    private LocalDateTime startDate; //(timestamp) //– date when project starts
+    private LocalDateTime startDate;
     private String category;
     private String description;
     private Boolean isCommercial;

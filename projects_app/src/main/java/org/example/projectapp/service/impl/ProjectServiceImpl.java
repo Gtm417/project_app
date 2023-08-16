@@ -6,6 +6,7 @@ import org.example.projectapp.controller.dto.ProjectDto;
 import org.example.projectapp.controller.dto.ProjectInfoDto;
 import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.mapper.ProjectMapper;
+import org.example.projectapp.mapper.dto.ProjectElasticDto;
 import org.example.projectapp.model.*;
 import org.example.projectapp.repository.ProjectNotificationRepository;
 import org.example.projectapp.repository.ProjectRepository;
@@ -65,7 +66,8 @@ public class ProjectServiceImpl implements ProjectService {
         User userFromAuth = authService.getUserFromAuth();
         projectRepository.saveAndFlush(project);
         projectMemberService.saveProjectMemberAndReturn(ProjectRole.OWNER, project, userFromAuth);
-        elasticProjectsServiceClient.createProject(projectMapper.convertToProjectElasticDto(project));
+        ProjectElasticDto projectElasticDto = projectMapper.convertToProjectElasticDto(project);
+        elasticProjectsServiceClient.createProject(projectElasticDto);
         return project;
     }
 
@@ -87,7 +89,8 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectResponseDto updateProjectInfo(Long id, ProjectInfoDto dto) {
         Project project = tryGetProject(id);
         mergeProject(project, dto);
-        elasticProjectsServiceClient.updateProject(id, projectMapper.convertToProjectElasticDto(project));
+        ProjectElasticDto projectElasticDto = projectMapper.convertToProjectElasticDto(project);
+        elasticProjectsServiceClient.updateProject(id, projectElasticDto);
         return saveAndReturnDto(project);
     }
 
@@ -103,7 +106,8 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectResponseDto makeProjectPrivate(Long id, Boolean isPrivate) {
         Project project = tryGetProject(id);
         project.setPrivate(isPrivate);
-        elasticProjectsServiceClient.updateProject(id, projectMapper.convertToProjectElasticDto(project));
+        ProjectElasticDto projectElasticDto = projectMapper.convertToProjectElasticDto(project);
+        elasticProjectsServiceClient.updateProject(id, projectElasticDto);
         return saveAndReturnDto(project);
     }
 
