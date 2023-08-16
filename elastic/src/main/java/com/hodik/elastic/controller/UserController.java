@@ -54,14 +54,20 @@ public class UserController {
 
     @PutMapping()
     public ResponseEntity<HttpStatus> createUserList(@RequestBody List<UserDto> userDtoList) {
-        userService.createUserList(userDtoList.stream().map(userMapper::convertToUser).toList());
+        userService.createUserList(userDtoList
+                .stream()
+                .map(userMapper::convertToUser)
+                .toList());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @GetMapping()
     public List<UserDto> getUsers() {
         List<User> users = userService.findAll();
-        return users.stream().map(userMapper::convertToUserDto).collect(Collectors.toList());
+        return users
+                .stream()
+                .map(userMapper::convertToUserDto)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
@@ -79,7 +85,10 @@ public class UserController {
     public List<UserDto> searchByCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
         List<User> users = userService.findAllWithFilters(searchCriteriaDto);
         log.info("Search request to index Users " + searchCriteriaDto);
-        return users.stream().map(userMapper::convertToUserDto).collect(Collectors.toList());
+        return users
+                .stream()
+                .map(userMapper::convertToUserDto)
+                .collect(Collectors.toList());
     }
 
     @ExceptionHandler

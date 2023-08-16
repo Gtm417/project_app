@@ -35,6 +35,7 @@ public class EsVacancyService {
     public void create(Vacancy vacancy) throws EntityAlreadyExistsException {
         long id = vacancy.getId();
         if (vacancyRepository.findById(id).isPresent()) {
+            log.info("[ELASTIC] Vacancy isn't saved. Vacancy already exists id= {}", id);
             throw new EntityAlreadyExistsException("[ELASTIC] Vacancy already exists id= " + id);
         }
         vacancyRepository.save(vacancy);

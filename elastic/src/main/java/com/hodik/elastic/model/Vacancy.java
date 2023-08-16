@@ -25,13 +25,13 @@ public class Vacancy {
     @Field(type = FieldType.Long)
     private Long projectId;
     @Field(type = FieldType.Keyword)
-    private String creator;// who created vacancy
+    private String creator;
     @Field(type = FieldType.Keyword)
-    private String description; // vacancy description
+    private String description;
     @Field(type = FieldType.Keyword)
-    private String aboutProject; // about project text
+    private String aboutProject;
     @Field(type = FieldType.Keyword)
-    String expected; // what’s expected from candidate
+    String expected;
     @Field(type = FieldType.Keyword)
     private String jobPosition;
 

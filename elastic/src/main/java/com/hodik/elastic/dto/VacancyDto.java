@@ -14,10 +14,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class VacancyDto {
     private Long id;
     private Long projectId;
-    private String creator;// who created vacancy
-    private String description; // vacancy description
-    private String aboutProject; // about project text
-    String expected; // what’s expected from candidate
+    private String creator;
+    private String description;
+    private String aboutProject;
+    String expected;
     private String jobPosition;
 
     @Override
