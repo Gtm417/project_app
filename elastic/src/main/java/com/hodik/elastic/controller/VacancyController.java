@@ -4,7 +4,6 @@ import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.VacancyDto;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.exception.EntityNotFoundException;
-import com.hodik.elastic.exception.VacancyErrorResponse;
 import com.hodik.elastic.mapper.VacancyMapper;
 import com.hodik.elastic.model.Vacancy;
 import com.hodik.elastic.service.EsVacancyService;
@@ -63,7 +62,9 @@ public class VacancyController {
 
     @GetMapping("/{id}")
     public VacancyDto getVacancy(@PathVariable long id) {
-        return vacancyMapper.convertToVacancyDto(vacancyService.findById(id).orElseThrow(EntityNotFoundException::new));
+        Vacancy vacancy = vacancyService.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Vacancy not found with id= " + id));
+        return vacancyMapper.convertToVacancyDto(vacancy);
     }
 
     @GetMapping()
@@ -83,24 +84,5 @@ public class VacancyController {
                 .collect(Collectors.toList());
     }
 
-    @ExceptionHandler
-    private ResponseEntity<VacancyErrorResponse> exceptionHandler(EntityAlreadyExistsException e) {
-        VacancyErrorResponse message = new VacancyErrorResponse(e.getMessage());
-        log.error(e.getMessage());
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-    }
 
-    @ExceptionHandler
-    private ResponseEntity<VacancyErrorResponse> exceptionHandler(EntityNotFoundException e) {
-        VacancyErrorResponse message = new VacancyErrorResponse(e.getMessage());
-        log.error(e.getMessage());
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<VacancyErrorResponse> exceptionHandler(IllegalArgumentException e) {
-        VacancyErrorResponse message = new VacancyErrorResponse(e.getMessage());
-        log.error(e.getMessage());
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-    }
 }

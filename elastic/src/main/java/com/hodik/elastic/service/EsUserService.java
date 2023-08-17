@@ -35,6 +35,7 @@ public class EsUserService {
     public void createUser(User user) throws EntityAlreadyExistsException {
         long id = user.getId();
         if (userRepository.findById(id).isPresent()) {
+            log.error("[ELASTIC] User isn't saved. User already exists id= {}", id);
             throw new EntityAlreadyExistsException("User already exists id= " + id);
         }
         userRepository.save(user);

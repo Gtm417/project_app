@@ -39,8 +39,8 @@ public class EsProjectService {
     public void createProject(Project project) throws EntityAlreadyExistsException {
         long id = project.getId();
         if (projectRepository.findById(id).isPresent()) {
-
-            throw new EntityAlreadyExistsException("[ELASTIC] Project already exits id= " + id);
+            log.error("[ELASTIC] Project isn't saved. Project already exists id= {}", id);
+            throw new EntityAlreadyExistsException("Project already exits id= " + id);
         }
         projectRepository.save(project);
 

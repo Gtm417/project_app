@@ -4,7 +4,6 @@ import com.hodik.elastic.dto.ProjectDto;
 import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.exception.EntityNotFoundException;
-import com.hodik.elastic.exception.ProjectErrorResponse;
 import com.hodik.elastic.mapper.ProjectMapper;
 import com.hodik.elastic.model.Project;
 import com.hodik.elastic.service.EsProjectService;
@@ -76,25 +75,6 @@ public class ProjectController {
 
     }
 
-    @ExceptionHandler
-    private ResponseEntity<ProjectErrorResponse> exceptionHandler(EntityAlreadyExistsException e) {
-        ProjectErrorResponse response = new ProjectErrorResponse(e.getMessage());
-        log.error(e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
 
-    @ExceptionHandler
-    private ResponseEntity<ProjectErrorResponse> exceptionHandler(IllegalArgumentException e) {
-        ProjectErrorResponse response = new ProjectErrorResponse(e.getMessage());
-        log.error(e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<ProjectErrorResponse> exceptionHandler(EntityNotFoundException e) {
-        ProjectErrorResponse response = new ProjectErrorResponse(e.getMessage());
-        log.error(e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
 
 }
