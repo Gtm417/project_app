@@ -1,8 +1,4 @@
 // create index project
-curl --location --request PUT 'localhost:9200/projects' \
---header 'Content-Type: application/json' \
---header 'Authorization: Basic ZWxhc3RpYzplbGFzdGlj' \
---data '{
   {
     "mappings": {
       "properties": {
