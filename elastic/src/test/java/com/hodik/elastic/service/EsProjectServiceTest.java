@@ -22,7 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ResourceUtil;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,13 +33,13 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class EsProjectServiceTest {
-    public static final LocalDate START_DATE = LocalDate.of(2020, 1, 8);
+    public static final LocalDateTime START_DATE = LocalDateTime.of(2020, 1, 8, 0, 0);
     public static final long ID = 1L;
     public static final String NAME = "Name";
     public static final String CATEGORY = "Category";
-    public static final LocalDate CREATED_DATE = LocalDate.of(2020, 7, 5);
+    public static final LocalDateTime CREATED_DATE = LocalDateTime.of(2020, 7, 5, 0, 0);
     public static final String DESCRIPTION = "Description";
-    public static final LocalDate FINAL_PLANNED_DATE = LocalDate.of(2025, 12, 31);
+    public static final LocalDateTime FINAL_PLANNED_DATE = LocalDateTime.of(2025, 12, 31, 0, 0);
     public static final boolean IS_COMMERCIAL = true;
     public static final boolean IS_PRIVATE = false;
     public static final ProjectStatus STATUS = ProjectStatus.NEW;
@@ -89,7 +89,7 @@ class EsProjectServiceTest {
         EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class,
                 () -> projectService.createProject(expectedProject));
         //then
-        assertEquals("Project already exits id= 1", exception.getMessage());
+        assertEquals("[ELASTIC] Project already exits id= 1", exception.getMessage());
     }
 
     @Test
@@ -135,11 +135,12 @@ class EsProjectServiceTest {
         verify(projectSearchRepository).findAllWithFilters(searchCriteriaDtoSuccess);
         assertEquals(expectedProjectList, projects);
     }
+
     @Test
     void shouldTrowExceptionWhenWrongColumn() {
 
         //when
-        assertThrows(IllegalArgumentException.class, ()-> projectService.findAllWithFilters(searchCriteriaDtoWrongColumnCase));
+        assertThrows(IllegalArgumentException.class, () -> projectService.findAllWithFilters(searchCriteriaDtoWrongColumnCase));
         //then
         verify(projectSearchRepository, never()).findAllWithFilters(searchCriteriaDtoWrongColumnCase);
     }
@@ -186,9 +187,10 @@ class EsProjectServiceTest {
         Optional<Project> project = projectService.findById(expectedProject.getId());
         //then
         verify(projectRepository).findById(expectedProject.getId());
-        assertEquals(EXPECTED_OPTIONAL_PROJECT,project);
+        assertEquals(EXPECTED_OPTIONAL_PROJECT, project);
 
     }
+
     private Project getExpectedProject() {
         return Project.builder()
                 .id(ID)

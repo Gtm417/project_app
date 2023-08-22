@@ -40,21 +40,22 @@ public class EsProjectService {
         long id = project.getId();
         if (projectRepository.findById(id).isPresent()) {
 
-            throw new EntityAlreadyExistsException("Project already exits id= " + id);
+            throw new EntityAlreadyExistsException("[ELASTIC] Project already exits id= " + id);
         }
         projectRepository.save(project);
-        log.info("Project is saved to ES successful id =" + id);
+
+        log.info("[ELASTIC] Project is saved to ES successful id =" + id);
     }
 
     public void updateProject(long id, Project project) {
         project.setId(id);
         projectRepository.save(project);
-        log.info("Project is updated in ES successful id =" + id);
+        log.info("[ELASTIC] Project is updated in ES successful id =" + id);
     }
 
     public void deleteProject(long id) {
         projectRepository.deleteById(id);
-        log.info("Project is deleted from ES successful id =" + id);
+        log.info("[ELASTIC] Project is deleted from ES successful id =" + id);
     }
 
     public List<Project> findAll() {
@@ -82,5 +83,10 @@ public class EsProjectService {
 
     public Optional<Project> findById(long id) {
         return projectRepository.findById(id);
+    }
+
+    public void createProjectList(List<Project> projects) {
+        projectRepository.saveAll(projects);
+        log.info("[ELASTIC] List of projects is saved successful");
     }
 }

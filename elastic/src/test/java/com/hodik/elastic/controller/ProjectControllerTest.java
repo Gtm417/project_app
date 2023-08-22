@@ -19,7 +19,7 @@ import org.springframework.data.elasticsearch.core.ResourceUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,13 +31,13 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ProjectControllerTest {
 
-    public static final LocalDate START_DATE = LocalDate.of(2020, 1, 8);
+    public static final LocalDateTime START_DATE = LocalDateTime.of(2020, 1, 8, 0, 0);
     public static final long ID = 1L;
     public static final String NAME = "Name";
     public static final String CATEGORY = "Category";
-    public static final LocalDate CREATED_DATE = LocalDate.of(2020, 7, 5);
+    public static final LocalDateTime CREATED_DATE = LocalDateTime.of(2020, 7, 5, 0, 0);
     public static final String DESCRIPTION = "Description";
-    public static final LocalDate FINAL_PLANNED_DATE = LocalDate.of(2025, 12, 31);
+    public static final LocalDateTime FINAL_PLANNED_DATE = LocalDateTime.of(2025, 12, 31, 0, 0);
     public static final boolean IS_COMMERCIAL = true;
     public static final boolean IS_PRIVATE = false;
     public static final ProjectStatus STATUS = ProjectStatus.NEW;

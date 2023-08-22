@@ -7,6 +7,8 @@ import org.example.projectapp.model.Project;
 import org.example.projectapp.service.dto.ProjectResponseDto;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface ProjectService {
     Project createProject(ProjectDto projectDto);
 
@@ -17,4 +19,9 @@ public interface ProjectService {
     ProjectResponseDto makeProjectPrivate(Long id, Boolean isPrivate);
 
     Page<ProjectResponseDto> findProjectsByFilters(SearchDto searchDto);
+
+    List<Project> findProjectsByListId(List<Long> ids);
+
+    List<Project> findAllProjects();
+
 }

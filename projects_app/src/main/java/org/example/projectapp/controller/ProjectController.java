@@ -3,6 +3,7 @@ package org.example.projectapp.controller;
 import org.example.projectapp.controller.dto.ProjectDto;
 import org.example.projectapp.controller.dto.ProjectInfoDto;
 import org.example.projectapp.controller.dto.SearchDto;
+import org.example.projectapp.restclient.ElasticProjectsServiceClient;
 import org.example.projectapp.service.ProjectService;
 import org.example.projectapp.service.dto.ProjectResponseDto;
 import org.example.projectapp.service.exception.ProjectAlreadyExistsException;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RestController
 @RequestMapping("projects")
@@ -21,15 +23,18 @@ public class ProjectController {
     private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 
     private final ProjectService projectService;
+    private final ElasticProjectsServiceClient elasticProjectServiceClient;
 
-    public ProjectController(ProjectService projectService) {
+    public ProjectController(ProjectService projectService, ElasticProjectsServiceClient elasticProjectServiceClient) {
         this.projectService = projectService;
+        this.elasticProjectServiceClient = elasticProjectServiceClient;
     }
 
     @PostMapping
     public ResponseEntity<?> createProject(@RequestBody @Valid ProjectDto projectDto) {
         return ResponseEntity.ok(projectService.createProject(projectDto));
     }
+
 
     @PutMapping("/{id}/notification")
     public ResponseEntity<?> createProject(@PathVariable("id") Long id,
@@ -52,6 +57,11 @@ public class ProjectController {
                                                 @RequestBody @Valid @NotNull(message = "Should not be empty") Boolean isPrivate) {
         ProjectResponseDto projectResponseDto = projectService.makeProjectPrivate(id, isPrivate);
         return ResponseEntity.ok(projectResponseDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ProjectDto>> getProjects() {
+        return ResponseEntity.ok(elasticProjectServiceClient.getProjects());
     }
 
     @PostMapping("/search")

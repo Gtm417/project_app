@@ -6,6 +6,7 @@ import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.exception.EntityNotFoundException;
 import com.hodik.elastic.exception.ProjectErrorResponse;
 import com.hodik.elastic.mapper.ProjectMapper;
+import com.hodik.elastic.model.Project;
 import com.hodik.elastic.service.EsProjectService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,16 @@ public class ProjectController {
 
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<HttpStatus> createProject(@RequestBody ProjectDto projectDto) throws EntityAlreadyExistsException {
         projectService.createProject(projectMapper.convertToProject(projectDto));
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/sync")
+    public ResponseEntity<HttpStatus> syncProjectList(@RequestBody List<ProjectDto> projectDtoList) {
+        List<Project> projects = projectDtoList.stream().map(projectMapper::convertToProject).toList();
+        projectService.createProjectList(projects);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -49,7 +57,7 @@ public class ProjectController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping
     public List<ProjectDto> getProjects() {
         return projectService.findAll().stream().map(projectMapper::convertToProjectDto).collect(Collectors.toList());
 

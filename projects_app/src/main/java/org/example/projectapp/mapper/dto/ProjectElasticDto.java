@@ -1,48 +1,36 @@
-package com.hodik.elastic.dto;
+package org.example.projectapp.mapper.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.hodik.elastic.model.ProjectStatus;
-import com.hodik.elastic.util.CustomLocalDateTimeDeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.example.projectapp.model.ProjectStatus;
+import org.example.projectapp.util.CustomLocalDateTimeSerializer;
 
 import java.time.LocalDateTime;
+
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProjectDto {
+public class ProjectElasticDto {
 
     private long id;
-
     private String name;
-
     private Boolean isPrivate;
-
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @JsonDeserialize(using = CustomLocalDateTimeDeSerializer.class)
+    @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
     private LocalDateTime createdDate;
-
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @JsonDeserialize(using = CustomLocalDateTimeDeSerializer.class)
+    @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
     private LocalDateTime finalPlannedDate;
-
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @JsonDeserialize(using = CustomLocalDateTimeDeSerializer.class)
+    @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
     private LocalDateTime startDate;
-
     private String category;
-
     private String description;
-
     private Boolean isCommercial;
-
     private ProjectStatus status;
 
     @Override

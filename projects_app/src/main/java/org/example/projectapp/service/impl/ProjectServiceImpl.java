@@ -5,9 +5,12 @@ import org.example.projectapp.auth.AuthService;
 import org.example.projectapp.controller.dto.ProjectDto;
 import org.example.projectapp.controller.dto.ProjectInfoDto;
 import org.example.projectapp.controller.dto.SearchDto;
+import org.example.projectapp.mapper.ProjectMapper;
+import org.example.projectapp.mapper.dto.ProjectElasticDto;
 import org.example.projectapp.model.*;
 import org.example.projectapp.repository.ProjectNotificationRepository;
 import org.example.projectapp.repository.ProjectRepository;
+import org.example.projectapp.restclient.ElasticProjectsServiceClient;
 import org.example.projectapp.service.ProjectMemberService;
 import org.example.projectapp.service.ProjectService;
 import org.example.projectapp.service.dto.ProjectResponseDto;
@@ -32,16 +35,22 @@ public class ProjectServiceImpl implements ProjectService {
     private final AuthService authService;
     private final ProjectMemberService projectMemberService;
     private final SearchCriteriaBuilder<Project> searchCriteriaBuilder;
+    private final ElasticProjectsServiceClient elasticProjectsServiceClient;
+    private final ProjectMapper projectMapper;
 
     public ProjectServiceImpl(ProjectRepository projectRepository,
                               ProjectNotificationRepository projectNotificationRepository,
                               AuthService authService, ProjectMemberService projectMemberService,
-                              SearchCriteriaBuilder<Project> searchCriteriaBuilder) {
+                              SearchCriteriaBuilder<Project> searchCriteriaBuilder,
+                              ElasticProjectsServiceClient elasticProjectsServiceClient,
+                              ProjectMapper projectMapper) {
         this.projectRepository = projectRepository;
         this.projectNotificationRepository = projectNotificationRepository;
         this.authService = authService;
         this.projectMemberService = projectMemberService;
         this.searchCriteriaBuilder = searchCriteriaBuilder;
+        this.elasticProjectsServiceClient = elasticProjectsServiceClient;
+        this.projectMapper = projectMapper;
     }
 
     @Override
@@ -56,6 +65,8 @@ public class ProjectServiceImpl implements ProjectService {
         User userFromAuth = authService.getUserFromAuth();
         projectRepository.saveAndFlush(project);
         projectMemberService.saveProjectMemberAndReturn(ProjectRole.OWNER, project, userFromAuth);
+        ProjectElasticDto projectElasticDto = projectMapper.convertToProjectElasticDto(project);
+        elasticProjectsServiceClient.createProject(projectElasticDto);
         return project;
     }
 
@@ -77,7 +88,8 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectResponseDto updateProjectInfo(Long id, ProjectInfoDto dto) {
         Project project = tryGetProject(id);
         mergeProject(project, dto);
-
+        ProjectElasticDto projectElasticDto = projectMapper.convertToProjectElasticDto(project);
+        elasticProjectsServiceClient.updateProject(id, projectElasticDto);
         return saveAndReturnDto(project);
     }
 
@@ -92,7 +104,8 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectResponseDto makeProjectPrivate(Long id, Boolean isPrivate) {
         Project project = tryGetProject(id);
         project.setPrivate(isPrivate);
-
+        ProjectElasticDto projectElasticDto = projectMapper.convertToProjectElasticDto(project);
+        elasticProjectsServiceClient.updateProject(id, projectElasticDto);
         return saveAndReturnDto(project);
     }
 
@@ -104,6 +117,16 @@ public class ProjectServiceImpl implements ProjectService {
                 projectRepository.findAll(spec, searchCriteriaBuilder.getPagination(searchDto, "name"));
         List<ProjectResponseDto> collect = projects.stream().map(this::projectMapper).collect(Collectors.toList());
         return new PageImpl<>(collect);
+    }
+
+    @Override
+    public List<Project> findProjectsByListId(List<Long> ids) {
+        return projectRepository.findAllById(ids);
+    }
+
+    @Override
+    public List<Project> findAllProjects() {
+        return projectRepository.findAll();
     }
 
     private ProjectResponseDto projectMapper(Project project) {
