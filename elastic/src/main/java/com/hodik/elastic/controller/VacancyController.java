@@ -4,8 +4,8 @@ import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.VacancyDto;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.exception.EntityNotFoundException;
-import com.hodik.elastic.exception.VacancyErrorResponse;
 import com.hodik.elastic.mapper.VacancyMapper;
+import com.hodik.elastic.model.Vacancy;
 import com.hodik.elastic.service.EsVacancyService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +33,25 @@ public class VacancyController {
 
     @PostMapping()
     public ResponseEntity<HttpStatus> createVacancy(@RequestBody VacancyDto vacancyDto) throws EntityAlreadyExistsException {
-        vacancyService.create(vacancyMapper.convertToVacancy(vacancyDto));
+        Vacancy vacancy = vacancyMapper.convertToVacancy(vacancyDto);
+        vacancyService.create(vacancy);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/sync")
+    public ResponseEntity<HttpStatus> createVacanciesList(@RequestBody List<VacancyDto> vacancyDtoList) {
+        List<Vacancy> vacancies = vacancyDtoList
+                .stream()
+                .map(vacancyMapper::convertToVacancy)
+                .toList();
+        vacancyService.createVacanciesList(vacancies);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> updateVacancy(@PathVariable long id, @RequestBody VacancyDto vacancyDto) {
-        vacancyService.update(id, vacancyMapper.convertToVacancy(vacancyDto));
+        Vacancy vacancy = vacancyMapper.convertToVacancy(vacancyDto);
+        vacancyService.update(id, vacancy);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -51,38 +63,27 @@ public class VacancyController {
 
     @GetMapping("/{id}")
     public VacancyDto getVacancy(@PathVariable long id) {
-        return vacancyMapper.convertToVacancyDto(vacancyService.findById(id).orElseThrow(EntityNotFoundException::new));
+        Vacancy vacancy = vacancyService.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Vacancy not found with id= " + id));
+        return vacancyMapper.convertToVacancyDto(vacancy);
     }
 
     @GetMapping()
     public List<VacancyDto> getVacancies() {
-        return vacancyService.findAll().stream().map(vacancyMapper::convertToVacancyDto).collect(Collectors.toList());
+        return vacancyService.findAll()
+                .stream()
+                .map(vacancyMapper::convertToVacancyDto)
+                .collect(Collectors.toList());
     }
 
     @PostMapping("/search")
     public List<VacancyDto> searchByCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
         log.info("Search request to index Vacancies" + searchCriteriaDto);
-        return vacancyService.findAllWithFilters(searchCriteriaDto).stream().map(vacancyMapper::convertToVacancyDto).collect(Collectors.toList());
+        return vacancyService.findAllWithFilters(searchCriteriaDto)
+                .stream()
+                .map(vacancyMapper::convertToVacancyDto)
+                .collect(Collectors.toList());
     }
 
-    @ExceptionHandler
-    private ResponseEntity<VacancyErrorResponse> exceptionHandler (EntityAlreadyExistsException e) {
-        VacancyErrorResponse message = new VacancyErrorResponse(e.getMessage());
-        log.error(e.getMessage());
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-    }
 
-    @ExceptionHandler
-    private ResponseEntity<VacancyErrorResponse> exceptionHandler(EntityNotFoundException e) {
-        VacancyErrorResponse message = new VacancyErrorResponse(e.getMessage());
-        log.error(e.getMessage());
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<VacancyErrorResponse> exceptionHandler(IllegalArgumentException e) {
-        VacancyErrorResponse message = new VacancyErrorResponse(e.getMessage());
-        log.error(e.getMessage());
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-    }
 }

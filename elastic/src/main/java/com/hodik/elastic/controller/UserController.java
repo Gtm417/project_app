@@ -4,7 +4,6 @@ import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.dto.UserDto;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.exception.EntityNotFoundException;
-import com.hodik.elastic.exception.UserErrorResponse;
 import com.hodik.elastic.mapper.UserMapper;
 import com.hodik.elastic.model.User;
 import com.hodik.elastic.service.EsUserService;
@@ -54,14 +53,21 @@ public class UserController {
 
     @PutMapping()
     public ResponseEntity<HttpStatus> createUserList(@RequestBody List<UserDto> userDtoList) {
-        userService.createUserList(userDtoList.stream().map(userMapper::convertToUser).toList());
+        List<User> users = userDtoList
+                .stream()
+                .map(userMapper::convertToUser)
+                .toList();
+        userService.createUserList(users);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @GetMapping()
     public List<UserDto> getUsers() {
         List<User> users = userService.findAll();
-        return users.stream().map(userMapper::convertToUserDto).collect(Collectors.toList());
+        return users
+                .stream()
+                .map(userMapper::convertToUserDto)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
@@ -79,27 +85,11 @@ public class UserController {
     public List<UserDto> searchByCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
         List<User> users = userService.findAllWithFilters(searchCriteriaDto);
         log.info("Search request to index Users " + searchCriteriaDto);
-        return users.stream().map(userMapper::convertToUserDto).collect(Collectors.toList());
+        return users
+                .stream()
+                .map(userMapper::convertToUserDto)
+                .collect(Collectors.toList());
     }
 
-    @ExceptionHandler
-    private ResponseEntity<UserErrorResponse> exceptionHandler(EntityAlreadyExistsException e) {
-        UserErrorResponse responseEntity = new UserErrorResponse(e.getMessage());
-        log.error(e.getMessage());
-        return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
-    }
 
-    @ExceptionHandler
-    private ResponseEntity<UserErrorResponse> exceptionHandler(EntityNotFoundException e) {
-        UserErrorResponse responseEntity = new UserErrorResponse(e.getMessage());
-        log.error(e.getMessage());
-        return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<UserErrorResponse> exceptionHandler(IllegalArgumentException e) {
-        UserErrorResponse responseEntity = new UserErrorResponse(e.getMessage());
-        log.error(e.getMessage());
-        return new ResponseEntity<>(responseEntity, HttpStatus.BAD_REQUEST);
-    }
 }

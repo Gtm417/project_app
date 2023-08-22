@@ -1,4 +1,4 @@
-package com.hodik.elastic.dto;
+package org.example.projectapp.mapper.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,17 +7,18 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class VacancyDto {
+public class VacancyElasticDto {
     private Long id;
     private Long projectId;
-    private String creator;
-    private String description;
-    private String aboutProject;
-    String expected;
+    private String creator;// who created vacancy
+    private String description; // vacancy description
+    private String aboutProject; // about project text
+    String expected; // what’s expected from candidate
     private String jobPosition;
 
     @Override

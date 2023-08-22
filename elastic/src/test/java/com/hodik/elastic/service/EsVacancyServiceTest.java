@@ -85,7 +85,7 @@ class EsVacancyServiceTest {
         EntityAlreadyExistsException exception = assertThrows(EntityAlreadyExistsException.class, () -> vacancyService.create(expectedVacancy));
         //then
         verify(vacancyRepository).findById(expectedVacancy.getId());
-        assertEquals("Vacancy already exists id= 1", exception.getMessage());
+        assertEquals("[ELASTIC] Vacancy already exists id= 1", exception.getMessage());
     }
 
     @Test

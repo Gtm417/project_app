@@ -19,19 +19,19 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
-public class RebaseUsersToElasticController {
+public class SynchronizeUsersWithElasticController {
     private final UserService userService;
     private final ElasticUsersServiceClient elasticUsersServiceClient;
     private final UserMapper userMapper;
 
-    public RebaseUsersToElasticController(UserService userService, ElasticUsersServiceClient elasticUsersServiceClient, UserMapper userMapper) {
+    public SynchronizeUsersWithElasticController(UserService userService, ElasticUsersServiceClient elasticUsersServiceClient, UserMapper userMapper) {
         this.userService = userService;
         this.elasticUsersServiceClient = elasticUsersServiceClient;
         this.userMapper = userMapper;
     }
 
     @PostMapping("/sync")
-    public ResponseEntity<HttpStatus> rebaseUsers(@RequestBody @Nullable List<Long> ids) {
+    public ResponseEntity<HttpStatus> syncUsers(@RequestBody @Nullable List<Long> ids) {
         List<User> users;
         if (!CollectionUtils.isEmpty(ids)) {
             users = userService.findUsersByListId(ids);
@@ -44,3 +44,4 @@ public class RebaseUsersToElasticController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
+

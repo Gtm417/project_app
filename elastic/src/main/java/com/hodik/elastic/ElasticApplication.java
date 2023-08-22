@@ -10,5 +10,4 @@ public class ElasticApplication {
         SpringApplication.run(ElasticApplication.class, args);
     }
 
-
 }

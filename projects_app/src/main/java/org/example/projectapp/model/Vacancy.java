@@ -37,7 +37,7 @@ public class Vacancy {
     @Column(name = "job_position")
     private String jobPosition;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "project_id")
     private Project project;
 
