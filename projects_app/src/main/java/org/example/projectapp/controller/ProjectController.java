@@ -90,7 +90,6 @@ public class ProjectController {
 
     @ExceptionHandler(ProjectNotMatchException.class)
     public ResponseEntity<String> projectNotMatchException(ProjectNotMatchException ex) {
-        logger.info("[PROJECT] {}", ex.getMessage());
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
