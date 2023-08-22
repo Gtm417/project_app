@@ -39,7 +39,8 @@ public class SynchronizeVacanciesWithElasticController {
         } else {
             vacancies = vacancyService.findAllVacancies();
         }
-        List<VacancyElasticDto> vacancyElasticDtoList = vacancies.stream().map(vacancyMapper::convertToVacancyElasticDto)
+        List<VacancyElasticDto> vacancyElasticDtoList = vacancies.stream()
+                .map(vacancyMapper::convertToVacancyElasticDto)
                 .collect(Collectors.toList());
         elasticVacanciesServiceClient.createVacancyList(vacancyElasticDtoList);
         return new ResponseEntity<>(HttpStatus.OK);

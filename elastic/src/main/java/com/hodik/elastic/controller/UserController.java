@@ -53,10 +53,11 @@ public class UserController {
 
     @PutMapping()
     public ResponseEntity<HttpStatus> createUserList(@RequestBody List<UserDto> userDtoList) {
-        userService.createUserList(userDtoList
+        List<User> users = userDtoList
                 .stream()
                 .map(userMapper::convertToUser)
-                .toList());
+                .toList();
+        userService.createUserList(users);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

@@ -147,7 +147,8 @@ public class VacancyServiceImpl implements VacancyService {
         Vacancy vacancy = getVacancy(dto);
         vacancy.setId(vacancyId);
         vacancyRepository.save(vacancy);
-        elasticVacanciesServiceClient.updateVacancy(vacancyId, vacancyMapper.convertToVacancyElasticDto(vacancy));
+        VacancyElasticDto vacancyElasticDto = vacancyMapper.convertToVacancyElasticDto(vacancy);
+        elasticVacanciesServiceClient.updateVacancy(vacancyId, vacancyElasticDto);
         return VacancyDto.builder()
                 .projectId(vacancy.getProject().getId())
                 .jobPosition(vacancy.getJobPosition())

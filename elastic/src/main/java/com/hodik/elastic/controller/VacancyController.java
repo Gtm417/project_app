@@ -40,10 +40,11 @@ public class VacancyController {
 
     @PostMapping("/sync")
     public ResponseEntity<HttpStatus> createVacanciesList(@RequestBody List<VacancyDto> vacancyDtoList) {
-        vacancyService.createVacanciesList(vacancyDtoList
+        List<Vacancy> vacancies = vacancyDtoList
                 .stream()
                 .map(vacancyMapper::convertToVacancy)
-                .toList());
+                .toList();
+        vacancyService.createVacanciesList(vacancies);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
