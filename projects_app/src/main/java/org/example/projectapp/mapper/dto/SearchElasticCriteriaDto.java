@@ -1,10 +1,12 @@
-package com.hodik.elastic.dto;
+package org.example.projectapp.mapper.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.example.projectapp.controller.dto.SearchSort;
 
 import java.util.List;
 
@@ -12,9 +14,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchCriteriaDto {
+@Builder
+public class SearchElasticCriteriaDto {
 
-    private List<FilterDto> filters;
+    private List<ElasticFilterDto> filters;
     private int page;
     private int size;
     private List<SearchSort> sorts;

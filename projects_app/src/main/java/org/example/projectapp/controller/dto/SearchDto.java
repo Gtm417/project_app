@@ -15,9 +15,11 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SearchDto {
+    private String search;
     @NotEmpty
     private List<FilterDto> filters;
-    private String sort;
+    //    private String sort;
     private Integer page;
     private Integer size;
+    private List<SearchSort> sorts;
 }

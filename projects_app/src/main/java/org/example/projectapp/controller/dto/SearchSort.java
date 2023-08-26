@@ -1,34 +1,25 @@
-package com.hodik.elastic.dto;
+package org.example.projectapp.controller.dto;
 
-import com.hodik.elastic.util.Operations;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-
-import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
-
-public class SearchFilter {
-
-
-    private final String column;
-
-    private final Operations operations;
-
-    private final List<?> values;
+@NoArgsConstructor
+public class SearchSort {
+    private String column;
+    private Boolean ascending;
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
                 .append("column", column)
-                .append("operations", operations)
-                .append("values", values)
+                .append("ascending", ascending)
                 .toString();
     }
 }
-

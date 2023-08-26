@@ -8,7 +8,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class EventNotificationService {
@@ -24,7 +23,7 @@ public class EventNotificationService {
     }
 
     public void sendNotification(MessageDto message, String routingKey) {
-        message.setCreatedDate(LocalDateTime.now());
+        message.setCreateDate(LocalDateTime.now());
         logger.info("Send message: {}", message);
         rabbitTemplate.convertAndSend(exchange.getName(), routingKey, message);
     }

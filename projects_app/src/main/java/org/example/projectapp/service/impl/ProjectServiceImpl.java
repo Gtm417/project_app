@@ -5,8 +5,11 @@ import org.example.projectapp.auth.AuthService;
 import org.example.projectapp.controller.dto.ProjectDto;
 import org.example.projectapp.controller.dto.ProjectInfoDto;
 import org.example.projectapp.controller.dto.SearchDto;
+import org.example.projectapp.mapper.PageableMapper;
 import org.example.projectapp.mapper.ProjectMapper;
+import org.example.projectapp.mapper.SearchElasticCriteriaDtoMapper;
 import org.example.projectapp.mapper.dto.ProjectElasticDto;
+import org.example.projectapp.mapper.dto.SearchElasticCriteriaDto;
 import org.example.projectapp.model.*;
 import org.example.projectapp.repository.ProjectNotificationRepository;
 import org.example.projectapp.repository.ProjectRepository;
@@ -18,6 +21,7 @@ import org.example.projectapp.service.exception.CustomEntityNotFoundException;
 import org.example.projectapp.service.exception.ProjectAlreadyExistsException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -37,13 +41,15 @@ public class ProjectServiceImpl implements ProjectService {
     private final SearchCriteriaBuilder<Project> searchCriteriaBuilder;
     private final ElasticProjectsServiceClient elasticProjectsServiceClient;
     private final ProjectMapper projectMapper;
+    private final PageableMapper pageableMapper;
+    private final SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper;
 
     public ProjectServiceImpl(ProjectRepository projectRepository,
                               ProjectNotificationRepository projectNotificationRepository,
                               AuthService authService, ProjectMemberService projectMemberService,
                               SearchCriteriaBuilder<Project> searchCriteriaBuilder,
                               ElasticProjectsServiceClient elasticProjectsServiceClient,
-                              ProjectMapper projectMapper) {
+                              ProjectMapper projectMapper, PageableMapper pageableMapper, SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper) {
         this.projectRepository = projectRepository;
         this.projectNotificationRepository = projectNotificationRepository;
         this.authService = authService;
@@ -51,6 +57,8 @@ public class ProjectServiceImpl implements ProjectService {
         this.searchCriteriaBuilder = searchCriteriaBuilder;
         this.elasticProjectsServiceClient = elasticProjectsServiceClient;
         this.projectMapper = projectMapper;
+        this.pageableMapper = pageableMapper;
+        this.elasticCriteriaDtoMapper = elasticCriteriaDtoMapper;
     }
 
     @Override
@@ -111,13 +119,24 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Page<ProjectResponseDto> findProjectsByFilters(SearchDto searchDto) {
+        // todo elastic instead
+        // searchDto -> elastic searchCriteria -> request to elastic -> get and return response
         Specification<Project> spec =
                 searchCriteriaBuilder.buildSearchSpecificationWithPrivateProject(searchDto.getFilters());
-        Page<Project> projects =
-                projectRepository.findAll(spec, searchCriteriaBuilder.getPagination(searchDto, "name"));
+        Pageable pageable = pageableMapper.getPageable(searchDto);
+        Page<Project> projects = projectRepository.findAll(spec, pageable);
+//        Page<Project> projects =
+//                projectRepository.findAll(spec, searchCriteriaBuilder.getPagination(searchDto, "name"));
         List<ProjectResponseDto> collect = projects.stream().map(this::projectMapper).collect(Collectors.toList());
         return new PageImpl<>(collect);
     }
+
+    public List<ProjectResponseDto> findProjectsInElastic(SearchDto searchDto) {
+        SearchElasticCriteriaDto searchElasticCriteriaDto =
+                elasticCriteriaDtoMapper.convertToSearchElasticCriteriaDto(searchDto);
+        return elasticProjectsServiceClient.searchProject(searchElasticCriteriaDto);
+    }
+
 
     @Override
     public List<Project> findProjectsByListId(List<Long> ids) {

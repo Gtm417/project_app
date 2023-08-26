@@ -23,7 +23,7 @@ public class ProjectElasticDto {
     private String name;
     private Boolean isPrivate;
     @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
-    private LocalDateTime createdDate;
+    private LocalDateTime createDate;
     @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
     private LocalDateTime finalPlannedDate;
     @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
@@ -39,7 +39,7 @@ public class ProjectElasticDto {
                 .append("id", id)
                 .append("name", name)
                 .append("isPrivate", isPrivate)
-                .append("createdDate", createdDate)
+                .append("createDate", createDate)
                 .append("finalPlannedDate", finalPlannedDate)
                 .append("startDate", startDate)
                 .append("category", category)

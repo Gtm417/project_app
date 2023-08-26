@@ -1,7 +1,7 @@
 package com.hodik.elastic.repository.search.builder;
 
+import com.hodik.elastic.dto.FilterDto;
 import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.dto.SearchFilter;
 import com.hodik.elastic.dto.SearchSort;
 import com.hodik.elastic.mapper.PageableMapper;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 
 import java.util.List;
 
-import static com.hodik.elastic.util.Operations.LIKE;
+import static com.hodik.elastic.dto.Operation.LIKE;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -25,7 +25,7 @@ class EsQueryBuilderTest {
     public static final int SIZE = 2;
     private final SearchSort searchSort = new SearchSort(NAME, true);
     private final List<SearchSort> searchSortList = List.of(searchSort);
-    private final SearchFilter searchFilter = new SearchFilter(NAME, LIKE, List.of(NAME));
+    private final FilterDto searchFilter = new FilterDto(NAME, LIKE, List.of(NAME), String.class);
     private final SearchCriteriaDto searchCriteriaDto = new SearchCriteriaDto(List.of(searchFilter), PAGE, SIZE, searchSortList);
     @Mock
     private PageableMapper pageableMapper;

@@ -35,7 +35,7 @@ class ProjectControllerTest {
     public static final long ID = 1L;
     public static final String NAME = "Name";
     public static final String CATEGORY = "Category";
-    public static final LocalDateTime CREATED_DATE = LocalDateTime.of(2020, 7, 5, 0, 0);
+    public static final LocalDateTime CREATE_DATE = LocalDateTime.of(2020, 7, 5, 0, 0);
     public static final String DESCRIPTION = "Description";
     public static final LocalDateTime FINAL_PLANNED_DATE = LocalDateTime.of(2025, 12, 31, 0, 0);
     public static final boolean IS_COMMERCIAL = true;
@@ -159,7 +159,7 @@ class ProjectControllerTest {
                 .id(ID)
                 .name(NAME)
                 .category(CATEGORY)
-                .createdDate(CREATED_DATE)
+                .createDate(CREATE_DATE)
                 .description(DESCRIPTION)
                 .finalPlannedDate(FINAL_PLANNED_DATE)
                 .isCommercial(IS_COMMERCIAL)
@@ -174,7 +174,7 @@ class ProjectControllerTest {
                 .id(ID)
                 .name(NAME)
                 .category(CATEGORY)
-                .createdDate(CREATED_DATE)
+                .createDate(CREATE_DATE)
                 .description(DESCRIPTION)
                 .finalPlannedDate(FINAL_PLANNED_DATE)
                 .isCommercial(IS_COMMERCIAL)

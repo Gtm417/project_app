@@ -20,6 +20,8 @@ public interface ProjectService {
 
     Page<ProjectResponseDto> findProjectsByFilters(SearchDto searchDto);
 
+    List<ProjectResponseDto> findProjectsInElastic(SearchDto searchDto);
+
     List<Project> findProjectsByListId(List<Long> ids);
 
     List<Project> findAllProjects();

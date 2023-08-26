@@ -21,13 +21,13 @@ public class NotificationEventServiceImpl implements NotificationEventService {
 
     public NotificationEvent saveNewEvent(MessageDto message, String queue, LocalDateTime receiveDate) {
         Objects.requireNonNull(message.getName(), "Event name must be not null");
-        Objects.requireNonNull(message.getCreatedDate(), "Message date must be not null");
+        Objects.requireNonNull(message.getCreateDate(), "Message date must be not null");
         Objects.requireNonNull(queue, "Queue name must be not null");
         Objects.requireNonNull(receiveDate, "Receive date must be not null");
 
         NotificationEvent notificationEvent = NotificationEvent.builder()
                 .eventName(message.getName())
-                .messageDate(message.getCreatedDate())
+                .messageDate(message.getCreateDate())
                 .queue(queue)
                 .receiveDate(receiveDate)
                 .status(EventStatus.NEW)

@@ -1,6 +1,9 @@
 package org.example.projectapp.service.notification.message;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -36,7 +39,7 @@ public class VacancySubscriptionMessageDto extends MessageDto {
                 .append("userEmail", userEmail)
                 .append("name", name)
                 .append("receiversEmail", receiversEmail)
-                .append("createdDate", createdDate)
+                .append("createDate", createDate)
                 .toString();
     }
 }

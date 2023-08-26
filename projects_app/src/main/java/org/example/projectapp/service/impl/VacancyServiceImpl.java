@@ -100,7 +100,7 @@ public class VacancyServiceImpl implements VacancyService {
         notificationMessage.setVacancyId(vacancyId);
         notificationMessage.setName("vacancySub");
         notificationMessage.setReceiversEmail(notificationReceivers);
-        notificationMessage.setCreatedDate(LocalDateTime.now());
+        notificationMessage.setCreateDate(LocalDateTime.now());
         notificationService.sendNotification(notificationMessage, "vacancy.unsub");
     }
 

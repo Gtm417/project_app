@@ -1,7 +1,7 @@
 package com.hodik.elastic.util;
 
 public enum SearchColumnProject implements SearchColumn {
-    NAME("name"), IS_PRIVATE("isPrivate"), CREATED_DATE("createdDate"),
+    NAME("name"), IS_PRIVATE("isPrivate"), CREATE_DATE("createDate"),
     FINAL_PLANNED_DATE("finalPlannedDate"), START_DATE("startDate"), CATEGORY("category"),
     DESCRIPTION("description"), IS_COMMERCIAL("isCommercial"), STATUS("status");
     final String name;
