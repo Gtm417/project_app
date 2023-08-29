@@ -33,6 +33,8 @@ public class ProjectSearchRepositoryImpl implements ProjectSearchRepository {
     public List<Project> findAllWithFilters(SearchCriteriaDto searchCriteriaDto) {
 
         CriteriaQuery criteriaQuery = queryBuilder.getCriteriaQuery(searchCriteriaDto);
+
+
         SearchHits<Project> searchResponse = elasticsearchOperations.search(criteriaQuery,
                 Project.class);
 
