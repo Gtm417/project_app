@@ -28,6 +28,10 @@ public class ElasticFilterDto {
     private final Class<?> clazz;
     private final boolean orPredicate;
 
+    public boolean isOrPredicate() {
+        return orPredicate;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
