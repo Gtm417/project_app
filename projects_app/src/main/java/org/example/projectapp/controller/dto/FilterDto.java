@@ -22,6 +22,7 @@ public class FilterDto {
     private SearchOperation operation;
     private List<Object> values;
     private DataType dataType;
+    private boolean orPredicate;
 
     @Override
     public String toString() {
@@ -30,6 +31,7 @@ public class FilterDto {
                 .append("operation", operation)
                 .append("values", values)
                 .append("dataType", dataType)
+                .append("orPredicate", orPredicate)
                 .toString();
     }
 }

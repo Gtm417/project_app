@@ -32,6 +32,7 @@ public class SearchFilterDeserializer extends StdDeserializer<FilterDto> {
 
         String column = node.get("column").asText();
         Operation operations = Operation.valueOf(node.get("operation").asText());
+        boolean orPredicate = node.get("orPredicate").asBoolean();
         Class<?> valueType = getValueType(node);
         List<Object> values = new ArrayList<>();
 
@@ -45,7 +46,7 @@ public class SearchFilterDeserializer extends StdDeserializer<FilterDto> {
             values.add(valueNode.asText());
         }
 
-        return new FilterDto(column, operations, values, valueType);
+        return new FilterDto(column, operations, values, valueType, orPredicate);
     }
 
     private static Class<?> getValueType(JsonNode node) {

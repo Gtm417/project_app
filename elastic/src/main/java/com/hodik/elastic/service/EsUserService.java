@@ -69,13 +69,13 @@ public class EsUserService {
 
 
     public List<User> findAllWithFilters(SearchCriteriaDto searchCriteriaDto) {
-        //validation column name
         List<FilterDto> filters = searchCriteriaDto.getFilters();
         if (CollectionUtils.isEmpty(filters)) {
             Pageable pageable = pageableMapper.getPageable(searchCriteriaDto);
             return findAll(pageable);
         }
-        searchCriteriaDto.getFilters().forEach(x -> SearchColumnUser.getByNameIgnoringCase(x.getColumn()));
+        //validation column name
+        filters.forEach(x -> SearchColumnUser.getByNameIgnoringCase(x.getColumn()));
         return userSearchRepository.findAllWithFilters(searchCriteriaDto);
     }
 

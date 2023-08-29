@@ -1,6 +1,5 @@
 package org.example.projectapp.service.impl;
 
-import org.apache.commons.lang3.StringUtils;
 import org.example.projectapp.auth.AuthService;
 import org.example.projectapp.controller.dto.ProjectDto;
 import org.example.projectapp.controller.dto.ProjectInfoDto;
@@ -225,7 +224,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .scheduledEndDate(projectDto.getScheduledEndDate())
                 .startDate(projectDto.getStartDate())
                 .status(projectStatus == null ? ProjectStatus.NEW : projectStatus)
-                .description(StringUtils.EMPTY)
+                .description(projectDto.getDescription())
                 .build();
     }
 }

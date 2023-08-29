@@ -25,7 +25,7 @@ class EsQueryBuilderTest {
     public static final int SIZE = 2;
     private final SearchSort searchSort = new SearchSort(NAME, true);
     private final List<SearchSort> searchSortList = List.of(searchSort);
-    private final FilterDto searchFilter = new FilterDto(NAME, LIKE, List.of(NAME), String.class);
+    private final FilterDto searchFilter = new FilterDto(NAME, LIKE, List.of(NAME), String.class, false);
     private final SearchCriteriaDto searchCriteriaDto = new SearchCriteriaDto(List.of(searchFilter), PAGE, SIZE, searchSortList);
     @Mock
     private PageableMapper pageableMapper;

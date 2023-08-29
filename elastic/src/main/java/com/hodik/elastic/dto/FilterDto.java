@@ -26,6 +26,7 @@ public class FilterDto {
     private final List<?> values;
 
     private final Class<?> clazz;
+    private final boolean orPredicate;
 
     @Override
     public String toString() {
@@ -34,6 +35,7 @@ public class FilterDto {
                 .append("operation", operation)
                 .append("values", values)
                 .append("class", clazz)
+                .append("orPredicate", orPredicate)
                 .toString();
     }
 }

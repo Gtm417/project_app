@@ -2,17 +2,20 @@ package org.example.projectapp.mapper.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.example.projectapp.util.SearchFilterSerializer;
 
 import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
+@JsonSerialize(using = SearchFilterSerializer.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ElasticFilterDto {
@@ -20,9 +23,10 @@ public class ElasticFilterDto {
 
     private final ElasticOperation operation;
 
-    private final List<?> values;
+    private final List<Object> values;
 
     private final Class<?> clazz;
+    private final boolean orPredicate;
 
     @Override
     public String toString() {
@@ -31,6 +35,7 @@ public class ElasticFilterDto {
                 .append("operation", operation)
                 .append("values", values)
                 .append("class", clazz)
+                .append("orPredicate", orPredicate)
                 .toString();
     }
 }

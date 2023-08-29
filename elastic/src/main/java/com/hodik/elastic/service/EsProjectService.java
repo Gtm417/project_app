@@ -28,7 +28,7 @@ public class EsProjectService {
 
 
     @Autowired
-    public EsProjectService(ProjectRepository projectRepository,  ProjectSearchRepository projectSearchRepository, PageableMapper pageableMapper) {
+    public EsProjectService(ProjectRepository projectRepository, ProjectSearchRepository projectSearchRepository, PageableMapper pageableMapper) {
         this.projectRepository = projectRepository;
 
         this.projectSearchRepository = projectSearchRepository;
@@ -71,6 +71,7 @@ public class EsProjectService {
     }
 
     public List<Project> findAllWithFilters(SearchCriteriaDto searchCriteriaDto) {
+        List<FilterDto> list = new ArrayList<>();
         List<FilterDto> filters = searchCriteriaDto.getFilters();
         if (CollectionUtils.isEmpty(filters)) {
             return findAll(pageableMapper.getPageable(searchCriteriaDto));
