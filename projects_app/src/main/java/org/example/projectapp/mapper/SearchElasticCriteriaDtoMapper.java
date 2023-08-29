@@ -16,7 +16,6 @@ public class SearchElasticCriteriaDtoMapper {
     private final ElasticFilterDtoMapper filterDtoMapper;
     private List<ElasticFilterDto> filterDtoList;
 
-
     public SearchElasticCriteriaDtoMapper(ElasticFilterDtoMapper mapper) {
         this.filterDtoMapper = mapper;
     }
@@ -33,7 +32,6 @@ public class SearchElasticCriteriaDtoMapper {
             addFilters(search, "category", ElasticOperation.FULL_TEXT, orPredicate);
             addFilters(search, "description", ElasticOperation.FULL_TEXT, orPredicate);
         }
-
         return getElasticCriteriaDto(searchDto);
     }
 
