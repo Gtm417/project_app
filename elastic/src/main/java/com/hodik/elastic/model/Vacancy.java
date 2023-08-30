@@ -24,15 +24,15 @@ public class Vacancy {
     @UniqueElements
     @Field(type = FieldType.Long)
     private Long projectId;
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     private String creator;
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     private String description;
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     private String aboutProject;
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     String expected;
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     private String jobPosition;
 
 

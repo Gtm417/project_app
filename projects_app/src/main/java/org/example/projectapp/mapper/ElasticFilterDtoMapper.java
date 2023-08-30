@@ -17,7 +17,7 @@ public class ElasticFilterDtoMapper {
         this.modelMapper = modelMapper;
     }
 
-    public ElasticFilterDto convertToProjectElasticFilterDto(FilterDto filterDto) {
+    public ElasticFilterDto convertToElasticFilterDto(FilterDto filterDto) {
         return ElasticFilterDto.builder()
                 .column(filterDto.getName())
                 .clazz(getClazz(filterDto))
@@ -32,6 +32,7 @@ public class ElasticFilterDtoMapper {
                 String.class
                 : filterDto.getDataType().getClazz();
     }
+
 
     private ElasticOperation mapperOperation(SearchOperation operation) {
         return modelMapper.map(operation, ElasticOperation.class);
