@@ -71,7 +71,6 @@ public class EsProjectService {
     }
 
     public List<Project> findAllWithFilters(SearchCriteriaDto searchCriteriaDto) {
-        List<FilterDto> list = new ArrayList<>();
         List<FilterDto> filters = searchCriteriaDto.getFilters();
         if (CollectionUtils.isEmpty(filters)) {
             return findAll(pageableMapper.getPageable(searchCriteriaDto));
