@@ -2,8 +2,11 @@ package org.example.projectapp.service.impl;
 
 import org.example.projectapp.auth.AuthService;
 import org.example.projectapp.controller.VacancyController;
+import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.controller.dto.VacancyDto;
+import org.example.projectapp.mapper.SearchElasticCriteriaDtoMapper;
 import org.example.projectapp.mapper.VacancyMapper;
+import org.example.projectapp.mapper.dto.SearchElasticCriteriaDto;
 import org.example.projectapp.mapper.dto.VacancyElasticDto;
 import org.example.projectapp.model.Project;
 import org.example.projectapp.model.User;
@@ -18,6 +21,7 @@ import org.example.projectapp.service.notification.EventNotificationService;
 import org.example.projectapp.service.notification.message.VacancySubscriptionMessageDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,16 +39,21 @@ public class VacancyServiceImpl implements VacancyService {
     private final EventNotificationService notificationService;
     private final ElasticVacanciesServiceClient elasticVacanciesServiceClient;
     private final VacancyMapper vacancyMapper;
+    private final SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper;
     private final Logger logger = LoggerFactory.getLogger(VacancyController.class);
 
     public VacancyServiceImpl(ProjectRepository projectRepository, VacancyRepository vacancyRepository,
-                              AuthService authService, EventNotificationService notificationService, ElasticVacanciesServiceClient elasticVacanciesServiceClient, VacancyMapper vacancyMapper) {
+                              AuthService authService, EventNotificationService notificationService,
+                              ElasticVacanciesServiceClient elasticVacanciesServiceClient,
+                              VacancyMapper vacancyMapper,
+                              @Qualifier("searchVacancyElasticCriteriaDtoMapper") SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper) {
         this.projectRepository = projectRepository;
         this.vacancyRepository = vacancyRepository;
         this.authService = authService;
         this.notificationService = notificationService;
         this.elasticVacanciesServiceClient = elasticVacanciesServiceClient;
         this.vacancyMapper = vacancyMapper;
+        this.elasticCriteriaDtoMapper = elasticCriteriaDtoMapper;
     }
 
     @Override
@@ -169,6 +178,13 @@ public class VacancyServiceImpl implements VacancyService {
         }
         vacancyRepository.deleteById(vacancyId);
         elasticVacanciesServiceClient.deleteVacancy(vacancyId);
+    }
+
+    @Override
+    public List<VacancyDto> findVacanciesInElastic(SearchDto searchDto) {
+        SearchElasticCriteriaDto searchElasticCriteriaDto =
+                elasticCriteriaDtoMapper.convertToSearchElasticCriteriaDto(searchDto);
+        return elasticVacanciesServiceClient.searchVacancies(searchElasticCriteriaDto);
     }
 
     private Vacancy tryGetVacancy(Long vacancyId) {

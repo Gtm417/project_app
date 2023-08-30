@@ -7,15 +7,15 @@ PUT vacancies
     "projectId":
       {"type": "long"},
     "creator":
-     { "type": "keyword"},
+     { "type": "text"},
      "description":
-     {"type":"keyword"},
+     {"type":"text"},
      "aboutProject":
-     {"type":"keyword"},
+     {"type":"text"},
      "expected":
-     {"type": "keyword"},
+     {"type": "text"},
      "jobPosition":
-     {"type":"keyword"}
+     {"type":"text"}
   }
 }
 }

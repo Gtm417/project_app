@@ -17,14 +17,14 @@ public class VacancyDto {
     private String creator;
     private String description;
     private String aboutProject;
-    String expected;
+    private String expected;
     private String jobPosition;
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
                 .append("id", id)
-                .append("skillId", projectId)
+                .append("projectId", projectId)
                 .append("creator", creator)
                 .append("description", description)
                 .append("aboutProject", aboutProject)

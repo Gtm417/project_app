@@ -40,9 +40,9 @@ public class Project {
     @ValueConverter(CustomDatePropertyValueConverter.class)
     private LocalDateTime startDate;
 
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     private String category;
-    @Field(type = FieldType.Keyword)
+    @Field(type = FieldType.Text)
     private String description;
     @Field(type = FieldType.Boolean)
     private Boolean isCommercial;

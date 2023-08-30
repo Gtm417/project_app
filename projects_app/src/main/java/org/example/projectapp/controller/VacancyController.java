@@ -1,5 +1,6 @@
 package org.example.projectapp.controller;
 
+import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.controller.dto.VacancyDto;
 import org.example.projectapp.model.Vacancy;
 import org.example.projectapp.restclient.ElasticVacanciesServiceClient;
@@ -53,5 +54,12 @@ public class VacancyController {
         vacancyService.unsubscribeFrom(id);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<VacancyDto>> search(@RequestBody SearchDto searchDto) {
+        List<VacancyDto> vacanciesFromElastic = vacancyService.findVacanciesInElastic(searchDto);
+        return ResponseEntity.ok(vacanciesFromElastic);
+    }
+
 
 }

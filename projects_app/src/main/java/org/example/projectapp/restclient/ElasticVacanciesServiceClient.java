@@ -1,6 +1,7 @@
 package org.example.projectapp.restclient;
 
 import org.example.projectapp.controller.dto.VacancyDto;
+import org.example.projectapp.mapper.dto.SearchElasticCriteriaDto;
 import org.example.projectapp.mapper.dto.VacancyElasticDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -24,4 +25,7 @@ public interface ElasticVacanciesServiceClient {
 
     @DeleteMapping("/{id}")
     void deleteVacancy(@PathVariable long id);
+
+    @PostMapping("/search")
+    List<VacancyDto> searchVacancies(SearchElasticCriteriaDto criteriaDto);
 }

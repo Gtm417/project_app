@@ -6,7 +6,7 @@ import org.example.projectapp.controller.dto.ProjectInfoDto;
 import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.mapper.PageableMapper;
 import org.example.projectapp.mapper.ProjectMapper;
-import org.example.projectapp.mapper.SearchElasticCriteriaDtoMapper;
+import org.example.projectapp.mapper.SearchProjectElasticCriteriaDtoMapper;
 import org.example.projectapp.mapper.dto.ProjectElasticDto;
 import org.example.projectapp.mapper.dto.SearchElasticCriteriaDto;
 import org.example.projectapp.model.*;
@@ -18,6 +18,7 @@ import org.example.projectapp.service.ProjectService;
 import org.example.projectapp.service.dto.ProjectResponseDto;
 import org.example.projectapp.service.exception.CustomEntityNotFoundException;
 import org.example.projectapp.service.exception.ProjectAlreadyExistsException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -41,14 +42,15 @@ public class ProjectServiceImpl implements ProjectService {
     private final ElasticProjectsServiceClient elasticProjectsServiceClient;
     private final ProjectMapper projectMapper;
     private final PageableMapper pageableMapper;
-    private final SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper;
+    private final SearchProjectElasticCriteriaDtoMapper elasticCriteriaDtoMapper;
 
     public ProjectServiceImpl(ProjectRepository projectRepository,
                               ProjectNotificationRepository projectNotificationRepository,
                               AuthService authService, ProjectMemberService projectMemberService,
                               SearchCriteriaBuilder<Project> searchCriteriaBuilder,
                               ElasticProjectsServiceClient elasticProjectsServiceClient,
-                              ProjectMapper projectMapper, PageableMapper pageableMapper, SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper) {
+                              ProjectMapper projectMapper, PageableMapper pageableMapper,
+                              @Qualifier("searchProjectElasticCriteriaDtoMapper") SearchProjectElasticCriteriaDtoMapper elasticCriteriaDtoMapper) {
         this.projectRepository = projectRepository;
         this.projectNotificationRepository = projectNotificationRepository;
         this.authService = authService;
