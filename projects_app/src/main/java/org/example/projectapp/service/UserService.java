@@ -1,6 +1,7 @@
 package org.example.projectapp.service;
 
 import org.example.projectapp.controller.dto.SearchDto;
+import org.example.projectapp.mapper.dto.UserElasticDto;
 import org.example.projectapp.model.User;
 import org.example.projectapp.service.dto.UserDto;
 import org.springframework.data.domain.Page;
@@ -14,4 +15,5 @@ public interface UserService {
 
     List<User> findUsersByListId(List<Long> listID);
 
+    List<UserElasticDto> findUsersInElastic(SearchDto searchDto);
 }

@@ -32,7 +32,7 @@ public class SearchFilterDeserializer extends StdDeserializer<FilterDto> {
 
         String column = node.get("column").asText();
         Operation operations = Operation.valueOf(node.get("operation").asText());
-        boolean orPredicate = node.get("orPredicate").asBoolean();
+        boolean orPredicate = getOrPredicate(node.get("orPredicate"));
         Class<?> valueType = getValueType(node);
         List<Object> values = new ArrayList<>();
 
@@ -53,7 +53,7 @@ public class SearchFilterDeserializer extends StdDeserializer<FilterDto> {
         return new FilterDto(column, operations, values, valueType, orPredicate);
     }
 
-    private static Class<?> getValueType(JsonNode node) {
+    private Class<?> getValueType(JsonNode node) {
         JsonNode clazzNode = node.get("clazz");
         if (clazzNode == null || StringUtils.isBlank(clazzNode.asText())) {
             return String.class;
@@ -63,5 +63,12 @@ public class SearchFilterDeserializer extends StdDeserializer<FilterDto> {
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException("Cannot parse class type", e);
         }
+    }
+
+    private boolean getOrPredicate(JsonNode orPredicate) {
+        if (orPredicate == null || StringUtils.isBlank(orPredicate.asText())) {
+            return false;
+        }
+        return orPredicate.asBoolean();
     }
 }

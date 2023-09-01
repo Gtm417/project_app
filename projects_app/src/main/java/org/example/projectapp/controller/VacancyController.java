@@ -56,7 +56,7 @@ public class VacancyController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<VacancyDto>> search(@RequestBody SearchDto searchDto) {
+    public ResponseEntity<List<VacancyDto>> searchVacanciesInElastic(@RequestBody SearchDto searchDto) {
         List<VacancyDto> vacanciesFromElastic = vacancyService.findVacanciesInElastic(searchDto);
         return ResponseEntity.ok(vacanciesFromElastic);
     }

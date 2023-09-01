@@ -1,15 +1,12 @@
 package org.example.projectapp.mapper;
 
-import org.example.projectapp.controller.dto.FilterDto;
 import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.mapper.dto.ElasticFilterDto;
 import org.example.projectapp.mapper.dto.ElasticOperation;
 import org.example.projectapp.mapper.dto.SearchElasticCriteriaDto;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class SearchVacancyElasticCriteriaDtoMapper implements SearchElasticCriteriaDtoMapper {
@@ -23,29 +20,23 @@ public class SearchVacancyElasticCriteriaDtoMapper implements SearchElasticCrite
     }
 
     @Override
+
     public SearchElasticCriteriaDto convertToSearchElasticCriteriaDto(SearchDto searchDto) {
-        List<ElasticFilterDto> filterDtoList = getElasticFilterDtos(searchDto);
-        String search = searchDto.getSearch();
-        if (search != null && !search.isBlank()) {
-            boolean orPredicate = true;
-            filterDtoList.add(getFilter(search, ABOUT_PROJECT, ElasticOperation.FULL_TEXT, orPredicate));
-            filterDtoList.add(getFilter(search, JOB_POSITION, ElasticOperation.FULL_TEXT, orPredicate));
-            filterDtoList.add(getFilter(search, DESCRIPTION, ElasticOperation.FULL_TEXT, orPredicate));
-        }
+        List<ElasticFilterDto> filterDtoList = getElasticFilterDtos(searchDto, filterDtoMapper);
+        addSearchToFilterDtoList(searchDto, filterDtoList);
 
         return getElasticCriteriaDto(searchDto, filterDtoList);
     }
 
-    private List<ElasticFilterDto> getElasticFilterDtos(SearchDto searchDto) {
-        List<ElasticFilterDto> filterDtoList;
-        List<FilterDto> filters = searchDto.getFilters();
-        if (filters == null) {
-            filters = Collections.emptyList();
+    private void addSearchToFilterDtoList(SearchDto searchDto, List<ElasticFilterDto> filterDtoList) {
+        String search = searchDto.getSearch();
+        if (search != null && !search.isBlank()) {
+            boolean orPredicate = true;
+
+            filterDtoList.add(getFilter(search, ABOUT_PROJECT, ElasticOperation.FULL_TEXT, orPredicate));
+            filterDtoList.add(getFilter(search, JOB_POSITION, ElasticOperation.FULL_TEXT, orPredicate));
+            filterDtoList.add(getFilter(search, DESCRIPTION, ElasticOperation.FULL_TEXT, orPredicate));
         }
-        filterDtoList = filters.stream()
-                .map(filterDtoMapper::convertToElasticFilterDto)
-                .collect(Collectors.toList());
-        return filterDtoList;
     }
 }
 
