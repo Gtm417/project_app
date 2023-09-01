@@ -9,17 +9,14 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class SearchProjectElasticCriteriaDtoMapper implements SearchElasticCriteriaDtoMapper {
-    public static final String NAME = "name";
-    public static final String CATEGORY = "category";
-    public static final String DESCRIPTION = "description";
+public class SearchUserElasticDtoMapper implements SearchElasticCriteriaDtoMapper {
     private final ElasticFilterDtoMapper filterDtoMapper;
 
-
-    public SearchProjectElasticCriteriaDtoMapper(ElasticFilterDtoMapper mapper) {
-        this.filterDtoMapper = mapper;
+    public SearchUserElasticDtoMapper(ElasticFilterDtoMapper filterDtoMapper) {
+        this.filterDtoMapper = filterDtoMapper;
     }
 
+    @Override
     public SearchElasticCriteriaDto convertToSearchElasticCriteriaDto(SearchDto searchDto) {
         List<ElasticFilterDto> filterDtoList = getElasticFilterDtos(searchDto, filterDtoMapper);
         addSearchToFilterDtoList(searchDto, filterDtoList);
@@ -31,10 +28,11 @@ public class SearchProjectElasticCriteriaDtoMapper implements SearchElasticCrite
         String search = searchDto.getSearch();
         if (search != null && !search.isBlank()) {
             boolean orPredicate = true;
-
-            filterDtoList.add(getFilter(search, NAME, ElasticOperation.FULL_TEXT, orPredicate));
-            filterDtoList.add(getFilter(search, CATEGORY, ElasticOperation.FULL_TEXT, orPredicate));
-            filterDtoList.add(getFilter(search, DESCRIPTION, ElasticOperation.FULL_TEXT, orPredicate));
+            filterDtoList.add(getFilter(search, "cv", ElasticOperation.FULL_TEXT, orPredicate));
+            filterDtoList.add(getFilter(search, "skills.skillName", ElasticOperation.FULL_TEXT, orPredicate));
+            filterDtoList.add(getFilter(search, "description", ElasticOperation.FULL_TEXT, orPredicate));
         }
     }
 }
+
+

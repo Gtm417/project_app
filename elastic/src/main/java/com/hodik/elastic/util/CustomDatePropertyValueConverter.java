@@ -1,6 +1,7 @@
 package com.hodik.elastic.util;
 
 import org.springframework.data.elasticsearch.core.mapping.PropertyValueConverter;
+import org.springframework.lang.NonNull;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -10,7 +11,11 @@ import java.time.ZoneOffset;
 
 public class CustomDatePropertyValueConverter implements PropertyValueConverter {
     @Override
+    @NonNull
     public Object write(Object value) {
+        if (value.getClass().isInstance("String")) {
+            value = LocalDateTime.parse(value.toString());
+        }
         LocalDateTime localDateTime = (LocalDateTime) value;
         return localDateTime.atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
     }

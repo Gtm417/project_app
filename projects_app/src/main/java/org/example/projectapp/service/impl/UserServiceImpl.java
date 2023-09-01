@@ -3,10 +3,15 @@ package org.example.projectapp.service.impl;
 import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.controller.dto.SkillDto;
 import org.example.projectapp.mapper.PageableMapper;
+import org.example.projectapp.mapper.SearchElasticCriteriaDtoMapper;
+import org.example.projectapp.mapper.dto.SearchElasticCriteriaDto;
+import org.example.projectapp.mapper.dto.UserElasticDto;
 import org.example.projectapp.model.User;
 import org.example.projectapp.repository.UserRepository;
+import org.example.projectapp.restclient.ElasticUsersServiceClient;
 import org.example.projectapp.service.UserService;
 import org.example.projectapp.service.dto.UserDto;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -24,11 +29,17 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final SearchCriteriaBuilder<User> searchCriteriaBuilder;
     private final PageableMapper pageableMapper;
+    private final SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper;
+    private final ElasticUsersServiceClient elasticUsersServiceClient;
 
-    public UserServiceImpl(UserRepository repository, SearchCriteriaBuilder<User> searchCriteriaBuilder, PageableMapper pageableMapper) {
+    public UserServiceImpl(UserRepository repository, SearchCriteriaBuilder<User> searchCriteriaBuilder,
+                           PageableMapper pageableMapper,
+                           @Qualifier("searchUserElasticDtoMapper") SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper, ElasticUsersServiceClient elasticUsersServiceClient) {
         this.repository = repository;
         this.searchCriteriaBuilder = searchCriteriaBuilder;
         this.pageableMapper = pageableMapper;
+        this.elasticCriteriaDtoMapper = elasticCriteriaDtoMapper;
+        this.elasticUsersServiceClient = elasticUsersServiceClient;
     }
 
     @Override
@@ -47,6 +58,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findUsersByListId(List<Long> listID) {
         return repository.findAllById(listID);
+    }
+
+    @Override
+    public List<UserElasticDto> findUsersInElastic(SearchDto searchDto) {
+        SearchElasticCriteriaDto searchElasticCriteriaDto =
+                elasticCriteriaDtoMapper.convertToSearchElasticCriteriaDto(searchDto);
+        return elasticUsersServiceClient.searchUsers(searchElasticCriteriaDto);
     }
 
 
