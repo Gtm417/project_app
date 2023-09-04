@@ -29,13 +29,20 @@ public class SearchElasticCriteriaDtoMapper {
                 .collect(Collectors.toList());
         if (StringUtils.isNotBlank(search)) {
             boolean orPredicate = true;
-
-            addFilters(search, "name", ElasticOperation.FULL_TEXT, orPredicate);
+            addNameFilters(search, orPredicate);
             addFilters(search, "category", ElasticOperation.FULL_TEXT, orPredicate);
             addFilters(search, "description", ElasticOperation.FULL_TEXT, orPredicate);
         }
 
         return getElasticCriteriaDto(searchDto);
+    }
+
+    private void addNameFilters(String search, boolean orPredicate) {
+        if (StringUtils.contains(" ", search)) {
+            addFilters(search, "name", ElasticOperation.FULL_TEXT, orPredicate);
+        } else {
+            addFilters(search, "name", ElasticOperation.LIKE, orPredicate);
+        }
     }
 
     private SearchElasticCriteriaDto getElasticCriteriaDto(SearchDto searchDto) {
