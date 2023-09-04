@@ -26,7 +26,8 @@ public class EsQueryBuilder {
 
 
     public CriteriaQuery getCriteriaQuery(SearchCriteriaDto searchCriteriaDto) {
-        Map<Boolean, List<FilterDto>> filters = searchCriteriaDto.getFilters().stream()
+        Map<Boolean, List<FilterDto>> filters = searchCriteriaDto.getFilters()
+                .stream()
                 .filter(Objects::nonNull)
                 .collect(Collectors.groupingBy(FilterDto::isOrPredicate));
 
@@ -44,15 +45,12 @@ public class EsQueryBuilder {
     }
 
     private Criteria getAndOrCriteria(List<Criteria> criteriaList, boolean orPredicate) {
-        Criteria criteria = new Criteria();
-        for (Criteria cr : criteriaList) {
-            if (!orPredicate) {
-                criteria = criteria.and(cr);
-            } else {
-                criteria = criteria.or(cr);
-            }
+        if (criteriaList.isEmpty()) {
+            return new Criteria();
         }
-        return criteria;
+        return criteriaList.stream()
+                .reduce(orPredicate ? Criteria::or : Criteria::and)
+                .orElseThrow();
     }
 
 
@@ -65,14 +63,17 @@ public class EsQueryBuilder {
             String column = filter.getColumn();
             Operation operation = filter.getOperation();
             List<?> values = filter.getValues();
-
+            if (CollectionUtils.isEmpty(values)) {
+                continue;
+            }
             criteriaList.add(getCriteriaToAdd(column, operation, values));
         }
+
         return criteriaList;
     }
 
     private Criteria getCriteriaToAdd(String column, Operation operation, List<?> values) {
-        Criteria criteriaToAdd = null;
+        Criteria criteriaToAdd;
         Object value = values.get(0);
         switch (operation) {
             case LIKE:
@@ -96,6 +97,8 @@ public class EsQueryBuilder {
             case IN:
                 criteriaToAdd = new Criteria(column).in(values);
                 break;
+            default:
+                throw new IllegalArgumentException("Operation " + operation + "not found");
         }
         return criteriaToAdd;
 

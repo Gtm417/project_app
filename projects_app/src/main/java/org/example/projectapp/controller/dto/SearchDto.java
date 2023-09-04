@@ -18,7 +18,6 @@ public class SearchDto {
     private String search;
     @NotEmpty
     private List<FilterDto> filters;
-    //    private String sort;
     private Integer page;
     private Integer size;
     private List<SearchSort> sorts;

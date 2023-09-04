@@ -1,5 +1,6 @@
 package org.example.projectapp.mapper;
 
+import org.apache.commons.lang3.StringUtils;
 import org.example.projectapp.controller.dto.FilterDto;
 import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.mapper.dto.ElasticFilterDto;
@@ -26,7 +27,7 @@ public class SearchElasticCriteriaDtoMapper {
         filterDtoList = filters.stream()
                 .map(filterDtoMapper::convertToProjectElasticFilterDto)
                 .collect(Collectors.toList());
-        if (search != null && !search.isBlank()) {
+        if (StringUtils.isNotBlank(search)) {
             boolean orPredicate = true;
 
             addFilters(search, "name", ElasticOperation.FULL_TEXT, orPredicate);

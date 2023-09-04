@@ -23,7 +23,7 @@ public class EventNotificationService {
     }
 
     public void sendNotification(MessageDto message, String routingKey) {
-        message.setCreateDate(LocalDateTime.now());
+        message.setCreatedDate(LocalDateTime.now());
         logger.info("Send message: {}", message);
         rabbitTemplate.convertAndSend(exchange.getName(), routingKey, message);
     }

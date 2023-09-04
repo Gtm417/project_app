@@ -1,0 +1,7 @@
+{
+  "column": "createDate",
+  "operation": "EQUAL",
+  "clazz": "java.time.LocalDateTime",
+  "values": null,
+  "orPredicate": "false"
+}

@@ -118,18 +118,16 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Page<ProjectResponseDto> findProjectsByFilters(SearchDto searchDto) {
-        // todo elastic instead
-        // searchDto -> elastic searchCriteria -> request to elastic -> get and return response
         Specification<Project> spec =
                 searchCriteriaBuilder.buildSearchSpecificationWithPrivateProject(searchDto.getFilters());
         Pageable pageable = pageableMapper.getPageable(searchDto);
         Page<Project> projects = projectRepository.findAll(spec, pageable);
-//        Page<Project> projects =
-//                projectRepository.findAll(spec, searchCriteriaBuilder.getPagination(searchDto, "name"));
+
         List<ProjectResponseDto> collect = projects.stream().map(this::projectMapper).collect(Collectors.toList());
         return new PageImpl<>(collect);
     }
 
+    @Override
     public List<ProjectResponseDto> findProjectsInElastic(SearchDto searchDto) {
         SearchElasticCriteriaDto searchElasticCriteriaDto =
                 elasticCriteriaDtoMapper.convertToSearchElasticCriteriaDto(searchDto);

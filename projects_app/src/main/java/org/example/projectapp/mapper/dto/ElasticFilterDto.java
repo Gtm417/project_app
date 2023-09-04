@@ -38,7 +38,7 @@ public class ElasticFilterDto {
                 .append("column", column)
                 .append("operation", operation)
                 .append("values", values)
-                .append("class", clazz)
+                .append("clazz", clazz)
                 .append("orPredicate", orPredicate)
                 .toString();
     }

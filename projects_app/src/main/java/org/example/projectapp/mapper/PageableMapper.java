@@ -8,7 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -17,19 +19,29 @@ public class PageableMapper {
     private static final int SIZE = 10;
 
     public Pageable getPageable(SearchDto searchDto) {
-        int page = searchDto.getPage() == null || searchDto.getPage() < 0
-                ? PAGE
-                : searchDto.getPage();
-
-        int size = searchDto.getSize() == null || searchDto.getSize() < 0
-                ? SIZE
-                : searchDto.getSize();
+        int page = getPage(searchDto);
+        int size = size(searchDto);
         List<Sort.Order> orders = mapToSortOrder(searchDto.getSorts());
         Sort sort = Sort.by(orders);
         return PageRequest.of(page, size, sort);
     }
 
+    private Integer size(SearchDto searchDto) {
+        Integer size = searchDto.getSize();
+        return size == null || size < 0
+                ? SIZE
+                : size;
+    }
+
+    private Integer getPage(SearchDto searchDto) {
+        Integer page = searchDto.getPage();
+        return page == null || page < 0
+                ? PAGE
+                : page;
+    }
+
     private List<Sort.Order> mapToSortOrder(List<SearchSort> searchSorts) {
+        searchSorts = Objects.requireNonNullElse(searchSorts, Collections.emptyList());
         return searchSorts.stream()
                 .map(x -> new Sort.Order(getDirection(x), x.getColumn()))
                 .collect(Collectors.toList());

@@ -76,8 +76,12 @@ public class EsVacancyService {
         if (CollectionUtils.isEmpty(filters)) {
             return findAll(pageableMapper.getPageable(searchCriteriaDto));
         }
-        filters.forEach(x -> SearchColumnVacancy.getByNameIgnoringCase(x.getColumn()));
+        validateColumnName(filters);
         return vacancySearchRepository.findAllWithFilters(searchCriteriaDto);
+    }
+
+    private void validateColumnName(List<FilterDto> filters) {
+        filters.forEach(x -> SearchColumnVacancy.getByNameIgnoringCase(x.getColumn()));
     }
 
     public void createVacanciesList(List<Vacancy> vacancies) {

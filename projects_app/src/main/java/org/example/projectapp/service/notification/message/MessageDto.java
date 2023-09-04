@@ -24,5 +24,5 @@ public class MessageDto {
     protected List<String> receiversEmail;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    protected LocalDateTime createDate;
+    protected LocalDateTime createdDate;
 }

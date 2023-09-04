@@ -34,9 +34,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<UserDto> findUsers(SearchDto searchDto) {
         Specification<User> spec = searchCriteriaBuilder.buildUserSearchSpecification(searchDto.getFilters());
-//        Page<User> users =
-//                repository.findAll(spec,
-//                        searchCriteriaBuilder.getPagination(searchDto, "firstName", "lastName"));
         Pageable pageable = pageableMapper.getPageable(searchDto);
         Page<User> users = repository.findAll(spec, pageable);
         return mapToUserDto(users);

@@ -25,23 +25,6 @@ public class SearchCriteriaBuilder<T> {
     private static final String SORT = "ASC";
 
 
-//    public PageRequest getPagination(SearchDto searchDto, String... sortFields) {
-//        int page = searchDto.getPage() == null || searchDto.getPage() < 0
-//                ? PAGE
-//                : searchDto.getPage();
-//        int size = searchDto.getSize() == null || searchDto.getSize() <= 0
-//                ? SIZE
-//                : searchDto.getSize();
-//        return PageRequest.of(page, size, buildSort(searchDto.getSort(), sortFields));
-//    }
-//
-//    private Sort buildSort(String sort, String... sortFields) {
-//        String direction = StringUtils.isBlank(sort) ? SORT : sort;
-//        Sort.Direction dir = direction.equalsIgnoreCase(SORT) ?
-//                Sort.Direction.ASC : Sort.Direction.DESC;
-//        return Sort.by(dir, sortFields);
-//    }
-
     public Specification<User> buildUserSearchSpecification(List<FilterDto> filters) {
         SpecificationBuilder specificationsBuilder = new SpecificationBuilder();
         List<SearchCriteria> searchCriteriaFromFilters = getSearchCriteria(filters);
@@ -57,7 +40,6 @@ public class SearchCriteriaBuilder<T> {
     public Specification<Project> buildSearchSpecificationWithPrivateProject(List<FilterDto> filters) {
         Specification<Project> genericSpec = buildSearchSpecification(filters);
         Specification.where(genericSpec).and(ProjectSpecs.getProjectPrivateSpec());
-        /// ???
         return genericSpec.and(ProjectSpecs.getProjectPrivateSpec());
     }
 

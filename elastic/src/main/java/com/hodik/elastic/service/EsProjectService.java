@@ -75,10 +75,13 @@ public class EsProjectService {
         if (CollectionUtils.isEmpty(filters)) {
             return findAll(pageableMapper.getPageable(searchCriteriaDto));
         }
-        //validation column name
-        filters.forEach(x -> SearchColumnProject.getByNameIgnoringCase(x.getColumn()));
+        validateColumnName(filters);
         return projectSearchRepository.findAllWithFilters(searchCriteriaDto);
 
+    }
+
+    private void validateColumnName(List<FilterDto> filters) {
+        filters.forEach(x -> SearchColumnProject.getByNameIgnoringCase(x.getColumn()));
     }
 
     public Optional<Project> findById(long id) {

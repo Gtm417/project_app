@@ -32,30 +32,30 @@ public class SearchFilterSerializer extends StdSerializer<ElasticFilterDto> {
         } else {
             jsonGenerator.writeObjectField("clazz", String.class);
         }
-
-//        // Check if the class is LocalDateTime
-
         if (clazz != null && LocalDateTime.class.isAssignableFrom(clazz)) {
             List<Object> values = elasticFilterDto.getValues();
 
             jsonGenerator.writeFieldName("values");
-            jsonGenerator.writeStartArray();
+            if (values == null) {
+                jsonGenerator.writeObject(null);
+            } else if (values.isEmpty()) {
+                jsonGenerator.writeObject(values);
+            } else {
+                jsonGenerator.writeStartArray();
 
-            for (Object value : values) {
-                if (value instanceof String) {
-                    LocalDateTime dateTime = LocalDateTime.parse((String) value);
-                    long epoch = dateTime.atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
-                    jsonGenerator.writeNumber(epoch);
-                } else {
-                    // Handle other value types if needed
-                    // For now, we'll just write the value as is
-                    jsonGenerator.writeObject(value);
+                for (Object value : values) {
+                    if (value instanceof String) {
+                        LocalDateTime dateTime = LocalDateTime.parse((String) value);
+                        long epoch = dateTime.atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
+                        jsonGenerator.writeNumber(epoch);
+                    } else {
+                        jsonGenerator.writeObject(value);
+                    }
                 }
-            }
 
-            jsonGenerator.writeEndArray();
+                jsonGenerator.writeEndArray();
+            }
         } else {
-            // If it's not LocalDateTime, write the values as is
             jsonGenerator.writeArrayFieldStart("values");
             for (Object value : elasticFilterDto.getValues()) {
                 jsonGenerator.writeObject(value);
