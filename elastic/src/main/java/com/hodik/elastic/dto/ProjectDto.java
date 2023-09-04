@@ -27,7 +27,7 @@ public class ProjectDto {
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @JsonDeserialize(using = CustomLocalDateTimeDeSerializer.class)
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @JsonDeserialize(using = CustomLocalDateTimeDeSerializer.class)
@@ -51,7 +51,7 @@ public class ProjectDto {
                 .append("id", id)
                 .append("name", name)
                 .append("isPrivate", isPrivate)
-                .append("createDate", createDate)
+                .append("createdDate", createdDate)
                 .append("finalPlannedDate", finalPlannedDate)
                 .append("startDate", startDate)
                 .append("category", category)

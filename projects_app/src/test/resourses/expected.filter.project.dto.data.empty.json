@@ -1,5 +1,5 @@
 {
-  "column": "createDate",
+  "column": "createdDate",
   "operation": "EQUAL",
   "clazz": "java.time.LocalDateTime",
   "values": [],

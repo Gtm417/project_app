@@ -30,7 +30,7 @@ public class Project {
     private Boolean isPrivate;
     @Field(type = FieldType.Date)
     @ValueConverter(CustomDatePropertyValueConverter.class)
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
 
     @Field(type = FieldType.Date)
     @ValueConverter(CustomDatePropertyValueConverter.class)

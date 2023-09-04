@@ -197,7 +197,7 @@ class EsProjectServiceTest {
                 .id(ID)
                 .name(NAME)
                 .category(CATEGORY)
-                .createDate(CREATED_DATE)
+                .createdDate(CREATED_DATE)
                 .description(DESCRIPTION)
                 .finalPlannedDate(FINAL_PLANNED_DATE)
                 .isCommercial(IS_COMMERCIAL)

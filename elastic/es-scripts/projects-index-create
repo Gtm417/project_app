@@ -1,40 +1,37 @@
 // create index project
-  {
-    "mappings": {
-      "properties": {
-        {
-            "mappings": {
-              "properties": {
-                "id": {
-                  "type": "long"
-                },
-                "name": {
-                  "type": "keyword"
-                },
-                "isPrivate": {
-                  "type": "boolean"
-                },
-                "createDate": {
-                  "type": "date"
-                },
-                "finalPlannedDate": {
-                  "type": "date"
-                },
-                "startDate": {
-                  "type": "date"
-                },
-                "category": {
-                  "type": "text"
-                },
-                "description": {
-                  "type": "text"
-                },
-                "isCommercial": {
-                  "type": "boolean"
-                },
-                "status": {
-                  "type": "keyword"
-                }
-              }
-            }
-          }
+   {
+     "mappings": {
+       "properties": {
+         "id": {
+           "type": "long"
+         },
+         "name": {
+           "type": "keyword"
+         },
+         "isPrivate": {
+           "type": "boolean"
+         },
+         "createdDate": {
+           "type": "date"
+         },
+         "finalPlannedDate": {
+           "type": "date"
+         },
+         "startDate": {
+           "type": "date"
+         },
+         "category": {
+           "type": "text"
+         },
+         "description": {
+           "type": "text"
+         },
+         "isCommercial": {
+           "type": "boolean"
+         },
+         "status": {
+           "type": "keyword"
+         }
+       }
+     }
+   }

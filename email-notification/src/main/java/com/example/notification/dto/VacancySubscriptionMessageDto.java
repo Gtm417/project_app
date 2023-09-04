@@ -43,7 +43,7 @@ public class VacancySubscriptionMessageDto extends MessageDto {
                 .append("userEmail", userEmail)
                 .append("name", name)
                 .append("receiversEmail", receiversEmail)
-                .append("createDate", createDate)
+                .append("createdDate", createdDate)
                 .toString();
     }
 }

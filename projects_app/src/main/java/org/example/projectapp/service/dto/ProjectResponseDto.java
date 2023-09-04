@@ -12,7 +12,7 @@ public class ProjectResponseDto {
     private Long id;
     private String name;
     private boolean isPrivate;
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
     private LocalDateTime scheduledEndDate;
     private LocalDateTime startDate;
     private String category;

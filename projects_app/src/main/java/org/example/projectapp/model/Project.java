@@ -24,7 +24,7 @@ public class Project {
     @Column(name = "private")
     private boolean isPrivate;
     @Column(name = "create_date")
-    private LocalDateTime createDate;
+    private LocalDateTime createdDate;
     @Column(name = "final_planned_date")
     private LocalDateTime scheduledEndDate;
     @Column(name = "start_date")
@@ -69,12 +69,12 @@ public class Project {
         isPrivate = aPrivate;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
     public LocalDateTime getScheduledEndDate() {
@@ -158,7 +158,7 @@ public class Project {
                 isCommercial == project.isCommercial &&
                 Objects.equals(id, project.id) &&
                 Objects.equals(name, project.name) &&
-                Objects.equals(createDate, project.createDate) &&
+                Objects.equals(createdDate, project.createdDate) &&
                 Objects.equals(scheduledEndDate, project.scheduledEndDate) &&
                 Objects.equals(startDate, project.startDate) &&
                 Objects.equals(category, project.category) &&
@@ -168,7 +168,7 @@ public class Project {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, isPrivate, createDate, scheduledEndDate, startDate, category,
+        return Objects.hash(id, name, isPrivate, createdDate, scheduledEndDate, startDate, category,
                 description, status, isCommercial, usersToNotify);
     }
 
@@ -178,7 +178,7 @@ public class Project {
                 .append("id", id)
                 .append("name", name)
                 .append("isPrivate", isPrivate)
-                .append("createDate", createDate)
+                .append("createdDate", createdDate)
                 .append("scheduledEndDate", scheduledEndDate)
                 .append("startDate", startDate)
                 .append("category", category)

@@ -27,7 +27,7 @@ class SearchFilterSerializerTest {
     private static final Class<?> CLASS = LocalDateTime.class;
     private static final List<Object> VALUES_HUMAN_DATA_TIME = List.of("2023-08-27T12:34");
     private static final List<Object> VALUES_TIME_STAMP = List.of(1693128840);
-    private static final String COLUMN = "createDate";
+    private static final String COLUMN = "createdDate";
     private static final boolean OR_PREDICATE_FALSE = false;
     private static final boolean OR_PREDICATE_TRUE = true;
 
