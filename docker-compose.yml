@@ -28,7 +28,7 @@ services:
       - 5601:5601
 
   eureka-server:
-    image: springcloud/eureka:latest
+    image: eureka.jar:latest
     deploy:
       resources:
         limits:
