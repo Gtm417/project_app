@@ -38,6 +38,10 @@ public class SearchFilterDeserializer extends StdDeserializer<FilterDto> {
 
         JsonNode valuesNode = node.get("values");
         for (JsonNode valueNode : valuesNode) {
+            if (valueNode.isNull()) {
+                values.add(null);
+                continue;
+            }
             if (valueType.isInstance(LocalDateTime.now())) {
                 long timeStamp = valueNode.asLong();
                 values.add(LocalDateTime.ofInstant(Instant.ofEpochSecond(timeStamp), ZoneId.systemDefault()));

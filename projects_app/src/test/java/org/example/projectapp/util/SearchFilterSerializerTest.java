@@ -21,6 +21,7 @@ import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class SearchFilterSerializerTest {
+    public static final String NAME = "name";
     private final Gson gson = new Gson();
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static final ElasticOperation OPERATION = ElasticOperation.EQUAL;
@@ -43,6 +44,12 @@ class SearchFilterSerializerTest {
             TestUtils.readResource("expected.filter.project.dto.data.empty.json");
     private final String expectedProjectDtoEmptyDateOrPredicateTrue =
             TestUtils.readResource(("expected.filter.project.dto.data.empty.or.predicate.true.json"));
+    private final String expectedProjectDtoDateTimeValueNull =
+            TestUtils.readResource(("expected.filter.project.dto.data.value.null.json"));
+    private final String expectedProjectDtoValueNull =
+            TestUtils.readResource(("expected.filter.project.dto.class.null.value.null.json"));
+    private final String expectedProjectDtoEmptyValue =
+            TestUtils.readResource(("expected.filter.project.dto.data.empty.value.json"));
 
 
     private final SimpleModule module = new SimpleModule();
@@ -139,6 +146,76 @@ class SearchFilterSerializerTest {
         String actualJson = objectMapper.writeValueAsString(dto);
 
         JSONAssert.assertEquals(expectedProjectDtoEmptyDateOrPredicateTrue, actualJson, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    void testSerializerNullDateTimeValue() throws IOException, JSONException {
+        //given
+        ElasticFilterDto dto = ElasticFilterDto.builder()
+                .column(COLUMN)
+                .operation(OPERATION)
+                .values(Collections.singletonList(null))
+                .clazz(CLASS)
+                .orPredicate(OR_PREDICATE_FALSE).build();
+        //when
+        module.addSerializer(ElasticFilterDto.class, new SearchFilterSerializer());
+        objectMapper.registerModule(module);
+        //then
+        String actualJson = objectMapper.writeValueAsString(dto);
+
+        JSONAssert.assertEquals(expectedProjectDtoDateTimeValueNull, actualJson, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    void testSerializerNullValue() throws IOException, JSONException {
+        //given
+        ElasticFilterDto dto = ElasticFilterDto.builder()
+                .column(NAME)
+                .operation(OPERATION)
+                .values(Collections.singletonList(null))
+                .orPredicate(OR_PREDICATE_FALSE).build();
+        //when
+        module.addSerializer(ElasticFilterDto.class, new SearchFilterSerializer());
+        objectMapper.registerModule(module);
+        //then
+        String actualJson = objectMapper.writeValueAsString(dto);
+
+        JSONAssert.assertEquals(expectedProjectDtoValueNull, actualJson, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    void testSerializerEmptyValue() throws IOException, JSONException {
+        //given
+        ElasticFilterDto dto = ElasticFilterDto.builder()
+                .column(NAME)
+                .operation(OPERATION)
+                .values(Collections.emptyList())
+                .orPredicate(OR_PREDICATE_FALSE)
+                .build();
+        //when
+        module.addSerializer(ElasticFilterDto.class, new SearchFilterSerializer());
+        objectMapper.registerModule(module);
+        //then
+        String actualJson = objectMapper.writeValueAsString(dto);
+
+        JSONAssert.assertEquals(expectedProjectDtoEmptyValue, actualJson, JSONCompareMode.STRICT);
+    }
+
+    @Test
+    void shouldAddOrPredicateFalse() throws IOException, JSONException {
+        //given
+        ElasticFilterDto dto = ElasticFilterDto.builder()
+                .column(NAME)
+                .operation(OPERATION)
+                .values(Collections.emptyList())
+                .build();
+        //when
+        module.addSerializer(ElasticFilterDto.class, new SearchFilterSerializer());
+        objectMapper.registerModule(module);
+        //then
+        String actualJson = objectMapper.writeValueAsString(dto);
+
+        JSONAssert.assertEquals(expectedProjectDtoEmptyValue, actualJson, JSONCompareMode.STRICT);
     }
 
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
@@ -41,7 +40,9 @@ public class PageableMapper {
     }
 
     private List<Sort.Order> mapToSortOrder(List<SearchSort> searchSorts) {
-        searchSorts = Objects.requireNonNullElse(searchSorts, Collections.emptyList());
+        if (searchSorts == null) {
+            return Collections.emptyList();
+        }
         return searchSorts.stream()
                 .map(x -> new Sort.Order(getDirection(x), x.getColumn()))
                 .collect(Collectors.toList());

@@ -4,12 +4,12 @@ import com.hodik.elastic.dto.FilterDto;
 import com.hodik.elastic.dto.Operation;
 import com.hodik.elastic.dto.SearchCriteriaDto;
 import com.hodik.elastic.mapper.PageableMapper;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,6 +29,8 @@ public class EsQueryBuilder {
         Map<Boolean, List<FilterDto>> filters = searchCriteriaDto.getFilters()
                 .stream()
                 .filter(Objects::nonNull)
+                .filter(filterDto -> CollectionUtils.isNotEmpty(filterDto.getValues()))
+                .filter(filterDto -> Objects.nonNull(filterDto.getValues().get(0)))
                 .collect(Collectors.groupingBy(FilterDto::isOrPredicate));
 
         Criteria criteria;
@@ -75,6 +77,9 @@ public class EsQueryBuilder {
     private Criteria getCriteriaToAdd(String column, Operation operation, List<?> values) {
         Criteria criteriaToAdd;
         Object value = values.get(0);
+//        if (value == null) {
+//            return new Criteria();
+//        }
         switch (operation) {
             case LIKE:
                 criteriaToAdd = new Criteria(column).contains(value.toString());
