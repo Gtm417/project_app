@@ -38,7 +38,9 @@ public class SearchFilterSerializer extends StdSerializer<ElasticFilterDto> {
                 } else {
                     writeDateTimeValueList(jsonGenerator, values);
                 }
-            } else writeStringValues(values, jsonGenerator);
+            } else {
+                writeStringValues(values, jsonGenerator);
+            }
         } else {
             jsonGenerator.writeObjectField("clazz", String.class);
             writeStringValues(values, jsonGenerator);

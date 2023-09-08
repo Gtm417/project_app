@@ -77,9 +77,6 @@ public class EsQueryBuilder {
     private Criteria getCriteriaToAdd(String column, Operation operation, List<?> values) {
         Criteria criteriaToAdd;
         Object value = values.get(0);
-//        if (value == null) {
-//            return new Criteria();
-//        }
         switch (operation) {
             case LIKE:
                 criteriaToAdd = new Criteria(column).contains(value.toString());
