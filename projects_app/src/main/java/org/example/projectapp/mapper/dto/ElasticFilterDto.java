@@ -1,37 +1,46 @@
-package org.example.projectapp.controller.dto;
+package org.example.projectapp.mapper.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.example.projectapp.util.SearchFilterSerializer;
 
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
+@JsonSerialize(using = SearchFilterSerializer.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FilterDto {
-    @NotBlank(message = "Should not be empty")
-    private String name;
-    private SearchOperation operation;
-    private List<Object> values;
-    private DataType dataType;
-    private boolean orPredicate;
+public class ElasticFilterDto {
+    private final String column;
+
+    private final ElasticOperation operation;
+
+    private final List<Object> values;
+
+    private final Class<?> clazz;
+    private final boolean orPredicate;
+
+    public boolean isOrPredicate() {
+        return orPredicate;
+    }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.JSON_STYLE)
-                .append("name", name)
+                .append("column", column)
                 .append("operation", operation)
                 .append("values", values)
-                .append("dataType", dataType)
+                .append("clazz", clazz)
                 .append("orPredicate", orPredicate)
                 .toString();
     }
 }
+

@@ -22,7 +22,7 @@ public class ProjectMapper {
                 .id(project.getId())
                 .name(project.getName())
                 .category(project.getCategory())
-                .createdDate(project.getCreateDate())
+                .createdDate(project.getCreatedDate())
                 .description(project.getDescription())
                 .finalPlannedDate(project.getScheduledEndDate())
                 .isCommercial(project.isCommercial())

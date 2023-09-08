@@ -42,6 +42,7 @@ class EsProjectServiceTest {
     public static final LocalDateTime FINAL_PLANNED_DATE = LocalDateTime.of(2025, 12, 31, 0, 0);
     public static final boolean IS_COMMERCIAL = true;
     public static final boolean IS_PRIVATE = false;
+
     public static final ProjectStatus STATUS = ProjectStatus.NEW;
     public static final int PAGE = 0;
     public static final int SIZE = 2;

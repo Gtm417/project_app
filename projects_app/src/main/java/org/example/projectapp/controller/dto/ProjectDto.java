@@ -32,6 +32,8 @@ public class ProjectDto {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startDate;
 
+    private String description;
+
     private ProjectStatus status;
 
     @NotNull(message = "Should not be empty")

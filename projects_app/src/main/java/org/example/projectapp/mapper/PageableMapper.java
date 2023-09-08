@@ -1,7 +1,8 @@
-package com.hodik.elastic.mapper;
+package org.example.projectapp.mapper;
 
-import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.dto.SearchSort;
+
+import org.example.projectapp.controller.dto.SearchDto;
+import org.example.projectapp.controller.dto.SearchSort;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,11 +14,10 @@ import java.util.stream.Collectors;
 
 @Component
 public class PageableMapper {
-
     private static final int PAGE = 0;
     private static final int SIZE = 10;
 
-    public Pageable getPageable(SearchCriteriaDto searchDto) {
+    public Pageable getPageable(SearchDto searchDto) {
         int page = getPage(searchDto);
         int size = size(searchDto);
         List<Sort.Order> orders = mapToSortOrder(searchDto.getSorts());
@@ -25,16 +25,16 @@ public class PageableMapper {
         return PageRequest.of(page, size, sort);
     }
 
-    private Integer size(SearchCriteriaDto searchDto) {
-        int size = searchDto.getSize();
-        return size <= 0
+    private Integer size(SearchDto searchDto) {
+        Integer size = searchDto.getSize();
+        return size == null || size < 0
                 ? SIZE
                 : size;
     }
 
-    private Integer getPage(SearchCriteriaDto searchDto) {
-        int page = searchDto.getPage();
-        return page < 0
+    private Integer getPage(SearchDto searchDto) {
+        Integer page = searchDto.getPage();
+        return page == null || page < 0
                 ? PAGE
                 : page;
     }

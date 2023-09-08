@@ -1,12 +1,14 @@
 package org.example.projectapp.service.impl;
 
-import org.apache.commons.lang3.StringUtils;
 import org.example.projectapp.auth.AuthService;
 import org.example.projectapp.controller.dto.ProjectDto;
 import org.example.projectapp.controller.dto.ProjectInfoDto;
 import org.example.projectapp.controller.dto.SearchDto;
+import org.example.projectapp.mapper.PageableMapper;
 import org.example.projectapp.mapper.ProjectMapper;
+import org.example.projectapp.mapper.SearchElasticCriteriaDtoMapper;
 import org.example.projectapp.mapper.dto.ProjectElasticDto;
+import org.example.projectapp.mapper.dto.SearchElasticCriteriaDto;
 import org.example.projectapp.model.*;
 import org.example.projectapp.repository.ProjectNotificationRepository;
 import org.example.projectapp.repository.ProjectRepository;
@@ -18,6 +20,7 @@ import org.example.projectapp.service.exception.CustomEntityNotFoundException;
 import org.example.projectapp.service.exception.ProjectAlreadyExistsException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -37,13 +40,15 @@ public class ProjectServiceImpl implements ProjectService {
     private final SearchCriteriaBuilder<Project> searchCriteriaBuilder;
     private final ElasticProjectsServiceClient elasticProjectsServiceClient;
     private final ProjectMapper projectMapper;
+    private final PageableMapper pageableMapper;
+    private final SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper;
 
     public ProjectServiceImpl(ProjectRepository projectRepository,
                               ProjectNotificationRepository projectNotificationRepository,
                               AuthService authService, ProjectMemberService projectMemberService,
                               SearchCriteriaBuilder<Project> searchCriteriaBuilder,
                               ElasticProjectsServiceClient elasticProjectsServiceClient,
-                              ProjectMapper projectMapper) {
+                              ProjectMapper projectMapper, PageableMapper pageableMapper, SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper) {
         this.projectRepository = projectRepository;
         this.projectNotificationRepository = projectNotificationRepository;
         this.authService = authService;
@@ -51,6 +56,8 @@ public class ProjectServiceImpl implements ProjectService {
         this.searchCriteriaBuilder = searchCriteriaBuilder;
         this.elasticProjectsServiceClient = elasticProjectsServiceClient;
         this.projectMapper = projectMapper;
+        this.pageableMapper = pageableMapper;
+        this.elasticCriteriaDtoMapper = elasticCriteriaDtoMapper;
     }
 
     @Override
@@ -113,11 +120,20 @@ public class ProjectServiceImpl implements ProjectService {
     public Page<ProjectResponseDto> findProjectsByFilters(SearchDto searchDto) {
         Specification<Project> spec =
                 searchCriteriaBuilder.buildSearchSpecificationWithPrivateProject(searchDto.getFilters());
-        Page<Project> projects =
-                projectRepository.findAll(spec, searchCriteriaBuilder.getPagination(searchDto, "name"));
+        Pageable pageable = pageableMapper.getPageable(searchDto);
+        Page<Project> projects = projectRepository.findAll(spec, pageable);
+
         List<ProjectResponseDto> collect = projects.stream().map(this::projectMapper).collect(Collectors.toList());
         return new PageImpl<>(collect);
     }
+
+    @Override
+    public List<ProjectResponseDto> findProjectsInElastic(SearchDto searchDto) {
+        SearchElasticCriteriaDto searchElasticCriteriaDto =
+                elasticCriteriaDtoMapper.convertToSearchElasticCriteriaDto(searchDto);
+        return elasticProjectsServiceClient.searchProject(searchElasticCriteriaDto);
+    }
+
 
     @Override
     public List<Project> findProjectsByListId(List<Long> ids) {
@@ -137,7 +153,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .description(project.getDescription())
                 .isCommercial(project.isCommercial())
                 .isPrivate(project.isPrivate())
-                .createDate(project.getCreateDate())
+                .createdDate(project.getCreatedDate())
                 .startDate(project.getStartDate())
                 .scheduledEndDate(project.getScheduledEndDate())
                 .status(project.getStatus())
@@ -202,11 +218,11 @@ public class ProjectServiceImpl implements ProjectService {
                 .category(projectDto.getCategory())
                 .isPrivate(projectDto.getIsPrivate())
                 .isCommercial(projectDto.getIsCommercial())
-                .createDate(LocalDateTime.now())
+                .createdDate(LocalDateTime.now())
                 .scheduledEndDate(projectDto.getScheduledEndDate())
                 .startDate(projectDto.getStartDate())
                 .status(projectStatus == null ? ProjectStatus.NEW : projectStatus)
-                .description(StringUtils.EMPTY)
+                .description(projectDto.getDescription())
                 .build();
     }
 }

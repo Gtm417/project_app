@@ -1,0 +1,8 @@
+{
+  "column": "name",
+  "operation": "EQUAL",
+  "values": [
+    "Java"
+  ],
+  "orPredicate": "false"
+}

@@ -71,14 +71,20 @@ public class ProjectController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProjectDto>> getProjects() {
+    public ResponseEntity<List<ProjectResponseDto>> getProjects() {
         return ResponseEntity.ok(elasticProjectServiceClient.getProjects());
     }
 
-    @PostMapping("/search")
+    @PostMapping("/search/db")
     public ResponseEntity<Page<ProjectResponseDto>> searchProject(@RequestBody @Valid SearchDto searchDto) {
         Page<ProjectResponseDto> projectsByFilters = projectService.findProjectsByFilters(searchDto);
         return ResponseEntity.ok(projectsByFilters);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<ProjectResponseDto>> searchProjectInElastic(@RequestBody @Valid SearchDto searchDto) {
+        List<ProjectResponseDto> projectsFromElastic = projectService.findProjectsInElastic(searchDto);
+        return ResponseEntity.ok(projectsFromElastic);
     }
 
     @ExceptionHandler(ProjectAlreadyExistsException.class)

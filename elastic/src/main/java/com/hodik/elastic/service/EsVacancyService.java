@@ -1,7 +1,7 @@
 package com.hodik.elastic.service;
 
+import com.hodik.elastic.dto.FilterDto;
 import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.dto.SearchFilter;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.mapper.PageableMapper;
 import com.hodik.elastic.model.Vacancy;
@@ -72,12 +72,16 @@ public class EsVacancyService {
     }
 
     public List<Vacancy> findAllWithFilters(SearchCriteriaDto searchCriteriaDto) {
-        List<SearchFilter> filters = searchCriteriaDto.getFilters();
+        List<FilterDto> filters = searchCriteriaDto.getFilters();
         if (CollectionUtils.isEmpty(filters)) {
             return findAll(pageableMapper.getPageable(searchCriteriaDto));
         }
-        searchCriteriaDto.getFilters().forEach(x -> SearchColumnVacancy.getByNameIgnoringCase(x.getColumn()));
+        validateColumnName(filters);
         return vacancySearchRepository.findAllWithFilters(searchCriteriaDto);
+    }
+
+    private void validateColumnName(List<FilterDto> filters) {
+        filters.forEach(x -> SearchColumnVacancy.getByNameIgnoringCase(x.getColumn()));
     }
 
     public void createVacanciesList(List<Vacancy> vacancies) {

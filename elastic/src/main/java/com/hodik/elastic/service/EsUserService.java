@@ -1,7 +1,7 @@
 package com.hodik.elastic.service;
 
+import com.hodik.elastic.dto.FilterDto;
 import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.dto.SearchFilter;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.mapper.PageableMapper;
 import com.hodik.elastic.model.User;
@@ -69,14 +69,17 @@ public class EsUserService {
 
 
     public List<User> findAllWithFilters(SearchCriteriaDto searchCriteriaDto) {
-        //validation column name
-        List<SearchFilter> filters = searchCriteriaDto.getFilters();
+        List<FilterDto> filters = searchCriteriaDto.getFilters();
         if (CollectionUtils.isEmpty(filters)) {
             Pageable pageable = pageableMapper.getPageable(searchCriteriaDto);
             return findAll(pageable);
         }
-        searchCriteriaDto.getFilters().forEach(x -> SearchColumnUser.getByNameIgnoringCase(x.getColumn()));
+        validateColumnName(filters);
         return userSearchRepository.findAllWithFilters(searchCriteriaDto);
+    }
+
+    private void validateColumnName(List<FilterDto> filters) {
+        filters.forEach(x -> SearchColumnUser.getByNameIgnoringCase(x.getColumn()));
     }
 
     public Optional<User> findById(long id) {

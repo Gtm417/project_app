@@ -2,12 +2,14 @@ package org.example.projectapp.service.impl;
 
 import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.controller.dto.SkillDto;
+import org.example.projectapp.mapper.PageableMapper;
 import org.example.projectapp.model.User;
 import org.example.projectapp.repository.UserRepository;
 import org.example.projectapp.service.UserService;
 import org.example.projectapp.service.dto.UserDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -21,18 +23,19 @@ public class UserServiceImpl implements UserService {
     private static final String SORT = "ASC";
     private final UserRepository repository;
     private final SearchCriteriaBuilder<User> searchCriteriaBuilder;
+    private final PageableMapper pageableMapper;
 
-    public UserServiceImpl(UserRepository repository, SearchCriteriaBuilder<User> searchCriteriaBuilder) {
+    public UserServiceImpl(UserRepository repository, SearchCriteriaBuilder<User> searchCriteriaBuilder, PageableMapper pageableMapper) {
         this.repository = repository;
         this.searchCriteriaBuilder = searchCriteriaBuilder;
+        this.pageableMapper = pageableMapper;
     }
 
     @Override
     public Page<UserDto> findUsers(SearchDto searchDto) {
         Specification<User> spec = searchCriteriaBuilder.buildUserSearchSpecification(searchDto.getFilters());
-        Page<User> users =
-                repository.findAll(spec,
-                        searchCriteriaBuilder.getPagination(searchDto, "firstName", "lastName"));
+        Pageable pageable = pageableMapper.getPageable(searchDto);
+        Page<User> users = repository.findAll(spec, pageable);
         return mapToUserDto(users);
     }
 

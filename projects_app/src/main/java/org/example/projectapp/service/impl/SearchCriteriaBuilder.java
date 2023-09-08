@@ -1,9 +1,7 @@
 package org.example.projectapp.service.impl;
 
-import org.apache.commons.lang3.StringUtils;
 import org.example.projectapp.controller.UsersController;
 import org.example.projectapp.controller.dto.FilterDto;
-import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.model.Project;
 import org.example.projectapp.model.User;
 import org.example.projectapp.repository.specification.GenericSpecification;
@@ -13,8 +11,6 @@ import org.example.projectapp.repository.specification.UserSpecification;
 import org.example.projectapp.service.SearchCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -28,23 +24,6 @@ public class SearchCriteriaBuilder<T> {
     private static final int SIZE = 10;
     private static final String SORT = "ASC";
 
-
-    public PageRequest getPagination(SearchDto searchDto, String... sortFields) {
-        int page = searchDto.getPage() == null || searchDto.getPage() < 0
-                ? PAGE
-                : searchDto.getPage();
-        int size = searchDto.getSize() == null || searchDto.getSize() <= 0
-                ? SIZE
-                : searchDto.getSize();
-        return PageRequest.of(page, size, buildSort(searchDto.getSort(), sortFields));
-    }
-
-    private Sort buildSort(String sort, String... sortFields) {
-        String direction = StringUtils.isBlank(sort) ? SORT : sort;
-        Sort.Direction dir = direction.equalsIgnoreCase(SORT) ?
-                Sort.Direction.ASC : Sort.Direction.DESC;
-        return Sort.by(dir, sortFields);
-    }
 
     public Specification<User> buildUserSearchSpecification(List<FilterDto> filters) {
         SpecificationBuilder specificationsBuilder = new SpecificationBuilder();

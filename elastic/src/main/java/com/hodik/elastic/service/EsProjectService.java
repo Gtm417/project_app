@@ -1,7 +1,7 @@
 package com.hodik.elastic.service;
 
+import com.hodik.elastic.dto.FilterDto;
 import com.hodik.elastic.dto.SearchCriteriaDto;
-import com.hodik.elastic.dto.SearchFilter;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.mapper.PageableMapper;
 import com.hodik.elastic.model.Project;
@@ -28,7 +28,7 @@ public class EsProjectService {
 
 
     @Autowired
-    public EsProjectService(ProjectRepository projectRepository,  ProjectSearchRepository projectSearchRepository, PageableMapper pageableMapper) {
+    public EsProjectService(ProjectRepository projectRepository, ProjectSearchRepository projectSearchRepository, PageableMapper pageableMapper) {
         this.projectRepository = projectRepository;
 
         this.projectSearchRepository = projectSearchRepository;
@@ -40,7 +40,7 @@ public class EsProjectService {
         long id = project.getId();
         if (projectRepository.findById(id).isPresent()) {
             log.error("[ELASTIC] Project isn't saved. Project already exists id= {}", id);
-            throw new EntityAlreadyExistsException("Project already exits id= " + id);
+            throw new EntityAlreadyExistsException("[ELASTIC] Project already exits id= " + id);
         }
         projectRepository.save(project);
 
@@ -71,14 +71,17 @@ public class EsProjectService {
     }
 
     public List<Project> findAllWithFilters(SearchCriteriaDto searchCriteriaDto) {
-        List<SearchFilter> filters = searchCriteriaDto.getFilters();
+        List<FilterDto> filters = searchCriteriaDto.getFilters();
         if (CollectionUtils.isEmpty(filters)) {
             return findAll(pageableMapper.getPageable(searchCriteriaDto));
         }
-        //validation column name
-        filters.forEach(x -> SearchColumnProject.getByNameIgnoringCase(x.getColumn()));
+        validateColumnName(filters);
         return projectSearchRepository.findAllWithFilters(searchCriteriaDto);
 
+    }
+
+    private void validateColumnName(List<FilterDto> filters) {
+        filters.forEach(x -> SearchColumnProject.getByNameIgnoringCase(x.getColumn()));
     }
 
     public Optional<Project> findById(long id) {
