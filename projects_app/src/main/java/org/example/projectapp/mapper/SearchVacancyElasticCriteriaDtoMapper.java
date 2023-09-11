@@ -13,6 +13,7 @@ public class SearchVacancyElasticCriteriaDtoMapper implements SearchElasticCrite
     public static final String ABOUT_PROJECT = "aboutProject";
     public static final String JOB_POSITION = "jobPosition";
     public static final String DESCRIPTION = "description";
+    public static final String EXPECTED = "expected";
     private final ElasticFilterDtoMapper filterDtoMapper;
 
     public SearchVacancyElasticCriteriaDtoMapper(ElasticFilterDtoMapper filterDtoMapper) {
@@ -36,6 +37,7 @@ public class SearchVacancyElasticCriteriaDtoMapper implements SearchElasticCrite
             filterDtoList.add(getFilter(search, ABOUT_PROJECT, ElasticOperation.FULL_TEXT, orPredicate));
             filterDtoList.add(getFilter(search, JOB_POSITION, ElasticOperation.FULL_TEXT, orPredicate));
             filterDtoList.add(getFilter(search, DESCRIPTION, ElasticOperation.FULL_TEXT, orPredicate));
+            filterDtoList.add(getFilter(search, EXPECTED, ElasticOperation.FULL_TEXT, orPredicate));
         }
     }
 }

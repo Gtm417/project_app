@@ -1,6 +1,7 @@
 package org.example.projectapp.service.impl;
 
 import org.example.projectapp.controller.dto.SearchDto;
+import org.example.projectapp.controller.dto.SearchUserDto;
 import org.example.projectapp.controller.dto.SkillDto;
 import org.example.projectapp.mapper.PageableMapper;
 import org.example.projectapp.mapper.SearchElasticCriteriaDtoMapper;
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserElasticDto> findUsersInElastic(SearchDto searchDto) {
+    public List<UserElasticDto> findUsersInElastic(SearchUserDto searchDto) {
         SearchElasticCriteriaDto searchElasticCriteriaDto =
                 elasticCriteriaDtoMapper.convertToSearchElasticCriteriaDto(searchDto);
         return elasticUsersServiceClient.searchUsers(searchElasticCriteriaDto);
