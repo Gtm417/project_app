@@ -35,7 +35,10 @@ public interface SearchElasticCriteriaDtoMapper {
     }
 
     default List<FilterDto> getFilterDtoList(SearchDto searchDto) {
-        List<FilterDto> filters = (Objects.requireNonNullElse(searchDto.getFilters(), Collections.emptyList()));
+        List<FilterDto> filters = searchDto.getFilters();
+        if (filters == null) {
+            filters = Collections.emptyList();
+        }
         setDefaultValuesIfNeed(searchDto);
         return filters;
     }

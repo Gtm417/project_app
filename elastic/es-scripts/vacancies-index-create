@@ -7,7 +7,7 @@ PUT vacancies
     "projectId":
       {"type": "long"},
     "creator":
-     { "type": "text"},
+     { "type": "keyword"},
      "description":
      {"type":"text"},
      "aboutProject":

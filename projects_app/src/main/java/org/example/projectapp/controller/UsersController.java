@@ -1,6 +1,7 @@
 package org.example.projectapp.controller;
 
 import org.example.projectapp.controller.dto.SearchDto;
+import org.example.projectapp.controller.dto.SearchUserDto;
 import org.example.projectapp.mapper.dto.UserElasticDto;
 import org.example.projectapp.restclient.ElasticUsersServiceClient;
 import org.example.projectapp.service.UserService;
@@ -29,7 +30,7 @@ public class UsersController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<UserElasticDto>> searchUsersInElastic(@RequestBody @Valid SearchDto searchDto) {
+    public ResponseEntity<List<UserElasticDto>> searchUsersInElastic(@RequestBody @Valid SearchUserDto searchDto) {
         List<UserElasticDto> users = userService.findUsersInElastic(searchDto);
         return ResponseEntity.ok(users);
     }

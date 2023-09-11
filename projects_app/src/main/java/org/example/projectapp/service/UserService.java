@@ -1,6 +1,7 @@
 package org.example.projectapp.service;
 
 import org.example.projectapp.controller.dto.SearchDto;
+import org.example.projectapp.controller.dto.SearchUserDto;
 import org.example.projectapp.mapper.dto.UserElasticDto;
 import org.example.projectapp.model.User;
 import org.example.projectapp.service.dto.UserDto;
@@ -15,5 +16,5 @@ public interface UserService {
 
     List<User> findUsersByListId(List<Long> listID);
 
-    List<UserElasticDto> findUsersInElastic(SearchDto searchDto);
+    List<UserElasticDto> findUsersInElastic(SearchUserDto searchDto);
 }
