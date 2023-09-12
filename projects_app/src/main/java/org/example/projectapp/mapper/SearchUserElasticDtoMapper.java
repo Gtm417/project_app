@@ -36,10 +36,11 @@ public class SearchUserElasticDtoMapper implements SearchElasticCriteriaDtoMappe
     private void addSkillsToFilterDtoList(SearchDto searchDto, List<ElasticFilterDto> filterDtoList) {
         SearchUserDto searchUserDto = (SearchUserDto) searchDto;
         List<String> skills = searchUserDto.getSkills();
+        boolean orPredicate = true;
         if (CollectionUtils.isNotEmpty(skills)) {
             for (String skillName : skills) {
                 ElasticFilterDto skillFilter =
-                        getFilter(skillName, SKILLS_SKILL_NAME, ElasticOperation.LIKE, true);
+                        getFilter(skillName, SKILLS_SKILL_NAME, ElasticOperation.LIKE, orPredicate);
                 filterDtoList.add(skillFilter);
             }
         }
