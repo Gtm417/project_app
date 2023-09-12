@@ -1,47 +1,66 @@
 PUT users
 {
+  "settings": {
+    "analysis": {
+      "normalizer": {
+        "my_normalizer": {
+          "type": "custom",
+          "char_filter": [],
+          "filter": [
+            "lowercase",
+            "asciifolding"
+          ]
+        }
+      }
+    }
+  },
   "mappings": {
     "properties": {
+      "cv": {
+        "type": "text"
+      },
+      "description": {
+        "type": "text"
+      },
+      "email": {
+        "type": "keyword",
+            "normalizer": "my_normalizer"
+      },
+      "firstName": {
+        "type": "keyword",
+            "normalizer": "my_normalizer"
+      },
       "id": {
         "type": "long"
       },
-      "email": {
-        "type": "keyword"
+      "lastName": {
+        "type": "keyword",
+            "normalizer": "my_normalizer"
       },
       "password": {
-        "type": "keyword"
-      },
-      "firstName": {
-        "type": "keyword"
-      },
-      "lastName": {
         "type": "keyword"
       },
       "role": {
         "type": "keyword"
       },
-      "description": {
-        "type": "text"
+      "skills": {
+        "type": "nested",
+        "properties": {
+          "expertise": {
+            "type": "keyword",
+            "normalizer": "my_normalizer"
+          },
+          "skillName": {
+            "type": "keyword",
+            "normalizer": "my_normalizer"
+          }
+        }
       },
       "status": {
         "type": "keyword"
       },
       "type": {
         "type": "keyword"
-      },
-      "cv": {
-        "type": "text"
-      },
-      "skills": {
-        "type": "nested",
-        "properties": {
-          "skillName": {
-            "type": "keyword"
-          },
-          "expertise": {
-            "type": "keyword"
-          }
-        }
       }
     }
   }
