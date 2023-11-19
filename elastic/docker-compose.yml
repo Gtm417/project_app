@@ -19,7 +19,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 2g
+          memory: 1g
     volumes:
       - ./kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
