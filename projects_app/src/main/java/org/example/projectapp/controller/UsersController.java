@@ -39,4 +39,10 @@ public class UsersController {
     public ResponseEntity<List<UserDto>> getUsers() {
         return ResponseEntity.ok(elasticClient.getUsers());
     }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("Test is OK");
+    }
+
 }

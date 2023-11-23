@@ -21,6 +21,8 @@ public class LoadBalancerTest {
 
     @Value("${eureka.instance.metadataMap.instanceId}")
     String instanceId;
+    @Value("${eureka.instance.instanceId}")
+    String id;
 
     @GetMapping
     public String hello() {
@@ -28,6 +30,7 @@ public class LoadBalancerTest {
 //        ServiceInstance selectedInstance = instances
 //                .get(new Random().nextInt(instances.size()));
         log.info("Load balancer test " + random);
-        return "Hello World: " + instanceId + " : " + random;
+//        return "Hello World: " + instanceId + " : " + random;
+        return id;
     }
 }
