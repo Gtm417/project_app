@@ -16,7 +16,9 @@ public class ExceptionHandlingController {
     @ExceptionHandler
     private ResponseEntity<ErrorResponse> exceptionHandler(EntityAlreadyExistsException e) {
         ErrorResponse message = new ErrorResponse(e.getMessage());
+        ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+
     }
 
     @ExceptionHandler
