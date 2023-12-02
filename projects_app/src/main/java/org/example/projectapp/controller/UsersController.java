@@ -29,7 +29,7 @@ public class UsersController {
         return ResponseEntity.ok(userService.findUsers(searchDto));
     }
 
-    @PostMapping("/search")
+    @PostMapping("/search/1")
     public ResponseEntity<List<UserElasticDto>> searchUsersInElastic(@RequestBody @Valid SearchUserDto searchDto) {
         List<UserElasticDto> users = userService.findUsersInElastic(searchDto);
         return ResponseEntity.ok(users);
