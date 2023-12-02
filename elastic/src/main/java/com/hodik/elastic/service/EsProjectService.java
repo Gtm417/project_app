@@ -2,14 +2,17 @@ package com.hodik.elastic.service;
 
 import com.hodik.elastic.dto.FilterDto;
 import com.hodik.elastic.dto.SearchCriteriaDto;
+import com.hodik.elastic.dto.SearchDto;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.mapper.PageableMapper;
+import com.hodik.elastic.mapper.SearchCriteriaDtoMapper;
 import com.hodik.elastic.model.Project;
 import com.hodik.elastic.repository.ProjectRepository;
 import com.hodik.elastic.repository.ProjectSearchRepository;
 import com.hodik.elastic.util.SearchColumnProject;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -25,15 +28,20 @@ public class EsProjectService {
     private final ProjectRepository projectRepository;
     private final ProjectSearchRepository projectSearchRepository;
     private final PageableMapper pageableMapper;
+    private final SearchCriteriaDtoMapper searchCriteriaDtoMapper;
 
 
     @Autowired
-    public EsProjectService(ProjectRepository projectRepository, ProjectSearchRepository projectSearchRepository, PageableMapper pageableMapper) {
+    public EsProjectService(ProjectRepository projectRepository,
+                            ProjectSearchRepository projectSearchRepository,
+                            PageableMapper pageableMapper,
+                            @Qualifier("searchProjectCriteriaDtoMapper") SearchCriteriaDtoMapper searchCriteriaDtoMapper) {
         this.projectRepository = projectRepository;
 
         this.projectSearchRepository = projectSearchRepository;
 
         this.pageableMapper = pageableMapper;
+        this.searchCriteriaDtoMapper = searchCriteriaDtoMapper;
     }
 
     public void createProject(Project project) throws EntityAlreadyExistsException {
@@ -91,5 +99,11 @@ public class EsProjectService {
     public void createProjectList(List<Project> projects) {
         projectRepository.saveAll(projects);
         log.info("[ELASTIC] List of projects is saved successful");
+    }
+
+    public List<Project> findAllWithSearch(SearchDto searchDto) {
+        SearchCriteriaDto searchCriteriaDto =
+                searchCriteriaDtoMapper.convertToSearchCriteriaDto(searchDto);
+        return findAllWithFilters(searchCriteriaDto);
     }
 }

@@ -2,14 +2,17 @@ package com.hodik.elastic.service;
 
 import com.hodik.elastic.dto.FilterDto;
 import com.hodik.elastic.dto.SearchCriteriaDto;
+import com.hodik.elastic.dto.SearchUserDto;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.mapper.PageableMapper;
+import com.hodik.elastic.mapper.SearchCriteriaDtoMapper;
 import com.hodik.elastic.model.User;
 import com.hodik.elastic.repository.UserRepository;
 import com.hodik.elastic.repository.UserSearchRepository;
 import com.hodik.elastic.util.SearchColumnUser;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -24,12 +27,17 @@ public class EsUserService {
     private final UserRepository userRepository;
     private final UserSearchRepository userSearchRepository;
     private final PageableMapper pageableMapper;
+    private final SearchCriteriaDtoMapper searchCriteriaDtoMapper;
 
     @Autowired
-    public EsUserService(UserRepository userRepository, UserSearchRepository userSearchRepository, PageableMapper pageableMapper) {
+    public EsUserService(UserRepository userRepository,
+                         UserSearchRepository userSearchRepository,
+                         PageableMapper pageableMapper,
+                         @Qualifier("searchUserDtoMapper") SearchCriteriaDtoMapper searchCriteriaDtoMapper) {
         this.userRepository = userRepository;
         this.userSearchRepository = userSearchRepository;
         this.pageableMapper = pageableMapper;
+        this.searchCriteriaDtoMapper = searchCriteriaDtoMapper;
     }
 
     public void createUser(User user) throws EntityAlreadyExistsException {
@@ -90,5 +98,12 @@ public class EsUserService {
         userRepository.saveAll(users);
         log.info("[ELASTIC] List of users is saved successful");
     }
+
+    public List<User> findAllWithSearch(SearchUserDto searchDto) {
+        SearchCriteriaDto searchCriteriaDto =
+                searchCriteriaDtoMapper.convertToSearchCriteriaDto(searchDto);
+        return findAllWithFilters(searchCriteriaDto);
+    }
 }
+
 

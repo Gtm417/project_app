@@ -81,7 +81,7 @@ public class ProjectController {
         return ResponseEntity.ok(projectsByFilters);
     }
 
-    @PostMapping("/search")
+    @PostMapping("/search/1")
     public ResponseEntity<List<ProjectResponseDto>> searchProjectInElastic(@RequestBody @Valid SearchDto searchDto) {
         List<ProjectResponseDto> projectsFromElastic = projectService.findProjectsInElastic(searchDto);
         return ResponseEntity.ok(projectsFromElastic);

@@ -1,12 +1,14 @@
 package com.hodik.elastic.controller;
 
 import com.hodik.elastic.dto.SearchCriteriaDto;
+import com.hodik.elastic.dto.SearchDto;
 import com.hodik.elastic.dto.VacancyDto;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.exception.EntityNotFoundException;
 import com.hodik.elastic.mapper.VacancyMapper;
 import com.hodik.elastic.model.Vacancy;
 import com.hodik.elastic.service.EsVacancyService;
+import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -70,20 +72,29 @@ public class VacancyController {
 
     @GetMapping()
     public List<VacancyDto> getVacancies() {
-        return vacancyService.findAll()
+        List<Vacancy> vacancies = vacancyService.findAll();
+        return getVacancyDtoList(vacancies);
+    }
+
+    private List<VacancyDto> getVacancyDtoList(List<Vacancy> vacancies) {
+        return vacancies
                 .stream()
                 .map(vacancyMapper::convertToVacancyDto)
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/search/1")
+    public List<VacancyDto> searchByCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
+        log.info("Search request to index Vacancies" + searchCriteriaDto);
+        List<Vacancy> vacancies = vacancyService.findAllWithFilters(searchCriteriaDto);
+        return getVacancyDtoList(vacancies);
     }
 
     @PostMapping("/search")
-    public List<VacancyDto> searchByCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
-        log.info("Search request to index Vacancies" + searchCriteriaDto);
-        return vacancyService.findAllWithFilters(searchCriteriaDto)
-                .stream()
-                .map(vacancyMapper::convertToVacancyDto)
-                .collect(Collectors.toList());
+    public ResponseEntity<List<VacancyDto>> searchVacanciesInElastic(@RequestBody @Valid SearchDto searchDto) {
+        log.info("Search request to index Vacancies");
+        List<Vacancy> vacancies = vacancyService.findAllWithSearch(searchDto);
+        return ResponseEntity.ok(getVacancyDtoList(vacancies));
     }
-
 
 }

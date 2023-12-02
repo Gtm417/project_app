@@ -1,12 +1,14 @@
 package com.hodik.elastic.controller;
 
 import com.hodik.elastic.dto.SearchCriteriaDto;
+import com.hodik.elastic.dto.SearchUserDto;
 import com.hodik.elastic.dto.UserDto;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.exception.EntityNotFoundException;
 import com.hodik.elastic.mapper.UserMapper;
 import com.hodik.elastic.model.User;
 import com.hodik.elastic.service.EsUserService;
+import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,10 +66,7 @@ public class UserController {
     @GetMapping()
     public List<UserDto> getUsers() {
         List<User> users = userService.findAll();
-        return users
-                .stream()
-                .map(userMapper::convertToUserDto)
-                .collect(Collectors.toList());
+        return getUserDtoList(users);
     }
 
     @GetMapping("/{id}")
@@ -81,15 +80,26 @@ public class UserController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("/search")
+    @PostMapping("/search/1")
     public List<UserDto> searchByCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
         List<User> users = userService.findAllWithFilters(searchCriteriaDto);
         log.info("Search request to index Users " + searchCriteriaDto);
+        return getUserDtoList(users);
+    }
+
+    private List<UserDto> getUserDtoList(List<User> users) {
         return users
                 .stream()
                 .map(userMapper::convertToUserDto)
                 .collect(Collectors.toList());
     }
 
+    @PostMapping("/search")
+    public ResponseEntity<List<UserDto>> searchUsersInElastic(@RequestBody @Valid SearchUserDto searchDto) {
+        List<User> users = userService.findAllWithSearch(searchDto);
+        log.info("[ELASTIC] Search request to index Users");
+
+        return ResponseEntity.ok(getUserDtoList(users));
+    }
 
 }

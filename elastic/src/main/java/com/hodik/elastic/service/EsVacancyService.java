@@ -2,14 +2,17 @@ package com.hodik.elastic.service;
 
 import com.hodik.elastic.dto.FilterDto;
 import com.hodik.elastic.dto.SearchCriteriaDto;
+import com.hodik.elastic.dto.SearchDto;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.mapper.PageableMapper;
+import com.hodik.elastic.mapper.SearchCriteriaDtoMapper;
 import com.hodik.elastic.model.Vacancy;
 import com.hodik.elastic.repository.VacancyRepository;
 import com.hodik.elastic.repository.VacancySearchRepository;
 import com.hodik.elastic.util.SearchColumnVacancy;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -24,12 +27,16 @@ public class EsVacancyService {
     private final VacancyRepository vacancyRepository;
     private final VacancySearchRepository vacancySearchRepository;
     private final PageableMapper pageableMapper;
+    private final SearchCriteriaDtoMapper searchCriteriaDtoMapper;
 
     @Autowired
-    public EsVacancyService(VacancyRepository vacancyRepository, VacancySearchRepository vacancySearchRepository, PageableMapper pageableMapper) {
+    public EsVacancyService(VacancyRepository vacancyRepository,
+                            VacancySearchRepository vacancySearchRepository,
+                            PageableMapper pageableMapper, @Qualifier("searchCriteriaDtoMapper") SearchCriteriaDtoMapper searchCriteriaDtoMapper) {
         this.vacancyRepository = vacancyRepository;
         this.vacancySearchRepository = vacancySearchRepository;
         this.pageableMapper = pageableMapper;
+        this.searchCriteriaDtoMapper = searchCriteriaDtoMapper;
     }
 
     public void create(Vacancy vacancy) throws EntityAlreadyExistsException {
@@ -87,5 +94,11 @@ public class EsVacancyService {
     public void createVacanciesList(List<Vacancy> vacancies) {
         vacancyRepository.saveAll(vacancies);
         log.info("[ELASTIC] list of vacancies is synchronized successful");
+    }
+
+    public List<Vacancy> findAllWithSearch(SearchDto searchDto) {
+        SearchCriteriaDto searchCriteriaDto =
+                searchCriteriaDtoMapper.convertToSearchCriteriaDto(searchDto);
+        return findAllWithFilters(searchCriteriaDto);
     }
 }
