@@ -13,6 +13,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class ProjectController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_APP')")
     public ResponseEntity<HttpStatus> createProject(@RequestBody ProjectDto projectDto) throws EntityAlreadyExistsException {
         projectService.createProject(projectMapper.convertToProject(projectDto));
         return ResponseEntity.ok(HttpStatus.OK);
@@ -47,12 +49,14 @@ public class ProjectController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_APP')")
     public ResponseEntity<HttpStatus> updateProject(@PathVariable long id, @RequestBody ProjectDto projectDto) {
         projectService.updateProject(id, projectMapper.convertToProject(projectDto));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_APP')")
     public ResponseEntity<HttpStatus> deleteProject(@PathVariable("id") long id) {
         projectService.deleteProject(id);
         return ResponseEntity.ok(HttpStatus.OK);
@@ -69,6 +73,7 @@ public class ProjectController {
         return projectMapper.convertToProjectDto(projectService.findById(id).orElseThrow(EntityNotFoundException::new));
     }
 
+    //search from main app
     @PostMapping("/search/1")
     public List<ProjectDto> findByFilters(@RequestBody SearchCriteriaDto searchCriteriaDto) {
         log.info("Search request to index Projects {}", searchCriteriaDto);

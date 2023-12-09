@@ -37,14 +37,19 @@ public class JwtTokenService {
 
     public boolean validateToken(String token) {
         Jws<Claims> claimsJws = parseClaimsJws(token);
-        return claimsJws.getBody().getExpiration().after(new Date())
-                && claimsJws.getBody().getSubject().equals("main_app")
-                && claimsJws.getBody().get("role", String.class).equals("APP");
+        return claimsJws.getBody().getExpiration().after(new Date());
+//                && claimsJws.getBody().getSubject().equals("main_app")
+//                && claimsJws.getBody().get("role", String.class).equals("APP");
     }
 
     public String getSubject(String token) {
         Jws<Claims> claimsJws = parseClaimsJws(token);
         return claimsJws.getBody().getSubject();
+    }
+
+    public String getRole(String token) {
+        Jws<Claims> claimsJws = parseClaimsJws(token);
+        return claimsJws.getBody().get("role", String.class);
     }
 
     private Jws<Claims> parseClaimsJws(String token) {
