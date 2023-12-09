@@ -52,6 +52,7 @@ public class ExceptionHandlingController {
         String className = ex.getClassName();
         Long id = ex.getEntityId();
         logger.info("[ENTITY][NOT_FOUND] Entity {} not found with id={}", className, id);
+        //todo there isn't any message only 404
         return ResponseEntity.notFound().build();
     }
 

@@ -51,7 +51,7 @@ public class JwtTokenProvider {
     public String createServiceToken() {
         Key key = Keys.hmacShaKeyFor(jwtConfig.getSecretKey().getBytes());
         Claims claims = Jwts.claims().setSubject("main_app");
-        claims.put("role", "APP");
+        claims.put("role", "ROLE_APP");
         LocalDateTime currTime = LocalDateTime.now();
         LocalDateTime resultDate = currTime.plusMinutes(jwtConfig.getServiceTokenValidityInMins());
         Date validity = java.sql.Timestamp.valueOf(resultDate);

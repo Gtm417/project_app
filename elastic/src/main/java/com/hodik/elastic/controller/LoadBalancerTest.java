@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Random;
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("users/test")
 @Log4j2
 public class LoadBalancerTest {
     private static int random = new Random().nextInt(100000);

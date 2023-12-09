@@ -13,6 +13,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,6 +52,7 @@ public class VacancyController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_APP')")
     public ResponseEntity<HttpStatus> updateVacancy(@PathVariable long id, @RequestBody VacancyDto vacancyDto) {
         Vacancy vacancy = vacancyMapper.convertToVacancy(vacancyDto);
         vacancyService.update(id, vacancy);
@@ -58,6 +60,7 @@ public class VacancyController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_APP')")
     public ResponseEntity<HttpStatus> deleteVacancy(@PathVariable long id) {
         vacancyService.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
@@ -83,6 +86,7 @@ public class VacancyController {
                 .collect(Collectors.toList());
     }
 
+    // search from main-app
     @PostMapping("/search/1")
     public List<VacancyDto> searchByCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
         log.info("Search request to index Vacancies" + searchCriteriaDto);
