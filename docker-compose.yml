@@ -36,6 +36,18 @@ services:
     ports:
       - 8761:8761
 
+  api-gateway:
+    image: api-gateway.jar:latest
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    ports:
+      - 8765:8765
+
+
   db:
     #    image: mysql:5.7
     image: mysql:8.0.32
