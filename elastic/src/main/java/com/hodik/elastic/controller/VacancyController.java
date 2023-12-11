@@ -87,7 +87,7 @@ public class VacancyController {
     }
 
     // search from main-app
-    @PostMapping("/search/1")
+    @PostMapping("/search/main")
     public List<VacancyDto> searchByCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
         log.info("Search request to index Vacancies" + searchCriteriaDto);
         List<Vacancy> vacancies = vacancyService.findAllWithFilters(searchCriteriaDto);

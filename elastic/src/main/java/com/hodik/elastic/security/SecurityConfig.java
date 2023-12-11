@@ -23,22 +23,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .securityMatcher("/*").authorizeHttpRequests(authorize -> authorize
-//                        .anyRequest().permitAll());
-////                .sessionManagement(sessionManagement ->
-////                        sessionManagement
-////                                .sessionConcurrency(sessionConcurrency -> sessionConcurrency.maximumSessions(1))
-////                                .sessionCreationPolicy(STATELESS))
-////                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.anyRequest().authenticated());
-////        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
-//        return http.build();
+
         http
                 .csrf(AbstractHttpConfigurer::disable)
-//                .securityMatcher(HttpMethod.GET, "/*").authorizeHttpRequests(authorize ->
-//                        authorize
-//                        .anyRequest().hasAnyRole(Role.ROLE_USER.name(), Role.ROLE_ADMIN.name(), Role.ROLE_APP.name()))
                 .sessionManagement(sessionManagement ->
                         sessionManagement
                                 .sessionConcurrency(sessionConcurrency -> sessionConcurrency.maximumSessions(1))

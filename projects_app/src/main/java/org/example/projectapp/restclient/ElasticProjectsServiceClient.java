@@ -1,10 +1,9 @@
 package org.example.projectapp.restclient;
 
-import org.example.projectapp.controller.dto.ProjectDto;
-import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.example.projectapp.mapper.dto.ProjectElasticDto;
 import org.example.projectapp.mapper.dto.SearchElasticCriteriaDto;
 import org.example.projectapp.service.dto.ProjectResponseDto;
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +27,6 @@ public interface ElasticProjectsServiceClient {
     @PutMapping("/{id}")
     void updateProject(@PathVariable long id, ProjectElasticDto projectElasticDto);
 
-    @PostMapping("/search")
+    @PostMapping("/search/main")
     List<ProjectResponseDto> searchProject(SearchElasticCriteriaDto criteriaDto);
 }

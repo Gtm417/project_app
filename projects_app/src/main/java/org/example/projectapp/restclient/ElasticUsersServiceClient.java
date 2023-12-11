@@ -18,13 +18,13 @@ public interface ElasticUsersServiceClient {
     @PostMapping
     void createUser(UserElasticDto userElasticDto);
 
-    @PutMapping
+    @PostMapping("/sync")
     void createUserList(List<UserElasticDto> userElasticDtoList);
 
     @PutMapping("/{id}")
     void updateUser(@PathVariable long id, UserElasticDto userElasticDto);
 
-    @PostMapping("/search")
+    @PostMapping("/search/main")
     List<UserElasticDto> searchUsers(@RequestBody SearchElasticCriteriaDto searchElasticCriteriaDto);
 
     @GetMapping("/test")
