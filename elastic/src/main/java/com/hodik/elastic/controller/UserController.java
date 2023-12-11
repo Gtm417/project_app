@@ -54,7 +54,7 @@ public class UserController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PutMapping()
+    @PostMapping("/sync")
     public ResponseEntity<HttpStatus> createUserList(@RequestBody List<UserDto> userDtoList) {
         List<User> users = userDtoList
                 .stream()
@@ -83,7 +83,7 @@ public class UserController {
     }
 
     // search from main-app
-    @PostMapping("/search/1")
+    @PostMapping("/search/main")
     public List<UserDto> searchByCriteria(@RequestBody SearchCriteriaDto searchCriteriaDto) {
         List<User> users = userService.findAllWithFilters(searchCriteriaDto);
         log.info("Search request to index Users " + searchCriteriaDto);

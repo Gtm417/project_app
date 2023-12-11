@@ -41,7 +41,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1g
+          memory: 512M
     environment:
       - SPRING_PROFILES_ACTIVE=prod
     ports:

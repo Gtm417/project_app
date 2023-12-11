@@ -26,6 +26,6 @@ public interface ElasticVacanciesServiceClient {
     @DeleteMapping("/{id}")
     void deleteVacancy(@PathVariable long id);
 
-    @PostMapping("/search")
+    @PostMapping("/search/main")
     List<VacancyDto> searchVacancies(SearchElasticCriteriaDto criteriaDto);
 }

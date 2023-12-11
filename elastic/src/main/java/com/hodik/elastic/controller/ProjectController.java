@@ -74,7 +74,7 @@ public class ProjectController {
     }
 
     //search from main app
-    @PostMapping("/search/1")
+    @PostMapping("/search/main")
     public List<ProjectDto> findByFilters(@RequestBody SearchCriteriaDto searchCriteriaDto) {
         log.info("Search request to index Projects {}", searchCriteriaDto);
         List<Project> allWithFilters = projectService.findAllWithFilters(searchCriteriaDto);
