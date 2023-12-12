@@ -33,10 +33,10 @@ public class CreateRandomProjects {
     public List<Project> createRandomProjects(int number) {
         List<Project> projects = new ArrayList<>();
         for (int i = 0; i < number; i++) {
-            Project project = new Project();
-            String category = categories.get(random.nextInt(categories.size()));
+            Project project;
+            String category = getCategory();
             String name = category + " " + names.get(random.nextInt(names.size()));
-            String description = descriptions.get(random.nextInt(descriptions.size()));
+            String description = getDescription();
 
 
             LocalDateTime createdDate = generateRandomDate();
@@ -65,7 +65,15 @@ public class CreateRandomProjects {
         return projects;
     }
 
-    private LocalDateTime generateRandomDate() {
+    public String getDescription() {
+        return descriptions.get(random.nextInt(descriptions.size()));
+    }
+
+    public String getCategory() {
+        return categories.get(random.nextInt(categories.size()));
+    }
+
+    public LocalDateTime generateRandomDate() {
 
         // Generate a random year between 1900 and 2023 (adjust as needed)
         int year = 2019 + random.nextInt(5);

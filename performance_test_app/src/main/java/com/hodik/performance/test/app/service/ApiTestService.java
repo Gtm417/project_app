@@ -2,11 +2,11 @@ package com.hodik.performance.test.app.service;
 
 import com.hodik.performance.test.app.config.Config;
 import com.hodik.performance.test.app.dto.SearchDto;
+import com.hodik.performance.test.app.dto.creation.ProjectSearchCreation;
 import com.hodik.performance.test.app.model.Project;
 import com.hodik.performance.test.app.model.User;
 import com.hodik.performance.test.app.model.Vacancy;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -22,10 +22,12 @@ public class ApiTestService {
     private final Config config;
 
     private final RestTemplate restTemplate;
+    private final ProjectSearchCreation projectSearchCreation;
 
-    public ApiTestService(Config config, RestTemplate restTemplate) {
+    public ApiTestService(Config config, RestTemplate restTemplate, ProjectSearchCreation projectSearchCreation) {
         this.config = config;
         this.restTemplate = restTemplate;
+        this.projectSearchCreation = projectSearchCreation;
     }
 
     @Async
@@ -44,15 +46,10 @@ public class ApiTestService {
         String url = config.getProjectsUrl();
         log.info("Looking up " + url);
         Object requestBody = new Object();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.AUTHORIZATION, TOKEN);
-
-        SearchDto searchDto = new SearchDto();
-        searchDto.setSearch("java");
-
+        SearchDto searchDto = projectSearchCreation.createProjectSearchDto();
 
         List<Project> results = restTemplate.postForObject(url, searchDto, List.class);
-
+        System.out.println(results);
         return CompletableFuture.completedFuture(results);
     }
 
