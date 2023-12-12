@@ -8,14 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-
 public class VacancyService {
+    @Autowired
+    private final VacancyRepository repository;
+
     public VacancyService(VacancyRepository repository) {
         this.repository = repository;
     }
-
-    @Autowired
-    private final VacancyRepository repository;
 
     public void saveVacanciesList(List<Vacancy> vacancies) {
         repository.saveAll(vacancies);

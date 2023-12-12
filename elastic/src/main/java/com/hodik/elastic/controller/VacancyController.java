@@ -8,6 +8,7 @@ import com.hodik.elastic.exception.EntityNotFoundException;
 import com.hodik.elastic.mapper.VacancyMapper;
 import com.hodik.elastic.model.Vacancy;
 import com.hodik.elastic.service.EsVacancyService;
+import io.micrometer.core.annotation.Timed;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class VacancyController {
 
     }
 
+    @Timed("search-service.vacancy.create")
     @PostMapping()
     public ResponseEntity<HttpStatus> createVacancy(@RequestBody VacancyDto vacancyDto) throws EntityAlreadyExistsException {
         Vacancy vacancy = vacancyMapper.convertToVacancy(vacancyDto);
@@ -41,6 +43,7 @@ public class VacancyController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @Timed("search-service.vacancy.sync")
     @PostMapping("/sync")
     public ResponseEntity<HttpStatus> createVacanciesList(@RequestBody List<VacancyDto> vacancyDtoList) {
         List<Vacancy> vacancies = vacancyDtoList
@@ -51,6 +54,7 @@ public class VacancyController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @Timed("search-service.vacancy.update")
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_APP')")
     public ResponseEntity<HttpStatus> updateVacancy(@PathVariable long id, @RequestBody VacancyDto vacancyDto) {
@@ -94,6 +98,7 @@ public class VacancyController {
         return getVacancyDtoList(vacancies);
     }
 
+    @Timed("search-service.vacancy.search")
     @PostMapping("/search")
     public ResponseEntity<List<VacancyDto>> searchVacanciesInElastic(@RequestBody @Valid SearchDto searchDto) {
         log.info("Search request to index Vacancies");

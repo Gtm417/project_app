@@ -30,7 +30,9 @@ public class SecurityConfig {
                         sessionManagement
                                 .sessionConcurrency(sessionConcurrency -> sessionConcurrency.maximumSessions(1))
                                 .sessionCreationPolicy(STATELESS))
-                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.anyRequest().authenticated());
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                        .requestMatchers("/actuator/**").permitAll()
+                        .anyRequest().authenticated());
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

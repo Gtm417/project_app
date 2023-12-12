@@ -1,5 +1,6 @@
 package org.example.projectapp.controller;
 
+import io.micrometer.core.annotation.Timed;
 import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.controller.dto.VacancyDto;
 import org.example.projectapp.model.Vacancy;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("vacancies")
+@Timed("main-app.vacancies")
 public class VacancyController {
     private final Logger logger = LoggerFactory.getLogger(VacancyController.class);
 

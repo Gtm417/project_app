@@ -1,5 +1,6 @@
 package org.example.projectapp.controller;
 
+import io.micrometer.core.annotation.Timed;
 import org.example.projectapp.controller.dto.SearchDto;
 import org.example.projectapp.controller.dto.SearchUserDto;
 import org.example.projectapp.mapper.dto.UserElasticDto;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("users")
+@Timed("main-app.users")
 public class UsersController {
     private final UserService userService;
     private final ElasticUsersServiceClient elasticClient;

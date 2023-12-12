@@ -1,4 +1,4 @@
-package com.hodik.performance.test.app.service_create_model;
+package com.hodik.performance.test.app.model.creation;
 
 import com.hodik.performance.test.app.model.Role;
 import com.hodik.performance.test.app.model.Status;

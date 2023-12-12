@@ -1,0 +1,18 @@
+scrape_configs:
+  - job_name: 'main_app'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 3s
+    static_configs:
+      - targets: ['host.docker.internal:8080']
+        labels:
+          application: 'My Spring Boot Application'
+  - job_name: 'search-service'
+    scrape_interval: 2s
+    metrics_path: 'elastic/actuator/prometheus' ##prometheus endpoint
+    static_configs:
+      - targets: [ 'host.docker.internal:8082' ] ## host and port for your mis
+  - job_name: 'api-gateway'
+    scrape_interval: 2s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'host.docker.internal:8765' ]

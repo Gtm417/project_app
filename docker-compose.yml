@@ -66,7 +66,7 @@ services:
 
 
   elastic-service:
-    build: ./elastic-app.jar
+    build: ./elastic
     restart: on-failure
     image: elastic-app.jar:latest
     deploy:
@@ -82,8 +82,8 @@ services:
     ports:
       - 8082-8086:8082
 
-  main_app:
-    build: ./app.jar
+  main-app:
+#    build: ./app.jar
     restart: on-failure
     image: app.jar:latest
     deploy:
@@ -98,6 +98,23 @@ services:
       - SPRING_PROFILES_ACTIVE=prod
     ports:
       - 8080:8080
+
+  prometheus:
+    image: prom/prometheus:v2.44.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus-grafana/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana:9.5.2
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    volumes:
+      - ./prometheus-grafana/monitoring/grafana/provisioning/datasource:/etc/grafana/provisioning/datasource
 
 volumes:
   dbdata:

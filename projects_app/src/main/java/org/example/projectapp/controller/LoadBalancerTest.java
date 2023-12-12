@@ -1,5 +1,6 @@
 package org.example.projectapp.controller;
 
+import org.example.projectapp.auth.jwt.JwtTokenProvider;
 import org.example.projectapp.restclient.ElasticUsersServiceClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,8 @@ public class LoadBalancerTest {
     private static final Logger logger = LoggerFactory.getLogger(LoadBalancerTest.class);
     @Autowired
     private ElasticUsersServiceClient client;
+    @Autowired
+    private JwtTokenProvider provider;
 
     @GetMapping("/{num}")
     public void test(@PathVariable("num") Long num) {
@@ -22,5 +25,10 @@ public class LoadBalancerTest {
             String response = client.test();
             logger.info("[LOAD-BALANCER] " + response);
         }
+    }
+
+    @GetMapping("/token")
+    public String getToken() {
+        return provider.createServiceToken2();
     }
 }
