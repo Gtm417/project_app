@@ -41,11 +41,11 @@ public class CreateRandomUsers {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < number; i++) {
             User user;
-            String firstName = firstNames.get(random.nextInt(firstNames.size()));
-            String lastName = lastNames.get(random.nextInt(lastNames.size()));
+            String firstName = getFirstName();
+            String lastName = getLastName();
             String email = firstName + "_" + lastName + i + emailSuffix[random.nextInt(emailSuffix.length)];
             String password = firstName + lastName;
-            String description = descriptions.get(random.nextInt(descriptions.size()));
+            String description = getDescription();
             Status[] statuses = Status.values();
             Status status = statuses[random.nextInt(statuses.length)];
             UserType[] types = UserType.values();
@@ -64,6 +64,18 @@ public class CreateRandomUsers {
             users.add(user);
         }
         return users;
+    }
+
+    public String getDescription() {
+        return descriptions.get(random.nextInt(descriptions.size()));
+    }
+
+    public String getLastName() {
+        return lastNames.get(random.nextInt(lastNames.size()));
+    }
+
+    public String getFirstName() {
+        return firstNames.get(random.nextInt(firstNames.size()));
     }
 
 }

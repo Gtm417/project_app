@@ -3,6 +3,8 @@ package com.hodik.performance.test.app.service;
 import com.hodik.performance.test.app.config.Config;
 import com.hodik.performance.test.app.dto.SearchDto;
 import com.hodik.performance.test.app.dto.creation.ProjectSearchCreation;
+import com.hodik.performance.test.app.dto.creation.UserSearchCreation;
+import com.hodik.performance.test.app.dto.creation.VacanciesSearchCreation;
 import com.hodik.performance.test.app.model.Project;
 import com.hodik.performance.test.app.model.User;
 import com.hodik.performance.test.app.model.Vacancy;
@@ -23,11 +25,15 @@ public class ApiTestService {
 
     private final RestTemplate restTemplate;
     private final ProjectSearchCreation projectSearchCreation;
+    private final UserSearchCreation userSearchCreation;
+    private final VacanciesSearchCreation vacanciesSearchCreation;
 
-    public ApiTestService(Config config, RestTemplate restTemplate, ProjectSearchCreation projectSearchCreation) {
+    public ApiTestService(Config config, RestTemplate restTemplate, ProjectSearchCreation projectSearchCreation, UserSearchCreation userSearchCreation, VacanciesSearchCreation vacanciesSearchCreation) {
         this.config = config;
         this.restTemplate = restTemplate;
         this.projectSearchCreation = projectSearchCreation;
+        this.userSearchCreation = userSearchCreation;
+        this.vacanciesSearchCreation = vacanciesSearchCreation;
     }
 
     @Async
@@ -35,8 +41,8 @@ public class ApiTestService {
         String url = config.getUsersUrl();
         log.info("Looking up " + url);
 
-        Object requestBody = new Object();
-        List<User> results = restTemplate.postForObject(url, requestBody, List.class);
+        SearchDto searchDto = userSearchCreation.createProjectSearchDto();
+        List<User> results = restTemplate.postForObject(url, searchDto, List.class);
 
         return CompletableFuture.completedFuture(results);
     }
@@ -45,7 +51,7 @@ public class ApiTestService {
     public CompletableFuture<List<Project>> searchProjects() {
         String url = config.getProjectsUrl();
         log.info("Looking up " + url);
-        Object requestBody = new Object();
+
         SearchDto searchDto = projectSearchCreation.createProjectSearchDto();
 
         List<Project> results = restTemplate.postForObject(url, searchDto, List.class);
@@ -57,8 +63,8 @@ public class ApiTestService {
     public CompletableFuture<List<Vacancy>> searchVacancies() {
         String url = config.getVacanciesUrl();
         log.info("Looking up " + url);
-        Object requestBody = new Object();
-        List<Vacancy> results = restTemplate.postForObject(url, requestBody, List.class);
+        SearchDto searchDto = vacanciesSearchCreation.createProjectSearchDto();
+        List<Vacancy> results = restTemplate.postForObject(url, searchDto, List.class);
 
         return CompletableFuture.completedFuture(results);
     }

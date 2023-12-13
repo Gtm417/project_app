@@ -5,6 +5,8 @@ import com.hodik.performance.test.app.model.creation.CreateRandomProjects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,7 +16,6 @@ public class ProjectSearchCreation {
     Random random = new Random();
     @Autowired
     private final CreateRandomProjects createRandomProjects;
-    private String search;
 
 
     public ProjectSearchCreation(CreateRandomProjects createRandomProjects) {
@@ -23,13 +24,12 @@ public class ProjectSearchCreation {
 
     public SearchDto createProjectSearchDto() {
         List<SearchFilterDto> filterDtoList = new ArrayList<>();
-        search = createRandomProjects.getCategory();
 
         filterDtoList.add(createRandomStringFilterDto("category"));
         filterDtoList.add(createRandomStringFilterDto("description"));
 //        filterDtoList.add(createRandomBooleanFilterDto("isPrivate"));
 //        filterDtoList.add(createRandomBooleanFilterDto("isCommercial"));
-//        filterDtoList.add(createRandomDateFilterDto("createdDate"));
+        filterDtoList.add(createRandomDateFilterDto("createdDate"));
 
         List<SearchSort> searchSorts = List.of(SearchSort.builder()
                 .column("name")
@@ -47,17 +47,19 @@ public class ProjectSearchCreation {
 
 
     private SearchFilterDto createRandomDateFilterDto(String name) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         return SearchFilterDto.builder()
                 .name(name)
                 .dataType(DataType.DATE_TIME)
                 .operation(getRandomDateOperation())
-                .values(List.of(createRandomProjects.generateRandomDate()))
+                .values(List.of(now.format(formatter)))
                 .orPredicate(true)
                 .build();
     }
 
     private SearchOperation getRandomDateOperation() {
-        String operations[] = {"LESS", "GREATER"};
+        String[] operations = {"LESS", "GREATER"};
         return SearchOperation.valueOf(operations[random.nextInt(operations.length)]);
     }
 
@@ -90,7 +92,7 @@ public class ProjectSearchCreation {
     }
 
     private SearchOperation getRandomStringOperation() {
-        String operations[] = {"EQUAL", "NOT_EQUAL", "LIKE"};
+        String[] operations = {"EQUAL", "NOT_EQUAL", "LIKE"};
         return SearchOperation.valueOf(operations[random.nextInt(operations.length)]);
     }
 }

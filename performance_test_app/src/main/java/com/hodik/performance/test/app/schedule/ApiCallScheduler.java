@@ -36,7 +36,7 @@ public class ApiCallScheduler {
         log.info("scheduled projects finished");
     }
 
-//    @Scheduled(fixedRateString = "${request.per.second}")
+    @Scheduled(fixedRateString = "${request.per.second}")
     public void runLoadUserSearchTest() {
         log.info("scheduled users started");
         // Trigger parallel requests
@@ -48,9 +48,10 @@ public class ApiCallScheduler {
         // Wait for all requests to complete
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
         log.info("scheduled users finished");
+
     }
 
-//    @Scheduled(fixedRateString = "${request.per.second}")
+    @Scheduled(fixedRateString = "${request.per.second}")
     public void runLoadVacancySearchTest() {
         log.info("scheduled vacancies started");
         // Trigger parallel requests
@@ -62,6 +63,7 @@ public class ApiCallScheduler {
         // Wait for all requests to complete
         CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
         log.info("scheduled vacancies finished");
+
     }
 
     //
