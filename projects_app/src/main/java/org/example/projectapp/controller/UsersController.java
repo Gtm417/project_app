@@ -40,9 +40,20 @@ public class UsersController {
         return ResponseEntity.ok(elasticClient.getUsers());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUser(@PathVariable long id) {
+        return ResponseEntity.ok(userService.findUserById(id));
+    }
+
     @GetMapping("/test")
     public ResponseEntity<String> test() {
         return ResponseEntity.ok("Test is OK");
     }
 
+    @PostMapping("/{id}/cv")
+    public ResponseEntity<?> saveCv(@PathVariable long id, @RequestBody byte[] cv) {
+
+        userService.saveCV(id, cv);
+        return ResponseEntity.ok("CV  successfully saved");
+    }
 }

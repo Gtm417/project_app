@@ -41,7 +41,7 @@ public class SynchronizeUsersWithElasticController {
         List<UserElasticDto> userElasticDtoList = users.stream().map(userMapper::convertToUserElasticDto)
                 .collect(Collectors.toList());
         elasticUsersServiceClient.createUserList(userElasticDtoList);
-        return new ResponseEntity<>(HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 

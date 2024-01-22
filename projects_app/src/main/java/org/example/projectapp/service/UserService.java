@@ -17,4 +17,9 @@ public interface UserService {
     List<User> findUsersByListId(List<Long> listID);
 
     List<UserElasticDto> findUsersInElastic(SearchUserDto searchDto);
+
+    void saveCV(long id, byte[] cv);
+
+    UserDto findUserById(long id);
+
 }

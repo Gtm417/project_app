@@ -1,9 +1,11 @@
 package com.hodik.elastic.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.hodik.elastic.model.Role;
 import com.hodik.elastic.model.Skill;
 import com.hodik.elastic.model.Status;
 import com.hodik.elastic.model.UserType;
+import com.hodik.elastic.util.CvPdfDeserializer;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -43,7 +45,7 @@ public class UserDto {
     private Status status;
 
     private UserType type;
-
+    @JsonDeserialize(using = CvPdfDeserializer.class)
     private String cv;// probably just text (not sure yet)
 
     private List<Skill> skills; //(nested indexable field)

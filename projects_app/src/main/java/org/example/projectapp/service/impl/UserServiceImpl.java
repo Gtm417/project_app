@@ -68,6 +68,18 @@ public class UserServiceImpl implements UserService {
         return elasticUsersServiceClient.searchUsers(searchElasticCriteriaDto);
     }
 
+    @Override
+    public void saveCV(long id, byte[] cv) {
+        User user = repository.findById(id).orElseThrow();
+        user.setCv(cv);
+        repository.save(user);
+    }
+
+    @Override
+    public UserDto findUserById(long id) {
+        return buildUserDto(repository.findById(id).orElseThrow());
+    }
+
 
     private Page<UserDto> mapToUserDto(Page<User> users) {
         List<UserDto> collect = users.stream().map(this::buildUserDto).collect(Collectors.toList());
@@ -82,6 +94,7 @@ public class UserServiceImpl implements UserService {
                 .lastName(user.getLastName())
                 .status(user.getStatus())
                 .picture(user.getPicture())
+                .cv(user.getCv())
                 .type(user.getType())
                 .build();
 
