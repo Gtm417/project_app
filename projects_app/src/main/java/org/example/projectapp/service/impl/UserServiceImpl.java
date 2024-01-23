@@ -5,6 +5,7 @@ import org.example.projectapp.controller.dto.SearchUserDto;
 import org.example.projectapp.controller.dto.SkillDto;
 import org.example.projectapp.mapper.PageableMapper;
 import org.example.projectapp.mapper.SearchElasticCriteriaDtoMapper;
+import org.example.projectapp.mapper.UserMapper;
 import org.example.projectapp.mapper.dto.SearchElasticCriteriaDto;
 import org.example.projectapp.mapper.dto.UserElasticDto;
 import org.example.projectapp.model.User;
@@ -32,15 +33,17 @@ public class UserServiceImpl implements UserService {
     private final PageableMapper pageableMapper;
     private final SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper;
     private final ElasticUsersServiceClient elasticUsersServiceClient;
+    private final UserMapper userMapper;
 
     public UserServiceImpl(UserRepository repository, SearchCriteriaBuilder<User> searchCriteriaBuilder,
                            PageableMapper pageableMapper,
-                           @Qualifier("searchUserElasticDtoMapper") SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper, ElasticUsersServiceClient elasticUsersServiceClient) {
+                           @Qualifier("searchUserElasticDtoMapper") SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper, ElasticUsersServiceClient elasticUsersServiceClient, UserMapper userMapper) {
         this.repository = repository;
         this.searchCriteriaBuilder = searchCriteriaBuilder;
         this.pageableMapper = pageableMapper;
         this.elasticCriteriaDtoMapper = elasticCriteriaDtoMapper;
         this.elasticUsersServiceClient = elasticUsersServiceClient;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -73,6 +76,8 @@ public class UserServiceImpl implements UserService {
         User user = repository.findById(id).orElseThrow();
         user.setCv(cv);
         repository.save(user);
+        User savedUser = repository.save(user);
+        elasticUsersServiceClient.updateUser(id, userMapper.convertToUserElasticDto(user));
     }
 
     @Override

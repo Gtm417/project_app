@@ -3,6 +3,8 @@ package com.hodik.elastic.util;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.io.RandomAccessReadBuffer;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
@@ -22,8 +24,7 @@ public class CvPdfDeserializer extends StdDeserializer<String> {
     public String deserialize(JsonParser parser, DeserializationContext deserializationContext) throws IOException {
         byte[] bytesCV = parser.getBinaryValue();
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(bytesCV);
-
-             PDDocument document = PDDocument.load(inputStream)) {
+             PDDocument document = Loader.loadPDF(RandomAccessReadBuffer.createBufferFromStream(inputStream))) {
 
             PDFTextStripper textStripper = new PDFTextStripper();
             return textStripper.getText(document);
