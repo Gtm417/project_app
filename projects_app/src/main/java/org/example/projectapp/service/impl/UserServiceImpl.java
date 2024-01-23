@@ -75,7 +75,6 @@ public class UserServiceImpl implements UserService {
     public void saveCV(long id, byte[] cv) {
         User user = repository.findById(id).orElseThrow();
         user.setCv(cv);
-        repository.save(user);
         User savedUser = repository.save(user);
         elasticUsersServiceClient.updateUser(id, userMapper.convertToUserElasticDto(user));
     }
