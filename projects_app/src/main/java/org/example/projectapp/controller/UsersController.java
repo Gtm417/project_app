@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -52,8 +53,17 @@ public class UsersController {
 
     @PostMapping("/{id}/cv")
     public ResponseEntity<?> saveCv(@PathVariable long id, @RequestBody byte[] cv) {
-
         userService.saveCV(id, cv);
         return ResponseEntity.ok("CV  successfully saved");
+    }
+
+    @GetMapping("{id}/cv")
+    public ResponseEntity<?> downloadCv(@PathVariable long id) {
+        try {
+            userService.downloadCv(id);
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Can't save CV");
+        }
+        return ResponseEntity.ok("CV successfully downloaded");
     }
 }

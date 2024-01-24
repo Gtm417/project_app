@@ -20,6 +20,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,6 +85,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto findUserById(long id) {
         return buildUserDto(repository.findById(id).orElseThrow());
+    }
+
+    @Override
+    public void downloadCv(long id) throws IOException {
+        UserDto userById = findUserById(id);
+        byte[] cv = userById.getCv();
+        String fileName = "files/cv/" + id + ".pdf";
+        Path filePath = Path.of(fileName);
+
+        Files.write(filePath, cv);
+
+
     }
 
 

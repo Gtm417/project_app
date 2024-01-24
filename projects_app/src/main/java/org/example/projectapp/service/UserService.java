@@ -7,6 +7,7 @@ import org.example.projectapp.model.User;
 import org.example.projectapp.service.dto.UserDto;
 import org.springframework.data.domain.Page;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
@@ -22,4 +23,6 @@ public interface UserService {
 
     UserDto findUserById(long id);
 
+    void downloadCv(long id) throws IOException;
 }
+
