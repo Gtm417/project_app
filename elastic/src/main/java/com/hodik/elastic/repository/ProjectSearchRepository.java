@@ -6,9 +6,8 @@ import io.micrometer.core.annotation.Timed;
 
 import java.util.List;
 
-
+@Timed("elastic.projects.search")
 public interface ProjectSearchRepository {
-    @Timed("elastic.projects.search")
     List<Project> findAllWithFilters(SearchCriteriaDto searchCriteriaDto);
 }
 

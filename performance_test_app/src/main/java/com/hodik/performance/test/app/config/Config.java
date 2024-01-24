@@ -13,11 +13,15 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 @Getter
 @Setter
 @Configuration
 public class Config {
+
+    public static int REQUEST_AMOUNT = 1;
 
     @Value("${request.per.second}")
     int requestPerSecond;
@@ -44,5 +48,10 @@ public class Config {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setInterceptors(Collections.singletonList(this::intercept));
         return restTemplate;
+    }
+
+    @Bean
+    public Executor taskExecutor() {
+        return Executors.newScheduledThreadPool(1000000);
     }
 }

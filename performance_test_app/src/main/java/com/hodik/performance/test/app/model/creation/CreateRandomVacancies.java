@@ -100,10 +100,10 @@ public class CreateRandomVacancies {
             Project project = projectService.findRandomProject();
 
             vacancy = Vacancy.builder()
-                    .aboutProject(aboutProject)
+                    .aboutProject(trimToSize(aboutProject))
                     .creator(creator)
-                    .description(description)
-                    .expected(expected)
+                    .description(trimToSize(description))
+                    .expected(trimToSize(expected))
                     .jobPosition(jobPosition)
                     .project(project)
                     .build();
@@ -135,5 +135,9 @@ public class CreateRandomVacancies {
             words.addAll(Arrays.asList(sentenceWords));
         }
         return words;
+    }
+
+    private String trimToSize(String s) {
+       return s.substring(0, Math.min(s.length(), 250));
     }
 }

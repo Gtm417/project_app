@@ -36,10 +36,10 @@ public class ApiTestService {
         this.vacanciesSearchCreation = vacanciesSearchCreation;
     }
 
-    @Async
+//    @Async
     public CompletableFuture<List<User>> searchUsers() {
         String url = config.getUsersUrl();
-        log.info("Looking up " + url);
+        log.info(Thread.currentThread() + " Looking up " + url);
 
         SearchDto searchDto = userSearchCreation.createProjectSearchDto();
         List<User> results = restTemplate.postForObject(url, searchDto, List.class);
@@ -47,24 +47,24 @@ public class ApiTestService {
         return CompletableFuture.completedFuture(results);
     }
 
-    @Async
+//    @Async
     public CompletableFuture<List<Project>> searchProjects() {
         String url = config.getProjectsUrl();
-        log.info("Looking up " + url);
-
+        Object requestBody = new Object();
         SearchDto searchDto = projectSearchCreation.createProjectSearchDto();
 
         List<Project> results = restTemplate.postForObject(url, searchDto, List.class);
-        System.out.println(results);
+        log.info(Thread.currentThread() + " Looking up " + url);
         return CompletableFuture.completedFuture(results);
     }
 
-    @Async
+//    @Async
     public CompletableFuture<List<Vacancy>> searchVacancies() {
         String url = config.getVacanciesUrl();
-        log.info("Looking up " + url);
         SearchDto searchDto = vacanciesSearchCreation.createProjectSearchDto();
         List<Vacancy> results = restTemplate.postForObject(url, searchDto, List.class);
+        log.info(Thread.currentThread() + " Looking up " + url);
+
 
         return CompletableFuture.completedFuture(results);
     }

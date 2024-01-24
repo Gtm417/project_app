@@ -24,12 +24,12 @@ public class GatewayConfig {
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route("main", r -> r.path("/api/main/**")
-                        .filters(f -> f.filter(filter)
+                        .filters(f -> f
                                 .stripPrefix(2))
                         .uri("lb://main-app"))
 
                 .route("search", r -> r.path("/api/search/**")
-                        .filters(f -> f.filter(filter)
+                        .filters(f -> f
                                 .stripPrefix(2)
                                 .prefixPath("/elastic"))
                         .uri("lb://elastic-app"))

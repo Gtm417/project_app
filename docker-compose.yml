@@ -5,7 +5,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 2g
+          memory: 8g
     ports:
       - 9200:9200
       - 9300:9300
@@ -38,12 +38,9 @@ services:
 
   api-gateway:
     image: api-gateway.jar:latest
-    deploy:
-      resources:
-        limits:
-          memory: 512M
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - _JAVA_OPTIONS=-Xmx16g -Xms16g
     ports:
       - 8765:8765
 
@@ -69,13 +66,15 @@ services:
     build: ./elastic
     restart: on-failure
     image: elastic-app.jar:latest
+    hostname: elastic-service
     deploy:
       resources:
         limits:
-          memory: 2g
-      replicas: 2
+          memory: 4g
+      replicas: 3
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+      - _JAVA_OPTIONS=-Xmx4g -Xms4g
     depends_on:
       - elasticsearch
       - eureka-server
@@ -115,6 +114,14 @@ services:
     restart: unless-stopped
     volumes:
       - ./prometheus-grafana/monitoring/grafana/provisioning/datasource:/etc/grafana/provisioning/datasource
+
+  perf-app:
+    #    build: ./app.jar
+    image: perf-app:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    ports:
+      - 8383:8383
 
 volumes:
   dbdata:

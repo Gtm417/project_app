@@ -6,10 +6,14 @@ import com.hodik.elastic.dto.SearchDto;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.mapper.PageableMapper;
 import com.hodik.elastic.mapper.SearchCriteriaDtoMapper;
+import com.hodik.elastic.model.User;
 import com.hodik.elastic.model.Vacancy;
 import com.hodik.elastic.repository.VacancyRepository;
 import com.hodik.elastic.repository.VacancySearchRepository;
 import com.hodik.elastic.util.SearchColumnVacancy;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,15 +32,20 @@ public class EsVacancyService {
     private final VacancySearchRepository vacancySearchRepository;
     private final PageableMapper pageableMapper;
     private final SearchCriteriaDtoMapper searchCriteriaDtoMapper;
+    private Timer timer;
+    private final MeterRegistry simpleMeterRegistry;
 
     @Autowired
     public EsVacancyService(VacancyRepository vacancyRepository,
                             VacancySearchRepository vacancySearchRepository,
-                            PageableMapper pageableMapper, @Qualifier("searchCriteriaDtoMapper") SearchCriteriaDtoMapper searchCriteriaDtoMapper) {
+                            PageableMapper pageableMapper, @Qualifier("searchCriteriaDtoMapper") SearchCriteriaDtoMapper searchCriteriaDtoMapper,
+                            MeterRegistry simpleMeterRegistry) {
         this.vacancyRepository = vacancyRepository;
         this.vacancySearchRepository = vacancySearchRepository;
         this.pageableMapper = pageableMapper;
         this.searchCriteriaDtoMapper = searchCriteriaDtoMapper;
+        this.simpleMeterRegistry = simpleMeterRegistry;
+        timer = simpleMeterRegistry.timer("elastic.vacancies.search.timer");
     }
 
     public void create(Vacancy vacancy) throws EntityAlreadyExistsException {
@@ -84,7 +93,13 @@ public class EsVacancyService {
             return findAll(pageableMapper.getPageable(searchCriteriaDto));
         }
         validateColumnName(filters);
-        return vacancySearchRepository.findAllWithFilters(searchCriteriaDto);
+        Timer.Sample sample = Timer.start();
+        long startTime = System.currentTimeMillis();
+        List<Vacancy> allWithFilters = vacancySearchRepository.findAllWithFilters(searchCriteriaDto);
+        long endTime = System.currentTimeMillis();
+        double responseTimeInMilliSeconds = timer.record(() -> sample.stop(timer) / 1000000);
+        log.info("Vacancies search found {} time spent {} ms, timer {}", allWithFilters.size(), (endTime - startTime), responseTimeInMilliSeconds);
+        return allWithFilters;
     }
 
     private void validateColumnName(List<FilterDto> filters) {
@@ -100,5 +115,9 @@ public class EsVacancyService {
         SearchCriteriaDto searchCriteriaDto =
                 searchCriteriaDtoMapper.convertToSearchCriteriaDto(searchDto);
         return findAllWithFilters(searchCriteriaDto);
+    }
+
+    public void setTimer(Timer timer) {
+        this.timer = timer;
     }
 }

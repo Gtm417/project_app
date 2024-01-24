@@ -24,7 +24,7 @@ public class ProjectService {
 
     public Project findRandomProject() {
 
-        return repository.findRandomEntity();
+        return repository.getReferenceById(1L);
     }
 }
 

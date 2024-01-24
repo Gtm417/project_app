@@ -10,6 +10,9 @@ import com.hodik.elastic.model.Project;
 import com.hodik.elastic.repository.ProjectRepository;
 import com.hodik.elastic.repository.ProjectSearchRepository;
 import com.hodik.elastic.util.SearchColumnProject;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,19 +32,22 @@ public class EsProjectService {
     private final ProjectSearchRepository projectSearchRepository;
     private final PageableMapper pageableMapper;
     private final SearchCriteriaDtoMapper searchCriteriaDtoMapper;
+    private Timer timer;
+    private final MeterRegistry simpleMeterRegistry;
 
 
     @Autowired
     public EsProjectService(ProjectRepository projectRepository,
                             ProjectSearchRepository projectSearchRepository,
                             PageableMapper pageableMapper,
-                            @Qualifier("searchProjectCriteriaDtoMapper") SearchCriteriaDtoMapper searchCriteriaDtoMapper) {
+                            @Qualifier("searchProjectCriteriaDtoMapper") SearchCriteriaDtoMapper searchCriteriaDtoMapper,
+                            MeterRegistry simpleMeterRegistry) {
         this.projectRepository = projectRepository;
-
         this.projectSearchRepository = projectSearchRepository;
-
         this.pageableMapper = pageableMapper;
         this.searchCriteriaDtoMapper = searchCriteriaDtoMapper;
+        this.simpleMeterRegistry = simpleMeterRegistry;
+        timer = simpleMeterRegistry.timer("elastic.projects.search.timer");
     }
 
     public void createProject(Project project) throws EntityAlreadyExistsException {
@@ -84,7 +90,13 @@ public class EsProjectService {
             return findAll(pageableMapper.getPageable(searchCriteriaDto));
         }
         validateColumnName(filters);
-        return projectSearchRepository.findAllWithFilters(searchCriteriaDto);
+        Timer.Sample sample = Timer.start();
+        long startTime = System.currentTimeMillis();
+        List<Project> allWithFilters = projectSearchRepository.findAllWithFilters(searchCriteriaDto);
+        long endTime = System.currentTimeMillis();
+        double responseTimeInMilliSeconds = timer.record(() -> sample.stop(timer) / 1000000);
+        log.info("Projects search found {} time spent {} ms, timer {}", allWithFilters.size(), (endTime - startTime), responseTimeInMilliSeconds);
+        return allWithFilters;
 
     }
 
