@@ -5,7 +5,6 @@ import org.example.projectapp.mapper.dto.UserElasticDto;
 import org.example.projectapp.model.User;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +19,8 @@ public class UserMapper {
                 .lastName(user.getLastName())
                 .role(user.getRole())
                 .email(user.getEmail())
-                .cv(Arrays.toString(user.getCv()))
+                .cv(user.getCv())
+//                .cv(Arrays.toString(user.getCv()))
                 .type(user.getType())
                 .status(user.getStatus())
                 .description(user.getDescription())

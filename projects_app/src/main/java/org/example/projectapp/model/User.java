@@ -45,6 +45,7 @@ public class User {
     @Column(name = "picture")
     private byte[] picture;
     @Column(name = "CV")
+
     private byte[] cv;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private Set<ProjectMember> memberOfProjects;

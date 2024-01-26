@@ -23,5 +23,6 @@ public class UserDto {
     private Status status;
     private UserType type;
     private byte[] picture;
+    private byte[] cv;
     private List<SkillDto> skills;
 }

@@ -25,7 +25,7 @@ public class UserElasticDto {
     private String description;
     private Status status;
     private UserType type;
-    private String cv;// probably just text (not sure yet)
+    private byte[] cv;// probably just text (not sure yet)
     private List<SkillElasticDto> skills; //(nested indexable field)
 
     @Override

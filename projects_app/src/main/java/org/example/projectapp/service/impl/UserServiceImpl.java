@@ -5,6 +5,7 @@ import org.example.projectapp.controller.dto.SearchUserDto;
 import org.example.projectapp.controller.dto.SkillDto;
 import org.example.projectapp.mapper.PageableMapper;
 import org.example.projectapp.mapper.SearchElasticCriteriaDtoMapper;
+import org.example.projectapp.mapper.UserMapper;
 import org.example.projectapp.mapper.dto.SearchElasticCriteriaDto;
 import org.example.projectapp.mapper.dto.UserElasticDto;
 import org.example.projectapp.model.User;
@@ -19,6 +20,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,15 +36,17 @@ public class UserServiceImpl implements UserService {
     private final PageableMapper pageableMapper;
     private final SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper;
     private final ElasticUsersServiceClient elasticUsersServiceClient;
+    private final UserMapper userMapper;
 
     public UserServiceImpl(UserRepository repository, SearchCriteriaBuilder<User> searchCriteriaBuilder,
                            PageableMapper pageableMapper,
-                           @Qualifier("searchUserElasticDtoMapper") SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper, ElasticUsersServiceClient elasticUsersServiceClient) {
+                           @Qualifier("searchUserElasticDtoMapper") SearchElasticCriteriaDtoMapper elasticCriteriaDtoMapper, ElasticUsersServiceClient elasticUsersServiceClient, UserMapper userMapper) {
         this.repository = repository;
         this.searchCriteriaBuilder = searchCriteriaBuilder;
         this.pageableMapper = pageableMapper;
         this.elasticCriteriaDtoMapper = elasticCriteriaDtoMapper;
         this.elasticUsersServiceClient = elasticUsersServiceClient;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -68,6 +74,31 @@ public class UserServiceImpl implements UserService {
         return elasticUsersServiceClient.searchUsers(searchElasticCriteriaDto);
     }
 
+    @Override
+    public void saveCV(long id, byte[] cv) {
+        User user = repository.findById(id).orElseThrow();
+        user.setCv(cv);
+        User savedUser = repository.save(user);
+        elasticUsersServiceClient.updateUser(id, userMapper.convertToUserElasticDto(user));
+    }
+
+    @Override
+    public UserDto findUserById(long id) {
+        return buildUserDto(repository.findById(id).orElseThrow());
+    }
+
+    @Override
+    public void downloadCv(long id) throws IOException {
+        UserDto userById = findUserById(id);
+        byte[] cv = userById.getCv();
+        String fileName = "files/cv/" + id + ".pdf";
+        Path filePath = Path.of(fileName);
+
+        Files.write(filePath, cv);
+
+
+    }
+
 
     private Page<UserDto> mapToUserDto(Page<User> users) {
         List<UserDto> collect = users.stream().map(this::buildUserDto).collect(Collectors.toList());
@@ -82,6 +113,7 @@ public class UserServiceImpl implements UserService {
                 .lastName(user.getLastName())
                 .status(user.getStatus())
                 .picture(user.getPicture())
+                .cv(user.getCv())
                 .type(user.getType())
                 .build();
 
