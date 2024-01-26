@@ -8,6 +8,7 @@ import com.hodik.elastic.exception.EntityNotFoundException;
 import com.hodik.elastic.mapper.ProjectMapper;
 import com.hodik.elastic.model.Project;
 import com.hodik.elastic.service.EsProjectService;
+import io.micrometer.core.annotation.Timed;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class ProjectController {
 
     }
 
+    @Timed("search-service.project.create")
     @PostMapping
     @PreAuthorize("hasRole('ROLE_APP')")
     public ResponseEntity<HttpStatus> createProject(@RequestBody ProjectDto projectDto) throws EntityAlreadyExistsException {
@@ -41,6 +43,7 @@ public class ProjectController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @Timed("search-service.projects.sync")
     @PostMapping("/sync")
     public ResponseEntity<HttpStatus> syncProjectList(@RequestBody List<ProjectDto> projectDtoList) {
         List<Project> projects = projectDtoList.stream().map(projectMapper::convertToProject).toList();
@@ -48,6 +51,7 @@ public class ProjectController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @Timed("search-service.projects.update")
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_APP')")
     public ResponseEntity<HttpStatus> updateProject(@PathVariable long id, @RequestBody ProjectDto projectDto) {
@@ -87,6 +91,7 @@ public class ProjectController {
                 .collect(Collectors.toList());
     }
 
+    @Timed("search-service.projects.search")
     @PostMapping("/search")
     public ResponseEntity<List<ProjectDto>> searchProjectsInElastic(@RequestBody @Valid SearchDto searchDto) {
         log.info("Search request to index Projects");

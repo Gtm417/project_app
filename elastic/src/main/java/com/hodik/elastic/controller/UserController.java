@@ -8,6 +8,7 @@ import com.hodik.elastic.exception.EntityNotFoundException;
 import com.hodik.elastic.mapper.UserMapper;
 import com.hodik.elastic.model.User;
 import com.hodik.elastic.service.EsUserService;
+import io.micrometer.core.annotation.Timed;
 import jakarta.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,6 @@ public class UserController {
     private final EsUserService userService;
     private final UserMapper userMapper;
 
-
-    // POST users/ -- create
-    // PUT users/{id} -- update
-    // GET users -- all
-    // GET users/{id}
-    // DELETE users/{id}
-    // POST users/search -- search by criteria
-
     @Autowired
     public UserController(EsUserService userService, UserMapper userMapper) {
         this.userService = userService;
@@ -41,13 +34,14 @@ public class UserController {
 
     }
 
-
+    @Timed("search-service.users.create")
     @PostMapping()
     public ResponseEntity<HttpStatus> createUser(@RequestBody UserDto userDto) throws EntityAlreadyExistsException {
         userService.createUser(userMapper.convertToUser(userDto));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @Timed("search-service.user.update")
     @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> updateUser(@PathVariable long id, @RequestBody UserDto userDto) {
         userService.update(id, userMapper.convertToUser(userDto));
@@ -97,6 +91,7 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
+    @Timed("search-service.users.search")
     @PostMapping("/search")
     public ResponseEntity<List<UserDto>> searchUsersInElastic(@RequestBody @Valid SearchUserDto searchDto) {
         List<User> users = userService.findAllWithSearch(searchDto);

@@ -6,10 +6,14 @@ import com.hodik.elastic.dto.SearchUserDto;
 import com.hodik.elastic.exception.EntityAlreadyExistsException;
 import com.hodik.elastic.mapper.PageableMapper;
 import com.hodik.elastic.mapper.SearchCriteriaDtoMapper;
+import com.hodik.elastic.model.Project;
 import com.hodik.elastic.model.User;
 import com.hodik.elastic.repository.UserRepository;
 import com.hodik.elastic.repository.UserSearchRepository;
 import com.hodik.elastic.util.SearchColumnUser;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,16 +32,21 @@ public class EsUserService {
     private final UserSearchRepository userSearchRepository;
     private final PageableMapper pageableMapper;
     private final SearchCriteriaDtoMapper searchCriteriaDtoMapper;
+    private Timer timer;
+    private final MeterRegistry simpleMeterRegistry;
 
     @Autowired
     public EsUserService(UserRepository userRepository,
                          UserSearchRepository userSearchRepository,
                          PageableMapper pageableMapper,
-                         @Qualifier("searchUserDtoMapper") SearchCriteriaDtoMapper searchCriteriaDtoMapper) {
+                         @Qualifier("searchUserDtoMapper") SearchCriteriaDtoMapper searchCriteriaDtoMapper,
+                         MeterRegistry simpleMeterRegistry) {
         this.userRepository = userRepository;
         this.userSearchRepository = userSearchRepository;
         this.pageableMapper = pageableMapper;
         this.searchCriteriaDtoMapper = searchCriteriaDtoMapper;
+        this.simpleMeterRegistry = simpleMeterRegistry;
+        timer = simpleMeterRegistry.timer("elastic.users.search.timer");
     }
 
     public void createUser(User user) throws EntityAlreadyExistsException {
@@ -83,7 +92,13 @@ public class EsUserService {
             return findAll(pageable);
         }
         validateColumnName(filters);
-        return userSearchRepository.findAllWithFilters(searchCriteriaDto);
+        Timer.Sample sample = Timer.start();
+        long startTime = System.currentTimeMillis();
+        List<User> allWithFilters = userSearchRepository.findAllWithFilters(searchCriteriaDto);
+        long endTime = System.currentTimeMillis();
+        double responseTimeInMilliSeconds = timer.record(() -> sample.stop(timer) / 1000000);
+        log.info("Users search found {} time spent {} ms, timer {}",allWithFilters.size(), (endTime - startTime), responseTimeInMilliSeconds);
+        return allWithFilters;
     }
 
     private void validateColumnName(List<FilterDto> filters) {

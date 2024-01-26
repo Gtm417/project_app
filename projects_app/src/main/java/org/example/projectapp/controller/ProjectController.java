@@ -1,5 +1,6 @@
 package org.example.projectapp.controller;
 
+import io.micrometer.core.annotation.Timed;
 import org.example.projectapp.controller.dto.ProjectDto;
 import org.example.projectapp.controller.dto.ProjectInfoDto;
 import org.example.projectapp.controller.dto.SearchDto;
@@ -22,8 +23,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("projects")
+//@Timed("main-app.projects.timer")
 public class ProjectController {
-    private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
     private final ProjectService projectService;
     private final ElasticProjectsServiceClient elasticProjectServiceClient;
@@ -35,6 +37,10 @@ public class ProjectController {
         this.vacancyService = vacancyService;
     }
 
+        @Timed(value = "method.main-app.projects.timer")
+//    @Observed(name = "project.create",
+//            contextualName = "create-project",
+//            lowCardinalityKeyValues = {"projType", "projType2"})
     @PostMapping
     public ResponseEntity<?> createProject(@RequestBody @Valid ProjectDto projectDto) {
         return ResponseEntity.ok(projectService.createProject(projectDto));

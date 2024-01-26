@@ -65,6 +65,25 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+
+    public String createServiceToken2() {
+        Key key = Keys.hmacShaKeyFor(jwtConfig.getSecretKey().getBytes());
+        Claims claims = Jwts.claims().setSubject("main_app");
+        claims.put("role", "ROLE_APP");
+        LocalDateTime currTime = LocalDateTime.now();
+        LocalDateTime resultDate = currTime.plusYears(jwtConfig.getServiceTokenValidityInMins());
+        Date validity = java.sql.Timestamp.valueOf(resultDate);
+
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(java.sql.Timestamp.valueOf(currTime))
+                .setExpiration(validity)
+                .signWith(key)
+                .compact();
+    }
+
+
     public boolean validateToken(String token) {
         Jws<Claims> claimsJws = parseClaimsJws(token);
         return !claimsJws.getBody().getExpiration().before(new Date());
